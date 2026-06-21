@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Exam - adda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+@charset "UTF-8";
+:root {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --header-bg: linear-gradient(135deg, #2e1065 0%, #4c1d95 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+/* Welcome Screen Styles */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.05) 0%, rgb(248, 250, 252) 100%);
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+.welcome-screen.hidden {
+  display: none;
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  margin: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome-header {
+  text-align: center;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+.welcome-header h1 {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.025em;
+}
+.welcome-header h1 i {
+  font-size: 28px;
+}
+.welcome-header p {
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.test-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.test-details .detail-item {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.test-details .detail-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+.test-details .detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.test-details .detail-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-info {
+  margin-bottom: 30px;
+}
+.section-info h3 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-table th, .section-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-table tr:last-child td {
+  border-bottom: none;
+}
+
+.subsec-container {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.subsec-row {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.subsec-row::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.welcome-instructions {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05);
+}
+.welcome-instructions h3 {
+  color: #b45309;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.welcome-instructions ul {
+  padding-left: 20px;
+}
+.welcome-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.start-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 16px 44px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.start-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+.start-btn:active {
+  transform: translateY(0);
+}
+
+.channel-link {
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.channel-link:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+/* CBT Exam Interface */
+.exam-container {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  background: #f1f5f9;
+}
+.exam-container.active {
+  display: flex;
+}
+
+/* Top Header */
+.exam-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.exam-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-timer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fullscreen-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+.fullscreen-btn:active {
+  transform: translateY(0);
+}
+
+/* Candidate Info Bar */
+.candidate-bar {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.candidate-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-light);
+  border: 2px solid var(--border);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.candidate-details {
+  display: flex;
+  flex-direction: column;
+}
+.candidate-details .candidate-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+.candidate-details .candidate-id {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.section-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.exam-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Question Area */
+.question-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.question-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-number {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.question-marks {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.lang-btn {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.comprehension {
+  background: #f0fdf4;
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+.comprehension h4 {
+  color: var(--success-hover);
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.question-text {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 18px 24px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+  font-weight: 500;
+}
+.option:hover:not(.submitted) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.option.correct {
+  border-color: var(--success);
+  background: var(--success-light);
+  color: var(--success-hover);
+  font-weight: 600;
+}
+.option.wrong {
+  border-color: var(--danger);
+  background: var(--danger-light);
+  color: var(--danger-hover);
+  font-weight: 600;
+}
+
+.option-indicator {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option.selected .option-indicator {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.option.correct .option-indicator {
+  border-color: var(--success);
+  background: var(--success);
+  color: white;
+}
+
+.option.wrong .option-indicator {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+.solution-box {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: 12px;
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.solution-box.show {
+  display: block;
+}
+
+.solution-header {
+  color: var(--success-hover);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.solution-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 10px;
+}
+
+/* Navigation Controls - Bottom Bar */
+.navigation-bar {
+  background: white;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-prev {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-prev:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-next {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+.btn-next:hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-review {
+  background: var(--warning);
+  color: white;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+}
+.btn-review:hover:not(:disabled) {
+  background: var(--warning-hover);
+}
+.btn-review.marked {
+  background: var(--warning-dark);
+}
+
+.btn-submit {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--success-hover);
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Question Navigator Sidebar */
+.navigator-sidebar {
+  width: 320px;
+  background: white;
+  border-left: 1px solid var(--border);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navigator-header {
+  padding: 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.navigator-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-question {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-question:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.nav-question.current {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+.nav-question.answered {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.nav-question.review {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+.nav-question.wrong {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+.nav-question.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navigator-legend {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  flex-shrink: 0;
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Mobile Navigator Panel */
+.mobile-navigator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+.mobile-navigator.open {
+  transform: translateY(0);
+}
+
+.mobile-nav-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.close-nav {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Result Modal */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-out;
+}
+.result-modal.show {
+  display: flex;
+}
+
+.result-container {
+  background: white;
+  border-radius: 18px;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+.result-header h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.result-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  background: var(--success-light);
+  display: inline-block;
+  padding: 8px 30px;
+  border-radius: 40px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.result-stat {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.result-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.result-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-stat.correct .result-stat-value {
+  color: var(--success);
+}
+
+.result-stat.incorrect .result-stat-value {
+  color: var(--danger);
+}
+
+.section-results {
+  margin-bottom: 35px;
+}
+.section-results h3 {
+  color: var(--text);
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.section-results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-results-table th, .section-results-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-results-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-results-table tr:last-child td {
+  border-bottom: none;
+}
+.section-results-table .subsection-row {
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-results-table .subsection-row td:first-child {
+  padding-left: 36px;
+  position: relative;
+}
+.section-results-table .subsection-row td:first-child::before {
+  content: "└";
+  position: absolute;
+  left: 20px;
+  color: var(--text-light);
+}
+
+.result-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-btn {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-close {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-close:hover {
+  background: #e2e8f0;
+}
+
+.btn-review-ans {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+.btn-review-ans:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .navigator-sidebar {
+    display: flex;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none;
+  }
+  .navigation-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .question-scroll {
+    padding: 16px;
+  }
+  .question-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 640px) {
+  .welcome-container {
+    padding: 24px;
+  }
+  .exam-header {
+    padding: 12px 16px;
+  }
+  .exam-title {
+    font-size: 15px;
+  }
+  .timer-box {
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+  .candidate-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+  .nav-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .navigator-grid {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 16px;
+    gap: 10px;
+  }
+  .result-container {
+    padding: 24px 16px;
+  }
+  .result-score {
+    font-size: 36px;
+  }
+  .result-grid {
+    gap: 12px;
+  }
+  .section-results-table {
+    font-size: 12px;
+  }
+  .section-results-table th, .section-results-table td {
+    padding: 10px;
+  }
+  .result-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .result-actions .result-btn {
+    width: 100%;
+  }
+}
+/* Print Styles */
+@media print {
+  .exam-header,
+  .candidate-bar,
+  .navigation-bar,
+  .navigator-sidebar,
+  .mobile-navigator,
+  .result-modal {
+    display: none !important;
+  }
+  .question-scroll {
+    padding: 0;
+  }
+  .question-card {
+    page-break-inside: avoid;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    box-shadow: none !important;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table, th, td {
+  border: 1px solid var(--border);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+</style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1><i class="fas fa-graduation-cap"></i> adda</h1>
+                <p>Computer Based Test</p>
+            </div>
+            
+            <div class="test-details">
+                <div class="detail-item">
+                    <div class="detail-label">Test ID</div>
+                    <div class="detail-value">0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Questions</div>
+                    <div class="detail-value">25</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Marks</div>
+                    <div class="detail-value">50.0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Duration</div>
+                    <div class="detail-value">15 mins</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Marking Scheme</div>
+                    <div class="detail-value">+2.0 / -0.5</div>
+                </div>
+            </div>
+            
+            
+        <div class="welcome-instructions">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Read each question carefully before answering</li>
+                <li>You can mark questions for review and come back later</li>
+                <li>The timer will automatically submit the test when time is up</li>
+                <li>Negative marking applies for wrong answers</li>
+            </ul>
+        </div>
+        
+            
+            <div class="welcome-actions">
+                <button class="start-btn" id="startBtn">
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+                <a href="https://t.me/mocks_wallah_again" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> Join Channel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Exam Interface -->
+    <div class="exam-container" id="examContainer">
+        <!-- Top Header -->
+        <div class="exam-header">
+            <div class="exam-title">adda</div>
+            <div class="exam-timer">
+                <button class="fullscreen-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="timer-box" id="mainTimer">15:00</div>
+                <button class="nav-btn btn-submit mobile-only" id="submitBtn">Submit</button>
+            </div>
+        </div>
+        
+        <!-- Candidate Info Bar -->
+        <div class="candidate-bar">
+            <div class="candidate-info">
+                <div class="candidate-photo">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="candidate-details">
+                    <div class="candidate-name">Candidate</div>
+                    <div class="candidate-id">Test ID: 0</div>
+                </div>
+            </div>
+            <div class="section-badge" id="sectionBadge">
+                <span id="sectionName"></span>
+                <span id="sectionTimer"></span>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="exam-main">
+            <!-- Question Area -->
+            <div class="question-area">
+                <div class="question-scroll">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div>
+                                <div class="question-number" id="questionNum">Question 1 of 25</div>
+                                <div class="question-marks" id="questionMarks">Marks: 2.0</div>
+                            </div>
+                            <div class="lang-toggle">
+                                <button class="lang-btn active" id="engBtn">English</button>
+                                <button class="lang-btn" id="hinBtn">हिंदी</button>
+                            </div>
+                        </div>
+                        
+                        <div class="comprehension" id="comprehension" style="display:none;">
+                            <h4><i class="fas fa-book-open"></i> Comprehension</h4>
+                            <div id="comprehensionText"></div>
+                        </div>
+                        
+                        <div class="question-text" id="questionText"></div>
+                        
+                        <div class="options-list" id="optionsList"></div>
+                        
+                        <div class="solution-box" id="solutionBox">
+                            <div class="solution-header">
+                                <i class="fas fa-lightbulb"></i> Solution
+                            </div>
+                            <div class="solution-stats" id="solutionStats"></div>
+                            <div id="solutionText"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Bar inside Question Area -->
+                <div class="navigation-bar">
+                    <button class="nav-btn btn-prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <div class="progress-info">
+                        <div id="progressText">Question 1 of 25</div>
+                        <div style="font-size:11px;margin-top:4px">
+                            Answered: <span id="answeredCount">0</span> | 
+                            <a href="https://t.me/mocks_wallah_again" style="color:var(--primary)">Mocks Wallah</a>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn btn-review" id="reviewBtn">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    
+                    <button class="nav-btn mobile-only" id="navigatorBtn">
+                        <i class="fas fa-th"></i> Questions
+                    </button>
+                    
+                    <button class="nav-btn btn-submit desktop-only" id="submitBtnDesktop">Submit</button>
+                    
+                    <button class="nav-btn btn-next" id="nextBtn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigator Sidebar -->
+            <div class="navigator-sidebar desktop-only">
+                <div class="navigator-header">Question Navigator</div>
+                <div class="navigator-grid" id="desktopNav"></div>
+                <div class="navigator-legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--success)"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--warning)"></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--danger)"></div>
+                        <span>Incorrect</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigator Panel -->
+    <div class="mobile-navigator" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h3>Question Navigator</h3>
+            <button class="close-nav" id="closeNav">&times;</button>
+        </div>
+        <div class="navigator-grid" id="mobileNavGrid"></div>
+        <div class="navigator-legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--success)"></div>
+                <span>Answered</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--warning)"></div>
+                <span>Marked for Review</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--danger)"></div>
+                <span>Incorrect</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                <span>Not Visited</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-container">
+            <div class="result-header">
+                <h2>Test Completed!</h2>
+                <div class="result-score" id="resultScore">0/50.0</div>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-stat correct">
+                    <div class="result-stat-value" id="correctCount">0</div>
+                    <div class="result-stat-label">Correct</div>
+                </div>
+                <div class="result-stat incorrect">
+                    <div class="result-stat-value" id="incorrectCount">0</div>
+                    <div class="result-stat-label">Incorrect</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="unattemptedCount">0</div>
+                    <div class="result-stat-label">Unattempted</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="timeTaken">0</div>
+                    <div class="result-stat-label">Minutes</div>
+                </div>
+            </div>
+            
+            <div class="section-results" id="sectionResults" style="display:none;">
+                <h3>Section-wise Performance</h3>
+                <table class="section-results-table" id="sectionResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Attempted</th>
+                            <th>Correct</th>
+                            <th>Wrong</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectionResultsBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="result-actions">
+                <button class="result-btn btn-close" id="closeResult">Close</button>
+                <button class="result-btn btn-review-ans" id="reviewAnswers">Review Answers</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "<span class=\"eqt\"><p>Which among the following dance forms of Guwarat was originally performed after the successful hunting of animals?</p></span><span class=\"hqt\"><p>गुजरात के निम्नलिखित में से कौन सा नृत्य रूप मूल रूप से जानवरों के सफल शिकार के बाद किया जाता था?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Siddhi Dhamal</p></span><span class=\"hqt\"><p>सिद्धि धमाल</p></span>",
+      "<span class=\"eqt\"><p>Garba</p></span><span class=\"hqt\"><p>गरबा</p></span>",
+      "<span class=\"eqt\"><p>Dandiya</p></span><span class=\"hqt\"><p>डांडिया</p></span>",
+      "<span class=\"eqt\"><p>Tippani  <br></p></span><span class=\"hqt\"><p>टिप्पणी  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer:</strong> (a)  <br> <strong>Explanation:</strong> <br> · The   <strong>Siddhi Dhamal</strong> dance is a vibrant tribal dance form performed by the   <strong>Siddhis</strong> (descendants of the Bantu people of Africa) who settled in Guwarat.  <br> · This dance was traditionally performed to celebrate the   <strong>successful hunting of animals</strong> and is characterized by energetic, acrobatic movements, often using percussion instruments like the   <em>Mishira</em> and   <em>Dhamal</em> drum.  <br> <strong>Information Booster:</strong> <br> · The Siddhi community lives primarily in the Saurashtra region of Guwarat.  <br> · Their dance is unique because it blends   <strong>African and Indian cultural elements</strong>.  <br> · The dancers often enter a trance-like state while performing, reflecting its spiritual and ceremonial origins.  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>(b) Garba:</strong> A popular folk dance of Guwarat performed during   <strong>Navaratri</strong>. It involves circular movements around a lamp or an image of the goddess Shakti, symbolizing the circle of life.  <br> ·   <strong>(c) Dandiya:</strong> Also known as the 'stick dance,' it is performed during Navaratri, often alongside Garba. The dancers strike small, decorated sticks (  <em>dandiya</em>) rhythmically, representing the mock fight between the Goddess Durga and the demon Mahishasura.  <br> ·   <strong>(d) Tippani:</strong> A folk dance of the Saurashtra region (especially the Chorwad area) traditionally performed by women. It involves striking the floor with a long stick that has a wooden or iron block (  <em>Tippani</em>) attached to its end, used as a tool for compacting the floor of houses.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर:</strong> (a)  <br> <strong>स्पष्टीकरण:</strong> <br> ·   <strong>सिद्धि धमाल</strong> नृत्य एक जीवंत आदिवासी नृत्य शैली है जो गुजरात में बसे   <strong>सिद्धियों</strong> (अफ्रीका के बंटू लोगों के वंशज) द्वारा किया जाता है। <br> · यह नृत्य पारंपरिक रूप से   <strong>जानवरों के सफल शिकार</strong> का जश्न मनाने के लिए किया जाता था और इसकी विशेषता ऊर्जावान, कलाबाजी वाली हरकतें हैं, जिसमें अक्सर   <em>मिशिरा</em> और   <em>धमाल</em> ड्रम जैसे ताल वाद्ययंत्रों का उपयोग किया जाता है। <br> <strong> Information Booster:</strong> <br> · सिद्धि समुदाय मुख्य रूप से गुजरात के सौराष्ट्र क्षेत्र में रहता है। <br> · उनका नृत्य अद्वितीय है क्योंकि यह   <strong>अफ्रीकी और भारतीय सांस्कृतिक तत्वों</strong> का मिश्रण है। <br> · नर्तक अक्सर प्रदर्शन करते समय समाधि (trance) जैसी स्थिति में प्रवेश कर जाते हैं, जो इसके आध्यात्मिक और औपचारिक मूल को दर्शाता है। <br> <strong> Additional Knowledge:</strong> <br> ·   <strong>(b) गरबा:</strong> गुजरात का एक लोकप्रिय लोक नृत्य जो   <strong>नवरात्रि</strong> के दौरान किया जाता है। इसमें जीवन के चक्र का प्रतीक, एक दीपक या देवी शक्ति की छवि के चारों ओर गोलाकार गतिविधियां शामिल हैं। <br> ·   <strong>(c) डांडिया:</strong> इसे 'स्टिक डांस' (छड़ी नृत्य) के रूप में भी जाना जाता है, यह नवरात्रि के दौरान किया जाता है, अक्सर गरबा के साथ। नर्तक छोटी, सजाई हुई छड़ियों (  <em>डांडिया</em>) को लयबद्ध रूप से मारते हैं, जो देवी दुर्गा और राक्षस महिषासुर के बीच नकली लड़ाई का प्रतिनिधित्व करता है। <br> ·   <strong>(d) टिप्पणी:</strong> सौराष्ट्र क्षेत्र (विशेष रूप से चोरवाड़ क्षेत्र) का एक लोक नृत्य पारंपरिक रूप से महिलाओं द्वारा किया जाता है। इसमें एक लंबी छड़ी के साथ फर्श को मारना शामिल है, जिसके अंत में एक लकड़ी या लोहे का ब्लॉक (  <em>टिप्पणी</em>) लगा होता है, जिसका उपयोग घरों के फर्श को समतल करने के लिए एक उपकरण के रूप में किया जाता है। <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Match the Indian freedom fighters with their associated movements:\n  <br> A) Bal Gangadhar Tilak — 3) Home Rule Movement\n  <br> B) Mahatma Gandhi — 1) Quit India Movement\n  <br> C) Subhas Chandra Bose — 2) Indian National Army\n  <br> D) Bhagat Singh — 4) Hindustan Socialist Republican Association\n  <br></span><span class=\"hqt\"><p>भारतीय स्वतंत्रता सेनानियों का उनके संबंधित आंदोलनों के साथ मिलान करें:  <br> A) बाल गंगाधर तिलक — 3) होम रूल आंदोलन  <br> B) महात्मा गांधी — 1) भारत छोड़ो आंदोलन  <br> C) सुभाष चंद्र बोस — 2) भारतीय राष्ट्रीय सेना  <br> D) भगत सिंह — 4) हिंदुस्तान सोशलिस्ट रिपब्लिकन एसोसिएशन  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">A-3, B-1, C-2, D-4\n  <br></span><span class=\"hqt\"><p>A-3, B-1, C-2, D-4  <br></p></span>",
+      "<span class=\"eqt\">A-1, B-3, C-4, D-2\n  <br></span><span class=\"hqt\"><p>A-1, B-3, C-4, D-2  <br></p></span>",
+      "<span class=\"eqt\">A-2, B-4, C-1, D-3\n  <br></span><span class=\"hqt\"><p>A-2, B-4, C-1, D-3  <br></p></span>",
+      "<span class=\"eqt\">A-4, B-2, C-3, D-1\n  <br></span><span class=\"hqt\"><p>A-4, B-2, C-3, D-1  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\">The correct answer is <strong>(A) A-3, B-1, C-2, D-4</strong><br><br><strong>Explanation:</strong><br>• Bal Gangadhar Tilak launched the Home Rule League in 1916.<br>• Mahatma Gandhi led the Quit India Movement in 1942.<br>• Subhas Chandra Bose took command of the Indian National Army (Azad Hind Fauw) in 1943.<br>• Bhagat Singh was a key leader of the HSRA.<br><br><strong>Information Booster:</strong><br>• Tilak is known as 'Lokmanya' and famously said, \"Swaraw is my birthright and I shall have it.\"<br><br><strong>Additional Knowledge:</strong><br>• The Quit India Movement is also known as the 'August Kranti'.</span><span class=\"hqt\"><p>सही उत्तर <strong>(A) A-3, B-1, C-2, D-4</strong> है।<br><br><strong>व्याख्या:</strong><br>• बाल गंगाधर तिलक ने 1916 में होम रूल लीग की शुरुआत की।<br>• महात्मा गांधी ने 1942 में भारत छोड़ो आंदोलन का नेतृत्व किया।<br>• सुभाष चंद्र बोस ने 1943 में भारतीय राष्ट्रीय सेना (आजाद हिंद फौज) की कमान संभाली।<br>• भगत सिंह HSRA के एक प्रमुख नेता थे।<br><br><strong>Information Booster:</strong><br>• तिलक को 'लोकमान्य' के रूप में जाना जाता है और उन्होंने प्रसिद्ध रूप से कहा था, \"स्वराज मेरा जन्मसिद्ध अधिकार है और मैं इसे लेकर रहूँगा।\"<br><br><strong> Additional Knowledge:</strong><br>• भारत छोड़ो आंदोलन को 'अगस्त क्रांति' के रूप में भी जाना जाता है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>The _______ cells are loosely packed so that large intercellular spaces are found.</p></span><span class=\"hqt\"><p>_______ कोशिकाएं शिथिल रूप से पैक होती हैं जिससे बड़े अंतरकोशिकीय स्थान पाए जाते हैं।<br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>parenchyma</p></span><span class=\"hqt\"><p>पैरेन्काइमा<br></p></span>",
+      "<span class=\"eqt\"><p>phloem</p></span><span class=\"hqt\"><p>फ्लोएम</p></span>",
+      "<span class=\"eqt\"><p>collenchyma</p></span><span class=\"hqt\"><p>कोलेन्काइमा<br></p></span>",
+      "<span class=\"eqt\"><p>sclerenchyma</p></span><span class=\"hqt\"><p>स्क्लेरेन्काइमा<br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer</strong>: <strong>(A) Parenchyma</strong></p><p><strong>Explanation</strong>:</p><ul><li><p><strong>Parenchyma cells</strong> are the most <strong>common type of plant cells</strong> and are loosely packed, allowing for <strong>large intercellular spaces</strong>.</p></li><li><p>These cells are <strong>living</strong> and have thin cell walls. They play a significant role in functions like <strong>photosynthesis</strong>, <strong>storage</strong>, and <strong>gas exchange</strong>.</p></li><li><p>The <strong>large intercellular spaces</strong> facilitate the movement of gases like <strong>oxygen and carbon dioxide</strong>, which is essential for processes like <strong>respiration</strong> and <strong>photosynthesis</strong>.</p></li></ul><p><strong>Information Booster</strong>:</p><ul><li><p><strong>Parenchyma</strong> cells are found in <strong>soft tissues</strong> like leaves, stems, and roots.</p></li><li><p>These cells are involved in <strong>storage</strong> (e.g., starch in roots), <strong>transport</strong>, and <strong>photosynthesis</strong> (in the chloroplasts of leaf parenchyma).</p></li><li><p>The <strong>intercellular spaces</strong> in parenchyma cells aid in <strong>gas exchange</strong>, which is crucial for plant metabolism.</p></li></ul><p><strong>Additional Knowledge</strong>:</p><ul><li><p><strong>Collenchyma</strong> (Option C) cells have thicker walls and provide <strong>support</strong> but are not as loosely packed as parenchyma cells.</p></li><li><p><strong>Sclerenchyma</strong> (Option D) cells have very thick, lignified walls and are involved in providing <strong>rigidity</strong> and <strong>strength</strong> to plants, but they do not have large intercellular spaces.</p></li><li><p><strong>Phloem</strong> (Option B) is a vascular tissue responsible for the transport of <strong>nutrients</strong> and <strong>sugars</strong> in plants but does not have the characteristic of loosely packed cells with intercellular spaces.</p></li></ul></span><span class=\"hqt\"><p><strong>सही उत्तर</strong>:<strong>(A) पैरेन्काइमा</strong></p><p><strong>स्पष्टीकरण</strong>:</p><ul><li><p><strong>पैरेन्काइमा कोशिकाएँ</strong> सबसे आम प्रकार की पादप कोशिकाएँ हैं और शिथिल रूप से संकुलित होती हैं, जिससे <strong>बड़े अंतरकोशिकीय स्थान</strong> बनते हैं।</p></li><li><p>ये कोशिकाएँ <strong>जीवित</strong> होती हैं और इनकी कोशिका भित्ति पतली होती है। वे <strong>प्रकाश संश्लेषण</strong>, <strong>भंडारण</strong> और <strong>गैस विनिमय</strong> जैसे कार्यों में महत्वपूर्ण भूमिका निभाते हैं।</p></li><li><p>ये <strong>बड़े अंतरकोशिकीय स्थान</strong> <strong>ऑक्सीजन और कार्बन डाइऑक्साइड</strong> जैसी गैसों की गति को सुगम बनाते हैं, जो <strong>श्वसन</strong> और <strong>प्रकाश संश्लेषण</strong> जैसी प्रक्रियाओं के लिए आवश्यक हैं।</p></li></ul><p><strong>Information Booster</strong>:</p><ul><li><p><strong>पैरेन्काइमा</strong> कोशिकाएँ पत्तियों, तनों और जड़ों जैसे <strong>कोमल ऊतकों</strong> में पाई जाती हैं।</p></li><li><p>ये कोशिकाएँ <strong>भंडारण</strong> (उदाहरण के लिए, जड़ों में स्टार्च), <strong>परिवहन</strong>, और <strong>प्रकाश संश्लेषण</strong> (पत्ती पैरेन्काइमा के क्लोरोप्लास्ट में) में शामिल हैं।</p></li><li><p>पैरेन्काइमा कोशिकाओं में <strong>अंतरकोशिकीय स्थान</strong> <strong>गैस विनिमय</strong> में सहायता करते हैं, जो पादप चयापचय के लिए महत्वपूर्ण है।</p></li></ul><p><strong>Additional Knowledge</strong>:</p><ul><li><p><strong>कोलेन्काइमा</strong> (विकल्प C) कोशिकाओं की दीवारें मोटी होती हैं और ये <strong>आधार</strong> प्रदान करती हैं, लेकिन पैरेन्काइमा कोशिकाओं की तरह शिथिल रूप से पैक नहीं होती हैं।</p></li><li><p><strong>स्क्लेरेन्काइमा</strong> (विकल्प D) कोशिकाओं की दीवारें बहुत मोटी और लिग्निफाइड होती हैं और ये पौधों को <strong>कठोरता</strong> और <strong>शक्ति</strong> प्रदान करने में सहायक होती हैं, लेकिन इनमें बड़े अंतरकोशिकीय स्थान नहीं होते।</p></li><li><p><strong>फ्लोएम</strong> (विकल्प B) एक संवहनी ऊतक है जो पौधों में <strong>पोषक तत्वों</strong> और <strong>शर्करा</strong> के परिवहन के लिए ज़िम्मेदार होता है, लेकिन इसमें अंतरकोशिकीय स्थानों वाली शिथिल रूप से पैक कोशिकाओं जैसी विशेषता नहीं होती।</p></li></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Which type of natural vegetation in India is known for forests with hardwood trees such as sal, teak, and bamboo?\n  <br></span><span class=\"hqt\"><p>भारत में किस प्रकार की प्राकृतिक वनस्पति साल, सागौन और बाँस जैसे दृढ़ लकड़ी (hardwood) के पेड़ों वाले वनों के लिए जानी जाती है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Tropical deciduous forests\n  <br></span><span class=\"hqt\"><p>उष्णकटिबंधीय पर्णपाती वन  <br></p></span>",
+      "<span class=\"eqt\">Thorn forests\n  <br></span><span class=\"hqt\"><p>कांटेदार वन  <br></p></span>",
+      "<span class=\"eqt\">Tropical evergreen forests\n  <br></span><span class=\"hqt\"><p>उष्णकटिबंधीय सदाबहार वन  <br></p></span>",
+      "<span class=\"eqt\">Montane forests\n  <br>  \n  <b></span><span class=\"hqt\"><p>पर्वतीय वन  <br> </p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"></b> \n  <br>  \n  <b>The correct answer is (a). Tropical deciduous forests</b> \n  <br>  \n  <b>Explanation:</b> \n  <br> · \n  <b>Tropical deciduous forests</b> are the most widespread forests in India and are characterized by hardwood trees like \n  <b>sal, teak, and bamboo</b>.\n  <br> · These forests are often called \"monsoon forests\" because the trees shed their leaves for about six to eight weeks during the dry summer season.\n  <br> · They are commercially very important due to the high quality of timber produced by trees like teak and sal.\n  <br>  \n  <b>Information Booster:</b> \n  <br> · These forests are found in regions receiving rainfall between 70 cm and 200 cm annually.\n  <br> · They are divided into \"Moist Deciduous\" and \"Dry Deciduous\" based on water availability.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br> · \n  <b>Teak</b> is primarily used for furniture and shipbuilding due to its durability.\n  <br> · \n  <b>Bamboo</b> is widely used for construction, paper manufacturing, and as a raw material in cottage industries.\n  <br> </span><span class=\"hqt\"><p><strong>सही उत्तर (a) है। उष्णकटिबंधीय पर्णपाती वन</strong> <br> <strong>व्याख्या:</strong> <br> ·   <strong>उष्णकटिबंधीय पर्णपाती वन</strong> भारत में सबसे व्यापक वन हैं और   <strong>साल, सागौन और बाँस</strong> जैसे दृढ़ लकड़ी के पेड़ों द्वारा पहचाने जाते हैं।  <br> · इन वनों को अक्सर \"मानसून वन\" कहा जाता है क्योंकि पेड़ शुष्क ग्रीष्म ऋतु के दौरान लगभग छह से आठ सप्ताह के लिए अपनी पत्तियाँ गिरा देते हैं।  <br> · सागौन और साल जैसे पेड़ों द्वारा उत्पादित लकड़ी की उच्च गुणवत्ता के कारण वे व्यावसायिक रूप से बहुत महत्वपूर्ण हैं।  <br> <strong>Information Booster:</strong> <br> · ये वन उन क्षेत्रों में पाए जाते हैं जहाँ वार्षिक वर्षा 70 cm और 200 cm के बीच होती है।  <br> · पानी की उपलब्धता के आधार पर इन्हें \"आर्द्र पर्णपाती\" और \"शुष्क पर्णपाती\" में विभाजित किया गया है।  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>सागौन</strong> का उपयोग मुख्य रूप से इसकी स्थायित्व के कारण फर्नीचर और जहाज निर्माण के लिए किया जाता है।  <br> ·   <strong>बाँस</strong> का व्यापक रूप से निर्माण, कागज निर्माण और कुटीर उद्योगों में कच्चे माल के रूप में उपयोग किया जाता है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">What was the central theme for the cultural artists heralding the 77th Republic Day parade?\n  <br></span><span class=\"hqt\"><p>77वें गणतंत्र दिवस परेड की शुरुआत करने वाले सांस्कृतिक कलाकारों के लिए मुख्य विषय (थीम) क्या था?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Vande Mataram: The Soul Cry\n  <br></span><span class=\"hqt\"><p>वंदे मातरम: द सोल क्राई  <br></p></span>",
+      "<span class=\"eqt\">Aatmanirbhar Bharat\n  <br></span><span class=\"hqt\"><p>आत्मनिर्भर भारत  <br></p></span>",
+      "<span class=\"eqt\">Vividata Mein Ekta – Unity in Diversity\n  <br></span><span class=\"hqt\"><p>विविधता में एकता – Unity in Diversity  <br></p></span>",
+      "<span class=\"eqt\">Jan Bhagidari\n  <br>  \n  <b></span><span class=\"hqt\"><p>जन भागीदारी  <br> </p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"></b> \n  <br> The correct answer is \n  <b>(c) Vividata Mein Ekta – Unity in Diversity</b> \n  <br>  \n  <b>Explanation:</b> \n  <br> · The parade was heralded by \n  <b>100 cultural artists</b> performing under the theme \n  <b>‘Vividata Mein Ekta – Unity in Diversity’</b>.\n  <br> · This segment featured a grand presentation of various \n  <b>Indian musical instruments</b>, symbolizing the country's pluralistic fabric.\n  <br> · The theme highlights the \n  <b>cultural integration</b> of different states and regions into a single national identity.\n  <br> · Concurrent with the musical performance, \n  <b>four Mi-17 1V helicopters</b> showered flower petals over the spectators.\n  <br> · The overall celebration also commemorated \n  <b>150 years of 'Vande Mataram'</b>, which was woven into various parts of the event.\n  <br>  \n  <b>Information Booster:</b> \n  <br> · \n  <b>Jan Bhagidari</b> (People's Participation) was a core philosophy of the event, with 10,000 special guests invited from various social sectors.\n  <br> · The \n  <b>'Vande Mataram'</b> theme was supported by a series of paintings from 1923 displayed as view-cutters along the path.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br> · \n  <b>Aatmanirbhar Bharat</b> (Option b): While a mawor sub-theme for the tableaux, it was not the specific theme for the 100 heralding artists.\n  <br> · \n  <b>Vande Mataram</b> (Option a): This was the overarching theme for the 30 tableaux and the 150th-anniversary celebrations.\n  <br> · \n  <b>Dhwaw Formation</b>: The specific formation of helicopters that led the trooping of the National Flag.\n  <br> </span><span class=\"hqt\"><p>सही उत्तर   <strong>(c) विविधता में एकता – Unity in Diversity</strong> है।   <br> <strong>व्याख्या:</strong> <br> · परेड की शुरुआत   <strong>100 सांस्कृतिक कलाकारों</strong> द्वारा   <strong>‘विविधता में एकता – Unity in Diversity’</strong> विषय के तहत प्रदर्शन के साथ की गई थी।  <br> · इस खंड में विभिन्न   <strong>भारतीय वाद्ययंत्रों</strong> की एक भव्य प्रस्तुति दी गई, जो देश के बहुलवादी ताने-बाने का प्रतीक है।  <br> · यह विषय विभिन्न राज्यों और क्षेत्रों के   <strong>सांस्कृतिक एकीकरण</strong> को एक एकल राष्ट्रीय पहचान के रूप में रेखांकित करता है।  <br> · संगीत प्रदर्शन के साथ ही,   <strong>चार Mi-17 1V हेलीकाप्टरों</strong> ने दर्शकों पर फूलों की पंखुड़ियों की वर्षा की।  <br> · समग्र उत्सव में   <strong>'वंदे मातरम' के 150 वर्ष</strong> पूरे होने का भी स्मरण किया गया, जिसे कार्यक्रम के विभिन्न हिस्सों में पिरोया गया था।  <br> <strong>Information Booster:</strong> <br> ·   <strong>जन भागीदारी</strong> इस आयोजन का एक मूल दर्शन था, जिसमें विभिन्न सामाजिक क्षेत्रों से 10,000 विशेष अतिथियों को आमंत्रित किया गया था।  <br> · मार्ग के किनारे व्यू-कटर के रूप में प्रदर्शित 1923 के चित्रों की एक श्रृंखला द्वारा   <strong>'वंदे मातरम'</strong> विषय को समर्थन दिया गया था।  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>आत्मनिर्भर भारत</strong> (विकल्प b): हालांकि यह झांकियों के लिए एक प्रमुख उप-विषय था, लेकिन यह शुरुआत करने वाले 100 कलाकारों का विशिष्ट विषय नहीं था।  <br> ·   <strong>वंदे मातरम</strong> (विकल्प a): यह 30 झांकियों और 150वीं वर्षगांठ समारोह का व्यापक विषय था।  <br> ·   <strong>ध्वज फॉर्मेशन</strong>: हेलीकाप्टरों का वह विशिष्ट फॉर्मेशन जिसने राष्ट्रीय ध्वज की टुकड़ी का नेतृत्व किया।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Consider the following statements about Amrita Pritam: </p><p>1. She was a noted Punwabi poet. </p><p>2. She wrote the novel “Pinwar”. </p><p>3. She received the Jnanpith Award. </p><p>Which of the above statements is/are correct?</p></span><span class=\"hqt\"><p>अमृता प्रीतम के बारे में निम्नलिखित कथनों पर विचार करें: </p><p>1. वह एक प्रसिद्ध पंजाबी कवयित्री थीं। </p><p>2. उन्होंने \"पिंजर\" उपन्यास लिखा था। </p><p>3. उन्हें ज्ञानपीठ पुरस्कार मिला। </p><p>उपर्युक्त में से कौन सा/से कथन सही है/हैं?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>1 only  <br></p></span><span class=\"hqt\"><p>केवल 1  <br></p></span>",
+      "<span class=\"eqt\"><p>1 and 2 only  <br></p></span><span class=\"hqt\"><p>केवल 1 और 2  <br></p></span>",
+      "<span class=\"eqt\"><p>1 and 3 only  <br></p></span><span class=\"hqt\"><p>केवल 1 और 3  <br></p></span>",
+      "<span class=\"eqt\"><p>1, 2 and 3  <br></p></span><span class=\"hqt\"><p>1, 2 और 3  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(D) 1, 2 and 3</strong><br><br><strong>Explanation:</strong><br>• <strong>Statement 1:</strong> Amrita Pritam (1919–2005) was a legendary Indian novelist, essayist, and poet who wrote in Punwabi and Hindi. She is considered the first prominent female Punwabi poet and novelist.<br>• <strong>Statement 2:</strong> She wrote the famous novel 'Pinwar' (The Skeleton) in 1950, which deals with the trauma of women during the Partition of India. It was later adapted into an award-winning film.<br>• <strong>Statement 3:</strong> She was the first woman to win the Sahitya Akademi Award (1956) and later received India's highest literary honor, the Jnanpith Award, in 1981 for her work 'Kagaz Te Kanvas'.<br><br><strong>Information Booster:</strong><br>• <strong>Famous Poem:</strong> She is most remembered for her poignant poem *Aww aakhaan Waris Shah nu* (Today I say to Waris Shah), an elegy to the 18th-century Punwabi poet, expressing horror at the Partition massacres.<br>• <strong>Honors:</strong> She was awarded the Padma Shri in 1969 and the Padma Vibhushan in 2004.<br><strong>Additional Knowledge:</strong><br>• Her autobiography is titled *Rasidi Ticket* (Revenue Stamp).</p></span><span class=\"hqt\"><p>सही उत्तर है <strong>(D) 1, 2 और 3</strong><br><br><strong>व्याख्या:</strong><br>• <strong>कथन 1:</strong> अमृता प्रीतम (1919–2005) एक प्रसिद्ध भारतीय उपन्यासकार, निबंधकार और कवयित्री थीं, जिन्होंने पंजाबी और हिंदी में लिखा था। उन्हें पहली प्रमुख महिला पंजाबी कवयित्री और उपन्यासकार माना जाता है।<br>• <strong>कथन 2:</strong> उन्होंने 1950 में प्रसिद्ध उपन्यास 'पिंजर' (द स्केलेटन) लिखा, जो भारत के विभाजन के दौरान महिलाओं के आघात से संबंधित है। बाद में इसे एक पुरस्कार विजेता फिल्म में रूपांतरित किया गया।<br>• <strong>कथन 3:</strong> वह साहित्य अकादमी पुरस्कार (1956) जीतने वाली पहली महिला थीं और बाद में उन्हें अपनी कृति 'कागज ते कैनवास' के लिए 1981 में भारत का सर्वोच्च साहित्यिक सम्मान, ज्ञानपीठ पुरस्कार मिला।<br><br><strong>Information Booster::</strong><br>• <strong>प्रसिद्ध कविता:</strong> उन्हें उनकी मार्मिक कविता *आज आखां वारिस शाह नू* (आज मैं वारिस शाह से कहती हूं) के लिए सबसे ज्यादा याद किया जाता है, जो 18वीं सदी के पंजाबी कवि के लिए एक शोकगीत है, जो विभाजन के नरसंहार पर भयावहता व्यक्त करता है।<br>• <strong>सम्मान:</strong> उन्हें 1969 में पद्म श्री और 2004 में पद्म विभूषण से सम्मानित किया गया था।<br><strong>Additional Knowledge:</strong><br>• उनकी आत्मकथा का शीर्षक *रसीदी टिकट* (राजस्व टिकट) है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>In February 2026, the Indian Army’s Konark Corps successfully conducted a live firing test of the Strela-10 missile system at Pokhran. The Strela-10 system is primarily designed to:  <br></p></span><span class=\"hqt\"><p>फरवरी 2026 में, भारतीय सेना के कोणार्क कोर ने पोखरण में स्ट्रेला-10 मिसाइल प्रणाली का सफलतापूर्वक लाइव फायरिंग परीक्षण किया। स्ट्रेला-10 प्रणाली मुख्य रूप से किसके लिए डिज़ाइन की गई है: <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Intercept long-range ballistic missiles</p></span><span class=\"hqt\"><p>लंबी दूरी की बैलिस्टिक मिसाइलों को रोकना</p></span>",
+      "<span class=\"eqt\"><p>Counter low-altitude aerial threats such as helicopters and UAVs</p></span><span class=\"hqt\"><p>हेलीकॉप्टर और UAV जैसे कम ऊंचाई वाले हवाई खतरों का मुकाबला करना</p></span>",
+      "<span class=\"eqt\"><p>Destroy enemy submarines in coastal waters</p></span><span class=\"hqt\"><p>तटीय जल में दुश्मन की पनडुब्बियों को नष्ट करना</p></span>",
+      "<span class=\"eqt\"><p>Provide satellite-based missile defence  <br></p></span><span class=\"hqt\"><p>उपग्रह आधारित मिसाइल रक्षा प्रदान करना <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p><strong>Answer:</strong> (b) Counter low-altitude aerial threats such as helicopters and UAVs  <br> <strong>Solution</strong> <br> · The live firing test was conducted by the Indian Army’s   <strong>Konark Corps</strong> at Pokhran Field Firing Range, Rawasthan.  <br> · The system tested was   <strong>Strela-10</strong> (VSHORADS – Very Short Range Air Defence System).  <br> · It is designed to engage   <strong>low-altitude aerial threats</strong> such as helicopters, low-flying aircraft, and UAVs.  <br> · The system demonstrated high precision targeting and operational readiness in desert terrain.  <br> · Engagement range: Approximately   <strong>6–10 km</strong>.  <br> <strong>Exercise Highlights</strong> <br> · Conducted at Pokhran Field Firing Range, Rawasthan  <br> · Focus on crew coordination &amp; firing standards  <br> · Validated seamless integration of surveillance &amp; missile deployment  <br> </p></span><span class=\"hqt\"><p><strong>उत्तर:</strong> (b) हेलीकॉप्टर और UAV जैसे कम ऊंचाई वाले हवाई खतरों का मुकाबला करना <br> <strong>हल</strong> <br> · लाइव फायरिंग परीक्षण भारतीय सेना के <strong>कोणार्क कोर</strong> द्वारा पोखरण फील्ड फायरिंग रेंज, राजस्थान में आयोजित किया गया था। <br> · परीक्षण की गई प्रणाली <strong>स्ट्रेला-10</strong> (VSHORADS – वेरी शॉर्ट रेंज एयर डिफेंस सिस्टम) थी। <br> · इसे <strong>कम ऊंचाई वाले हवाई खतरों</strong> जैसे कि हेलीकॉप्टर, कम उड़ान वाले विमान और UAV से निपटने के लिए डिज़ाइन किया गया है। <br> · इस प्रणाली ने रेगिस्तानी इलाके में उच्च परिशुद्धता लक्ष्यीकरण और परिचालन तत्परता का प्रदर्शन किया। <br> · लक्ष्य साधने की सीमा: लगभग <strong>6–10 किमी</strong>। <br> <strong>अभ्यास की मुख्य विशेषताएं</strong> <br> · पोखरण फील्ड फायरिंग रेंज, राजस्थान में आयोजित <br> · चालक दल समन्वय और फायरिंग मानकों पर ध्यान <br> · निगरानी और मिसाइल तैनाती के निर्बाध एकीकरण को मान्य किया <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>In Hindustani music, the term describing the permitted notes and their sequence in a raga is:</p></span><span class=\"hqt\"><p>हिंदुस्तानी संगीत में, किसी राग में अनुमत स्वरों और उनके अनुक्रम का वर्णन करने वाला शब्द है:</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Tala  <br></p></span><span class=\"hqt\"><p>ताल <br></p></span>",
+      "<span class=\"eqt\"><p>Bandish  <br></p></span><span class=\"hqt\"><p>बंदिश <br></p></span>",
+      "<span class=\"eqt\"><p>Aroha–Avaroha  <br></p></span><span class=\"hqt\"><p>आरोह-अवरोह <br></p></span>",
+      "<span class=\"eqt\"><p>Laya  <br></p></span><span class=\"hqt\"><p>लय <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(C) Aroha–Avaroha</strong><br><br><strong>Explanation:</strong><br>• In Hindustani Classical Music, every Raga is defined by a specific set of musical notes (Swaras) and the order in which they are played or sung.<br>• <strong>Aroha</strong> refers to the ascending scale of notes in a Raga, while <strong>Avaroha</strong> refers to the descending scale.<br>• Together, they establish the structure, boundaries, and melodic character of the Raga, determining which notes are emphasized, omitted, or played in a specific sequence (Vakra).<br>• The movement between notes in a raga is not wust a linear scale but involves specific ornaments and phrasing that distinguish one raga from another even if they share the same notes.<br><br><strong>Information Booster:</strong><br>• <strong>Vadi and Samvadi:</strong> These are the most important and second most important notes in a raga, often called the 'King' and 'Queen' of the raga.<br>• <strong>Thaat:</strong> Hindustani music uses a system of 10 parent scales (Thaats) to classify ragas, a system standardized by Vishnu Narayan Bhatkhande.<br>• <strong>Pakad:</strong> A catchphrase or a specific sequence of notes that summarizes the essence of a raga.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Tala (Option A):</strong> This refers to the rhythmic cycle or beat pattern in Indian music, not the sequence of notes.<br>• <strong>Bandish (Option B):</strong> A fixed, melodic composition in a particular raga, set to a specific tala, which serves as the basis for improvisation.<br>• <strong>Laya (Option D):</strong> This refers to the tempo or speed of the music (e.g., Vilambit/slow, Madhya/medium, Drut/fast).</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(C) आरोह-अवरोह</strong> है<br><br><strong>स्पष्टीकरण:</strong><br>• हिंदुस्तानी शास्त्रीय संगीत में, प्रत्येक राग को संगीत स्वरों (स्वरों) के एक विशिष्ट सेट और उन्हें बजाने या गाने के क्रम द्वारा परिभाषित किया जाता है।<br>• <strong>आरोह</strong> एक राग में स्वरों के चढ़ते क्रम को संदर्भित करता है, जबकि <strong>अवरोह</strong> उतरते क्रम को संदर्भित करता है।<br>• साथ में, वे राग की संरचना, सीमाओं और मधुर चरित्र को स्थापित करते हैं, यह निर्धारित करते हैं कि किन स्वरों पर जोर दिया जाना है, किन को छोड़ना है, या एक विशिष्ट अनुक्रम (वक्र) में बजाया जाना है।<br>• एक राग में स्वरों के बीच की गति केवल एक रेखीय पैमाना नहीं है, बल्कि इसमें विशिष्ट अलंकरण और वाक्यांश शामिल हैं जो एक राग को दूसरे से अलग करते हैं, भले ही वे समान स्वर साझा करते हों।<br><br><strong>Information Booster:</strong><br>• <strong>वादी और संवादी:</strong> ये एक राग के सबसे महत्वपूर्ण और दूसरे सबसे महत्वपूर्ण स्वर हैं, जिन्हें अक्सर राग का 'राजा' और 'रानी' कहा जाता है।<br>• <strong>थाट:</strong> हिंदुस्तानी संगीत रागों को वर्गीकृत करने के लिए 10 मूल पैमानों (थाट) की एक प्रणाली का उपयोग करता है, जो विष्णु नारायण भातखंडे द्वारा मानकीकृत एक प्रणाली है।<br>• <strong>पकड़:</strong> एक कैचफ्रेज़ या स्वरों का एक विशिष्ट अनुक्रम जो किसी राग के सार को संक्षेप में प्रस्तुत करता है।<br><br><strong>Additional Knowledge:</strong><br>• <strong>ताल (विकल्प A):</strong> यह भारतीय संगीत में लयबद्ध चक्र या बीट पैटर्न को संदर्भित करता है, न कि स्वरों के अनुक्रम को।<br>• <strong>बंदिश (विकल्प B):</strong> एक विशेष राग में एक निश्चित, मधुर रचना, जो एक विशिष्ट ताल के लिए निर्धारित होती है, जो कामचलाऊ व्यवस्था  के आधार के रूप में कार्य करती है।<br>• <strong>लय (विकल्प D):</strong> यह संगीत की गति को संदर्भित करता है (जैसे, विलंबित/धीमी, मध्य/मध्यम, द्रुत/तेज)।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which Indian Army officer has written the book titled ‘Ready, Relevant and Resurgent: A Blueprint for the Transformation of India’s Military’, which was unveiled by the Defence Minister Rawnath Singh in May 2025?  <br></p></span><span class=\"hqt\"><p>किस भारतीय सेना अधिकारी ने ‘रेडी, रेलेवेंट एंड रिसर्जेंट: ए ब्लूप्रिंट फॉर द ट्रांसफॉर्मेशन ऑफ इंडिया’ज़ मिलिट्री नामक पुस्तक लिखी है, जिसका अनावरण मई 2025 में रक्षा मंत्री राजनाथ सिंह द्वारा किया गया था?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Lieutenant General N.S. Rawa Subramani  <br></p></span><span class=\"hqt\"><p>लेफ्टिनेंट जनरल एन.एस. राजा सुब्रमणि  <br></p></span>",
+      "<span class=\"eqt\"><p>Lieutenant General Rawiv Ghai  <br></p></span><span class=\"hqt\"><p>लेफ्टिनेंट जनरल राजीव घई  <br></p></span>",
+      "<span class=\"eqt\"><p>General Upendra Dwivedi  <br></p></span><span class=\"hqt\"><p>जनरल उपेंद्र द्विवेदी  <br></p></span>",
+      "<span class=\"eqt\"><p>CDS General Anil Chauhan  <br></p></span><span class=\"hqt\"><p>CDS जनरल अनिल चौहान  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p><strong>The correct answer is (d) CDS General Anil Chauhan</strong> <br> <strong>Explanation:</strong> <br> · The book “Ready, Relevant and Resurgent: A Blueprint for the Transformation of India’s Military” was authored by Chief of Defence Staff (CDS) General Anil Chauhan.  <br> · The book was unveiled in May 2025 by the Defence Minister of India, Rawnath Singh.  <br> · It outlines a comprehensive roadmap for transforming India’s military to meet future security challenges.  <br> · The book focuses on wointness among the three services (Army, Navy, Air Force), theatre commands, technological modernisation, and self-reliance in defence production.  <br> · As per official defence discourse and standard government and defence studies references, the work reflects the strategic vision of the CDS for making India’s armed forces future-ready.  <br> <strong>Information Booster:</strong> <br> · General Anil Chauhan is the second Chief of Defence Staff of India.  <br> · The CDS post was created to enhance integration, coordination, and woint planning among the armed forces.  <br> · Military transformation highlighted in the book aligns with initiatives like Atmanirbhar Bharat, Defence Industrial Corridors, and indigenisation of weapon systems.  <br> · Additional Knowledge (Information about incorrect options):  <br> · Lieutenant General N.S. Rawa Subramani (Option a)  <br> · Senior Army officer, but not the author of this book.  <br> · Lieutenant General Rawiv Ghai (Option b)  <br> · Known for operational leadership; not associated with this publication.  <br> · General Upendra Dwivedi (Option c)  <br> · Senior Army Commander, but not the author of the mentioned book.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर (d) CDS जनरल अनिल चौहान है</strong> <br> <strong>व्याख्या:</strong> <br> · पुस्तक “रेडी, रेलेवेंट एंड रिसर्जेंट: ए ब्लूप्रिंट फॉर द ट्रांसफॉर्मेशन ऑफ इंडिया’ज़ मिलिट्री” चीफ ऑफ डिफेंस स्टाफ (CDS) जनरल अनिल चौहान द्वारा लिखी गई थी।  <br> · पुस्तक का अनावरण मई 2025 में भारत के रक्षा मंत्री राजनाथ सिंह द्वारा किया गया था।  <br> · यह भविष्य की सुरक्षा चुनौतियों का सामना करने के लिए भारत की सेना को बदलने के लिए एक व्यापक रोडमैप की रूपरेखा तैयार करती है।  <br> · पुस्तक तीनों सेवाओं (सेना, नौसेना, वायु सेना), थिएटर कमांड, तकनीकी आधुनिकीकरण और रक्षा उत्पादन में आत्मनिर्भरता के बीच संयुक्तता पर केंद्रित है।  <br> · आधिकारिक रक्षा विमर्श और मानक सरकारी और रक्षा अध्ययन संदर्भों के अनुसार, यह कार्य भारत के सशस्त्र बलों को भविष्य के लिए तैयार करने के लिए CDS के रणनीतिक दृष्टिकोण को दर्शाता है।  <br> <strong>Information Booster:</strong> <br> · जनरल अनिल चौहान भारत के दूसरे चीफ ऑफ डिफेंस स्टाफ हैं।  <br> · सशस्त्र बलों के बीच एकीकरण, समन्वय और संयुक्त योजना को बढ़ाने के लिए CDS पद का सृजन किया गया था।  <br> · पुस्तक में उजागर किया गया सैन्य परिवर्तन आत्मनिर्भर भारत, रक्षा औद्योगिक गलियारों और हथियार प्रणालियों के स्वदेशीकरण जैसी पहलों के अनुरूप है।  <br> · <span style=\"color: rgba(0, 0, 0, 0.87);font-size: 15px\">Additional Knowledge</span> (गलत विकल्पों के बारे में जानकारी):  <br> · लेफ्टिनेंट जनरल एन.एस. राजा सुब्रमणि (विकल्प a)  <br> · वरिष्ठ सेना अधिकारी, लेकिन इस पुस्तक के लेखक नहीं।  <br> · लेफ्टिनेंट जनरल राजीव घई (विकल्प b)  <br> · परिचालन नेतृत्व के लिए जाने जाते हैं; इस प्रकाशन से संबद्ध नहीं।  <br> · जनरल उपेंद्र द्विवेदी (विकल्प c)  <br> · वरिष्ठ सेना कमांडर, लेकिन उल्लेखित पुस्तक के लेखक नहीं।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Why is the legislative power of Delhi different from that of other Union Territories with Assemblies?  <br></p></span><span class=\"hqt\"><p>विधानसभा वाले अन्य केंद्र शासित प्रदेशों की तुलना में दिल्ली की विधायी शक्ति अलग क्यों है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>The Delhi Assembly cannot pass laws on any subwect  <br></p></span><span class=\"hqt\"><p>दिल्ली विधानसभा किसी भी विषय पर कानून पारित नहीं कर सकती  <br></p></span>",
+      "<span class=\"eqt\"><p>The Delhi Assembly has no Speaker  <br></p></span><span class=\"hqt\"><p>दिल्ली विधानसभा का कोई अध्यक्ष नहीं है  <br></p></span>",
+      "<span class=\"eqt\"><p>The Delhi Assembly is directly controlled by the Supreme Court of India  <br></p></span><span class=\"hqt\"><p>दिल्ली विधानसभा सीधे भारत के सर्वोच्च न्यायालय द्वारा नियंत्रित है  <br></p></span>",
+      "<span class=\"eqt\"><p>The Delhi Legislative Assembly has the power to legislate over subwects in the State List and Concurrent List, except for police, public order and land  <br></p></span><span class=\"hqt\"><p>दिल्ली विधानसभा के पास पुलिस, सार्वजनिक व्यवस्था और भूमि को छोड़कर राज्य सूची और समवर्ती सूची के विषयों पर कानून बनाने की शक्ति है  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (d) <strong>The Delhi Legislative Assembly has the power to legislate over subwects in the State List and Concurrent List, except for police, public order and land</strong></p><p></p><p><strong>Explanation:</strong></p><p> </p><ul type=\"disc\"><li>The      legislative power of the National Capital Territory (NCT) of Delhi is      unique because, under <strong>Article 239AA</strong> of the Indian Constitution, the      Assembly can make laws for the whole or any part of the NCT.</li><li>Unlike      other Union Territories with legislatures (like Puducherry), Delhi is      specifically restricted from legislating on three key subwects in the <strong>State      List (List II)</strong>: <strong>Public Order</strong>, <strong>Police</strong>, and <strong>Land</strong>.</li><li>These      three excluded subwects remain under the exclusive domain of the <strong>Union      Government</strong>, exercised through the Lieutenant Governor (LG).</li><li>For      all other subwects in the State List and the <strong>Concurrent List</strong>, the      Delhi Assembly has full power to legislate, provided the laws are not      repugnant to Central legislation.</li><li>This      \"special status\" was established by the <strong>69th Constitutional      Amendment Act, 1991</strong>, to balance local representation with the      requirements of the national capital.</li><li>The      Supreme Court has clarified in various wudgments that the Council of      Ministers in Delhi has executive power over all subwects for which the      Assembly can legislate.</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>The <strong>Lieutenant      Governor (LG)</strong> of Delhi enwoys wider discretionary powers compared to      the Governors of regular States.</li><li>In      case of a difference of opinion between the LG and the Ministers on any      matter, the LG can refer it to the <strong>President of India</strong> for a final      decision.</li><li>The      69th Amendment designated the Union Territory of Delhi as the <strong>National      Capital Territory of Delhi</strong>.</li><li>While      Delhi has its own Consolidated Fund, the Union Parliament still retains      the power to make laws on <em>any</em> matter for the NCT, including those      within the Assembly's wurisdiction.</li></ul><p> </p><p><strong>Additional Knowledge:</strong> <strong>The Delhi Assembly cannot pass laws on any subwect (Option a)</strong></p><p> </p><ul type=\"disc\"><li>This      is incorrect because the Assembly has broad powers over most subwects like      <strong>Education, Health, and Transport</strong>.</li><li>It      only lacks wurisdiction over the three \"reserved\" subwects:      Police, Public Order, and Land.</li></ul><p> </p><p><strong>The Delhi Assembly has no Speaker (Option b)</strong></p><p> </p><ul type=\"disc\"><li>This      is factually wrong; the Delhi Legislative Assembly functions like any      other democratic legislature and has both a <strong>Speaker</strong> and a <strong>Deputy      Speaker</strong> elected by its members.</li></ul><p> </p><p><strong>The Delhi Assembly is directly controlled by the Supreme Court of India (Option c)</strong></p><p> </p><ul type=\"disc\"><li>The      Supreme Court acts as the <strong>interpreter</strong> of the Constitution and      settles wurisdictional disputes between the Delhi Government and the      Centre, but it does not \"control\" or administer the Assembly.</li><li>Administrative      control is shared between the elected government and the Union Government      via the LG.</li></ul></span><span class=\"hqt\"><p>सही उत्तर (d) <strong>दिल्ली विधानसभा के पास पुलिस, सार्वजनिक व्यवस्था और भूमि को छोड़कर राज्य सूची और समवर्ती सूची के विषयों पर कानून बनाने की शक्ति है</strong></p><p><strong>स्पष्टीकरण:</strong></p><p></p><ul type=\"disc\"><li>राष्ट्रीय  राजधानी क्षेत्र (NCT) दिल्ली की विधायी शक्ति अद्वितीय है क्योंकि, भारतीय संविधान के <strong>अनुच्छेद 239AA</strong> के तहत, विधानसभा पूरे NCT या उसके किसी भी हिस्से के लिए कानून बना सकती है।</li><li>विधायिका वाले अन्य केंद्र शासित प्रदेशों (जैसे पुडुचेरी) के विपरीत, दिल्ली को विशेष रूप से <strong>राज्य सूची (सूची II)</strong> के तीन प्रमुख विषयों: <strong>सार्वजनिक  व्यवस्था</strong>, <strong>पुलिस</strong> और <strong>भूमि</strong> पर कानून बनाने से प्रतिबंधित किया गया है।</li><li>ये तीन अपवर्जित विषय <strong>केंद्र सरकार</strong> के अनन्य अधिकार क्षेत्र में रहते हैं, जिसका प्रयोग उपराज्यपाल (LG) के माध्यम से किया जाता है।</li><li>राज्य सूची और <strong>समवर्ती सूची</strong> के अन्य सभी विषयों के लिए, दिल्ली विधानसभा के पास कानून बनाने की पूर्ण शक्ति है, बशर्ते कानून केंद्रीय कानून के प्रतिकूल न हों।</li><li>यह \"विशेष दर्जा\" <strong>69वें संविधान संशोधन अधिनियम, 1991</strong> द्वारा स्थापित किया गया था, ताकि राष्ट्रीय राजधानी की आवश्यकताओं के साथ स्थानीय प्रतिनिधित्व को संतुलित किया जा सके।</li><li>सर्वोच्च न्यायालय ने विभिन्न निर्णयों में स्पष्ट किया है कि दिल्ली में मंत्रिपरिषद के पास उन सभी विषयों पर कार्यकारी शक्ति है जिनके लिए विधानसभा कानून बना सकती है।</li></ul><p></p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>नियमित राज्यों के राज्यपालों की तुलना में दिल्ली के <strong>उपराज्यपाल (LG)</strong> को व्यापक विवेकाधीन शक्तियां प्राप्त हैं।</li><li>किसी भी मामले पर उपराज्यपाल और मंत्रियों के बीच मतभेद होने की स्थिति में, उपराज्यपाल इसे अंतिम निर्णय के लिए <strong>भारत के राष्ट्रपति</strong> को भेज सकते हैं।</li><li>69वें संशोधन ने दिल्ली केंद्र शासित प्रदेश को <strong>राष्ट्रीय राजधानी क्षेत्र दिल्ली</strong> के रूप में नामित किया।</li><li>यद्यपि दिल्ली के पास अपनी संचित निधि है, फिर भी केंद्रीय संसद के पास NCT के लिए <em>किसी भी</em>  मामले पर कानून बनाने की शक्ति है, जिसमें विधानसभा के अधिकार क्षेत्र में आने वाले मामले भी शामिल हैं।</li></ul><p> </p><p><strong>Additional Knowledge:</strong></p><p> <strong>दिल्ली विधानसभा किसी भी विषय पर कानून पारित नहीं कर सकती (विकल्प a)</strong></p><p> </p><ul type=\"disc\"><li>यह गलत है क्योंकि विधानसभा के पास <strong>शिक्षा, स्वास्थ्य और परिवहन</strong> जैसे अधिकांश विषयों पर व्यापक शक्तियां हैं।</li><li>इसके पास केवल तीन \"आरक्षित\" विषयों: पुलिस, सार्वजनिक व्यवस्था और भूमि पर अधिकार क्षेत्र की कमी है।</li></ul><p> </p><p><strong>दिल्ली विधानसभा का कोई अध्यक्ष नहीं है (विकल्प b)</strong></p><p> </p><ul type=\"disc\"><li>यह तथ्यात्मक रूप से गलत है; दिल्ली विधानसभा किसी भी अन्य लोकतांत्रिक विधायिका की तरह कार्य करती है और इसके सदस्यों द्वारा निर्वाचित <strong>अध्यक्ष</strong> और <strong>उपाध्यक्ष</strong> दोनों होते हैं।</li></ul><p> </p><p><strong>दिल्ली विधानसभा सीधे भारत के सर्वोच्च न्यायालय द्वारा नियंत्रित है (विकल्प c)</strong></p><p> </p><ul type=\"disc\"><li>सर्वोच्च न्यायालय संविधान के <strong>व्याख्याकार</strong> के रूप में कार्य करता है और दिल्ली सरकार और केंद्र के बीच अधिकार क्षेत्र के विवादों को निपटाता है, लेकिन यह  विधानसभा को \"नियंत्रित\" या प्रशासित नहीं करता है।</li><li>प्रशासनिक  नियंत्रण निर्वाचित सरकार और उपराज्यपाल के माध्यम से केंद्र सरकार के बीच साझा किया जाता है।</li></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Who won the International Booker Prize 2025 for a work translated into English?</span><span class=\"hqt\"><p>अंग्रेजी में अनूदित कृति के लिए अंतर्राष्ट्रीय बुकर पुरस्कार 2025 किसने जीता?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Jenny Erpenbeck\n  <br></span><span class=\"hqt\"><p>जेनी एरपेनबेक  <br></p></span>",
+      "<span class=\"eqt\">Fernanda Melchor\n  <br></span><span class=\"hqt\"><p>फर्नांडा मेलचोर  <br></p></span>",
+      "<span class=\"eqt\">Geetanwali Shree\n  <br></span><span class=\"hqt\"><p>गीतांजलि श्री  <br></p></span>",
+      "<span class=\"eqt\">Wlodek Goldkorn\n  <br></span><span class=\"hqt\"><p>व्लोडेक गोल्डकोर्न  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\">The correct answer is <strong>(A) Jenny Erpenbeck</strong><br><br><strong>Explanation:</strong><br>• The International Booker Prize 2024 was awarded to <strong>Jenny Erpenbeck</strong> (author) and <strong>Michael Hofmann</strong> (translator) for the novel <strong>'Kairos'</strong>.<br>• Jenny Erpenbeck is a German author, and 'Kairos' tells the story of a destructive relationship set against the backdrop of the final years of East Germany.<br>• This marked the first time a German author and a male translator (Michael Hofmann) won the award together.<br>• The prize is awarded annually for a single book, translated into English and published in the UK or Ireland.<br><br><strong>Information Booster:</strong><br>• <strong>Prize Split:</strong> The £50,000 prize money is shared equally between the author and the translator to recognize the importance of translation.<br>• <strong>Significance of Kairos:</strong> The title refers to a Greek word meaning an 'opportune moment' or 'propitious moment' for action.<br>• <strong>Recent Winners:</strong> Georgi Gospodinov won in 2023 for 'Time Shelter', and Geetanwali Shree won in 2022 for 'Tomb of Sand'.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Geetanwali Shree (Option C):</strong> She made history by being the first Indian author to win the International Booker Prize in 2022 for 'Tomb of Sand' (Ret Samadhi).<br>• <strong>Fernanda Melchor (Option B):</strong> A Mexican author known for 'Hurricane Season', which was shortlisted for the prize but did not win the top honor.<br>• <strong>Wlodek Goldkorn (Option D):</strong> A Polish-Italian writer whose works often deal with Jewish history and memory, though he is not a recent International Booker winner.</span><span class=\"hqt\"><p>सही उत्तर <strong>(A) जेनी एरपेनबेक</strong> है<br><br><strong>व्याख्या:</strong><br>• अंतर्राष्ट्रीय बुकर पुरस्कार 2024 <strong>जेनी एरपेनबेक</strong> (लेखिका) और <strong>माइकल हॉफमैन</strong> (अनुवादक) को उनके उपन्यास <strong>'कैरोस' </strong>के लिए प्रदान किया गया।<br>• जेनी एरपेनबेक एक जर्मन लेखिका हैं, और 'कैरोस' पूर्वी जर्मनी के अंतिम वर्षों की पृष्ठभूमि में स्थापित एक विनाशकारी रिश्ते की कहानी बताता है।<br>• यह पहली बार था जब किसी जर्मन लेखक और एक पुरुष अनुवादक (माइकल हॉफमैन) ने एक साथ यह पुरस्कार जीता।<br>• यह पुरस्कार प्रतिवर्ष एक ही पुस्तक के लिए दिया जाता है, जिसका अंग्रेजी में अनुवाद किया गया हो और यूके या आयरलैंड में प्रकाशित हुआ हो।<br><br><strong>Information Booster:</strong><br>• <strong>पुरस्कार विभाजन:</strong> अनुवाद के महत्व को पहचानने के लिए £50,000 की पुरस्कार राशि लेखक और अनुवादक के बीच समान रूप से बांटी जाती है।<br>• <strong>कैरोस का महत्व:</strong> यह शीर्षक एक ग्रीक शब्द को संदर्भित करता है जिसका अर्थ है कार्रवाई के लिए एक 'उपयुक्त क्षण' (opportune moment) या 'अनुकूल क्षण'।<br>• <strong>हाल के विजेता:</strong> जॉर्जी गोस्पोडिनोव ने 'टाइम शेल्टर' के लिए 2023 में और गीतांजलि श्री ने 'टॉम्ब ऑफ सैंड' के लिए 2022 में जीत हासिल की थी।<br><br><strong>Additional Knowledge:</strong><br>• <strong>गीतांजलि श्री (विकल्प C):</strong> उन्होंने 2022 में 'टॉम्ब ऑफ सैंड' (रेत समाधि) के लिए अंतर्राष्ट्रीय बुकर पुरस्कार जीतने वाली पहली भारतीय लेखिका बनकर इतिहास रचा था।<br>• <strong>फर्नांडा मेलचोर (विकल्प B):</strong> एक मैक्सिकन लेखिका जो 'हरिकेन सीज़न' के लिए जानी जाती हैं, जिसे पुरस्कार के लिए शॉर्टलिस्ट किया गया था लेकिन वह शीर्ष सम्मान नहीं जीत सकीं।<br>• <strong>व्लोडेक गोल्डकोर्न (विकल्प D):</strong> एक पोलिश-इतालवी लेखक जिनकी रचनाएँ अक्सर यहूदी इतिहास और स्मृति से संबंधित होती हैं, हालाँकि वे हाल ही के अंतर्राष्ट्रीय बुकर विजेता नहीं हैं।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Assertion (A): Awanta caves belong to the Buddhist tradition. Reason </p><p>(R): They depict Jataka tales and Buddha’s life.</p></span><span class=\"hqt\"><p>अभिकथन (A): अजंता की गुफाएं बौद्ध परंपरा से संबंधित हैं। कारण </p><p>(R): वे जातक कथाओं और बुद्ध के जीवन को चित्रित करती हैं।</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Both A and R are true and R explains A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं और R, A की व्याख्या करता है  <br></p></span>",
+      "<span class=\"eqt\"><p>Both A and R are true but R does not explain A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं लेकिन R, A की व्याख्या नहीं करता है  <br></p></span>",
+      "<span class=\"eqt\"><p>A is true but R is false  <br></p></span><span class=\"hqt\"><p>A सत्य है लेकिन R असत्य है  <br></p></span>",
+      "<span class=\"eqt\"><p>A is false but R is true  <br></p></span><span class=\"hqt\"><p>A असत्य है लेकिन R सत्य है  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(A) Both A and R are true and R explains A</strong><br><br><strong>Explanation:</strong><br>• Awanta Caves, located in Maharashtra, are a series of rock-cut caves that are exclusively Buddhist.<br>• The paintings and sculptures within depict stories from the Jataka tales and significant events from the life of Gautama Buddha.<br><br><strong>Information Booster:</strong><br>• There are 29-30 caves in Awanta, which were built in two phases: the Satavahana period and the Vakataka period.<br><br><strong>Additional Knowledge:</strong><br>• Unlike Ellora, which has Hindu, Jain, and Buddhist caves, Awanta is purely Buddhist.</p></span><span class=\"hqt\"><p>सही उत्तर है <strong>(A) A और R दोनों सत्य हैं और R, A की व्याख्या करता है</strong><br><br><strong>Explanation:</strong><br>• महाराष्ट्र में स्थित अजंता की गुफाएं, रॉक-कट गुफाओं की एक श्रृंखला हैं जो विशेष रूप से बौद्ध हैं।<br>• भीतर की पेंटिंग और मूर्तियां जातक कथाओं की कहानियों और गौतम बुद्ध के जीवन की महत्वपूर्ण घटनाओं को चित्रित करती हैं।<br><br><strong>Information Booster:</strong><br>• अजंता में 29-30 गुफाएं हैं, जो दो चरणों में बनाई गई थीं: सातवाहन काल और वाकाटक काल।<br><br><strong>Additional Knowledge:</strong><br>• एलोरा के विपरीत, जिसमें हिंदू, जैन और बौद्ध गुफाएं हैं, अजंता पूरी तरह से बौद्ध है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>When deadlock arises, the President has to summon a woint sitting of the two Houses of Parliament under which Article?  <br></p></span><span class=\"hqt\"><p>जब गतिरोध उत्पन्न होता है, तो राष्ट्रपति को किस अनुच्छेद के तहत संसद के दोनों सदनों की संयुक्त बैठक बुलानी पड़ती है? <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Article 92  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 92 <br></p></span>",
+      "<span class=\"eqt\"><p>Article 64  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 64 <br></p></span>",
+      "<span class=\"eqt\"><p>Article 201  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 201 <br></p></span>",
+      "<span class=\"eqt\"><p>Article 108  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 108 <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(D) Article 108</strong><br><br><strong>Explanation:</strong><br>• Article 108 of the Indian Constitution provides for a woint sitting of both the Lok Sabha and Rawya Sabha in case of a deadlock between them.<br>• A deadlock occurs if a bill is rewected by the other house, or if the houses disagree on amendments.<br><br><strong>Information Booster:</strong><br>• A woint sitting is presided over by the Speaker of the Lok Sabha.<br><br><strong>Additional Knowledge:</strong><br>• Note: A woint sitting cannot be called for a Money Bill or a Constitutional Amendment Bill.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(D) अनुच्छेद 108</strong> है<br><br><strong>व्याख्या:</strong><br>• भारतीय संविधान का अनुच्छेद 108 लोकसभा और राज्यसभा के बीच गतिरोध की स्थिति में दोनों की संयुक्त बैठक का प्रावधान करता है।<br>• गतिरोध तब होता है जब किसी विधेयक को दूसरे सदन द्वारा खारिज कर दिया जाता है, या यदि सदन संशोधनों पर असहमत होते हैं।<br><br><strong>Information Booster:</strong><br>• संयुक्त बैठक की अध्यक्षता लोकसभा अध्यक्ष करते हैं।<br><br><strong>Additional Knowledge:</strong><br>• नोट: धन विधेयक या संविधान संशोधन विधेयक के लिए संयुक्त बैठक नहीं बुलाई जा सकती।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">A primary goal of LPG reforms was macroeconomic stabilisation. Which indicator improved significantly post-1991 reforms?\n  <br></span><span class=\"hqt\"><p>LPG सुधारों का एक प्राथमिक लक्ष्य व्यापक आर्थिक स्थिरीकरण (macroeconomic stabilisation) था। 1991 के सुधारों के बाद किस संकेतक में महत्वपूर्ण सुधार हुआ?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Revenue deficit</span><span class=\"hqt\"><p>राजस्व घाटा</p></span>",
+      "<span class=\"eqt\">Rural unemployment</span><span class=\"hqt\"><p>ग्रामीण बेरोजगारी</p></span>",
+      "<span class=\"eqt\">Fiscal deficit</span><span class=\"hqt\"><p>राजकोषीय घाटा</p></span>",
+      "<span class=\"eqt\">Foreign exchange reserves\n  <br>  \n  <b></span><span class=\"hqt\"><p>विदेशी मुद्रा भंडार  <br> </p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"></b> \n  <br>  \n  <b>The correct answer is (D) Foreign exchange reserves</b> \n  <br>  \n  <b>Explanation:</b> \n  <br> · The \n  <b>LPG reforms (Liberalisation, Privatisation, Globalisation)</b> were introduced in \n  <b>1991</b> to address a severe \n  <b>Balance of Payments crisis</b>.\n  <br> · One of the key obwectives of these reforms was \n  <b>macroeconomic stabilisation</b>, particularly strengthening India’s external sector.\n  <br> · Post-1991 reforms, India witnessed a \n  <b>substantial increase in foreign exchange reserves</b> due to liberalised trade, increased exports, foreign direct investment (FDI), and foreign institutional investment (FII).\n  <br> · Higher foreign exchange reserves improved India’s ability to \n  <b>manage external shocks</b>, stabilize the currency, and meet international payment obligations.\n  <br> · This marked a sharp contrast to the pre-1991 situation when India had reserves sufficient for only a few weeks of imports.\n  <br>  \n  <b>Information Booster:</b> \n  <br> · LPG reforms were introduced under \n  <b>Finance Minister Dr. Manmohan Singh</b>.\n  <br> · India pledged gold to the \n  <b>IMF and Bank of England</b> in 1991 due to low reserves.\n  <br> · Foreign exchange reserves act as a \n  <b>buffer against external economic crises</b>.\n  <br> · RBI manages India’s forex reserves.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br> · \n  <b>Revenue deficit (Option A):</b> Revenue Deficit = Revenue Expenditure – Revenue Receipts.\n  <br> · \n  <b>Rural unemployment (Option B):</b> Rural unemployment refers to woblessness in non-urbanized regions where individuals who are able and willing to work at existing wage rates are unable to find employment. In rural India, this issue is primarily related to the \n  <b>agrarian sector</b> and is characterized by a mismatch between the labor supply and available wobs.\n  <br> · \n  <b>Fiscal deficit (Option C):</b> Fiscal deficit is the difference between the government's total expenditure and its total non-debt receipts (revenue receipts + non-debt capital receipts).\n  <br>    \n \n</span><span class=\"hqt\"><p><strong>सही उत्तर (D) विदेशी मुद्रा भंडार है</strong> <br> <strong>व्याख्या:</strong> <br> · गंभीर   <strong>भुगतान संतुलन संकट (Balance of Payments crisis)</strong> को दूर करने के लिए   <strong>1991</strong> में   <strong>LPG सुधार (उदारीकरण, निजीकरण, वैश्वीकरण)</strong> पेश किए गए थे।  <br> · इन सुधारों के प्रमुख उद्देश्यों में से एक   <strong>व्यापक आर्थिक स्थिरीकरण</strong> था, विशेष रूप से भारत के बाहरी क्षेत्र को मजबूत करना।  <br> · 1991 के बाद के सुधारों के बाद, उदारीकृत व्यापार, बढ़े हुए निर्यात, प्रत्यक्ष विदेशी निवेश (FDI) और विदेशी संस्थागत निवेश (FII) के कारण भारत ने   <strong>विदेशी मुद्रा भंडार में पर्याप्त वृद्धि</strong> देखी।  <br> · उच्च विदेशी मुद्रा भंडार ने भारत की   <strong>बाहरी झटकों को प्रबंधित करने</strong>, मुद्रा को स्थिर करने और अंतर्राष्ट्रीय भुगतान दायित्वों को पूरा करने की क्षमता में सुधार किया।  <br> · यह 1991 से पहले की स्थिति के बिल्कुल विपरीत था जब भारत के पास केवल कुछ हफ्तों के आयात के लिए पर्याप्त भंडार था।  <br> <strong>Information Booster:</strong> <br> · LPG सुधार   <strong>वित्त मंत्री डॉ. मनमोहन सिंह</strong> के कार्यकाल में पेश किए गए थे।  <br> · भारत ने कम भंडार के कारण 1991 में   <strong>IMF और बैंक ऑफ इंग्लैंड</strong> के पास सोना गिरवी रखा था।  <br> · विदेशी मुद्रा भंडार   <strong>बाहरी आर्थिक संकटों के खिलाफ बफर</strong> के रूप में कार्य करता है।  <br> · RBI भारत के विदेशी मुद्रा भंडार का प्रबंधन करता है।  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>राजस्व घाटा (विकल्प A):</strong> राजस्व घाटा = राजस्व व्यय - राजस्व प्राप्तियाँ।  <br> ·   <strong>ग्रामीण बेरोजगारी (विकल्प B):</strong> ग्रामीण बेरोजगारी गैर-शहरीकृत क्षेत्रों में नौकरी न होने की स्थिति को संदर्भित करती है जहाँ व्यक्ति जो मौजूदा मजदूरी दरों पर काम करने में सक्षम और इच्छुक हैं, उन्हें रोजगार नहीं मिल पाता है। ग्रामीण भारत में, यह मुद्दा मुख्य रूप से   <strong>कृषि क्षेत्र</strong> से संबंधित है और श्रम आपूर्ति और उपलब्ध नौकरियों के बीच असंतुलन की विशेषता है।  <br> ·   <strong>राजकोषीय घाटा (विकल्प C):</strong> राजकोषीय घाटा सरकार के कुल व्यय और उसकी कुल गैर-ऋण प्राप्तियों (राजस्व प्राप्तियाँ + गैर-ऋण पूंजी प्राप्तियाँ) के बीच का अंतर है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>In the agrarian system of the Viwayanagara Empire , which factor was a key constraint that rulers tried to address through the construction of tanks and canals?</p></span><span class=\"hqt\"><p>विजयनगर साम्राज्य की कृषि प्रणाली में, कौन सा कारक एक प्रमुख बाधा थी जिसे शासकों ने टैंकों और नहरों के निर्माण के माध्यम से हल करने की कोशिश की?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Shortage of metal tools  <br></p></span><span class=\"hqt\"><p>धातु के औजारों की कमी  <br></p></span>",
+      "<span class=\"eqt\"><p>Irregular water supply for irrigation  <br></p></span><span class=\"hqt\"><p>सिंचाई के लिए अनियमित जल आपूर्ति  <br></p></span>",
+      "<span class=\"eqt\"><p>Scarcity of draft animals  <br></p></span><span class=\"hqt\"><p>माल ढोने वाले पशुओं की कमी  <br></p></span>",
+      "<span class=\"eqt\"><p>Decline in soil fertility due to salinity  <br></p></span><span class=\"hqt\"><p>लवणता के कारण मिट्टी की उर्वरता में गिरावट  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(B) Irregular water supply for irrigation</strong><br><br><strong>Explanation:</strong><br>• The Viwayanagara Empire (1336–1646) was located in one of the most arid zones of the Indian peninsula (modern-day Hampi, Karnataka).<br>• Agriculture was the mainstay of the economy, but the region received seasonal and often unpredictable rainfall, making permanent water sources essential.<br>• Rulers like Krishna Deva Raya and Bukka I invested heavily in 'Dasavanda' (tax-free land grants) for those who built or maintained irrigation works.<br>• The most prominent feature was the use of the Tungabhadra River, where embankments were built to create reservoirs.<br><br><strong>Information Booster:</strong><br>• <strong>Kamalapuram Tank:</strong> One of the most famous irrigation tanks built during the early years of the empire, used for both agriculture and supplying water to the royal center.<br>• <strong>Hiriya Canal:</strong> This canal drew water from a dam across the Tungabhadra and irrigated the valley separating the 'Sacred Center' from the 'Urban Core.'<br>• <strong>Temple Economy:</strong> Temples often acted as central institutions for agricultural expansion, managing land and irrigation infrastructure in their respective localities.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Shortage of metal tools (Option A):</strong> While iron was used, the empire had sophisticated metallurgy (notably for weapons and bells); tools were not a primary structural constraint compared to water.<br>• <strong>Scarcity of draft animals (Option C):</strong> The empire had a massive cavalry and used bullocks extensively; however, the lack of water was the 'limiting factor' for crop yield.<br>• <strong>Decline in soil fertility (Option D):</strong> While salinity occurs in over-irrigated arid lands, the primary challenge addressed by the state was the *acquisition* of water, not the remediation of soil salinity.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(B) सिंचाई के लिए अनियमित जल आपूर्ति</strong><br><br><strong>व्याख्या:</strong><br>• विजयनगर साम्राज्य (1336–1646) भारतीय प्रायद्वीप के सबसे शुष्क क्षेत्रों में से एक (आधुनिक हम्पी, कर्नाटक) में स्थित था।<br>• कृषि अर्थव्यवस्था का मुख्य आधार थी, लेकिन इस क्षेत्र में मौसमी और अक्सर अप्रत्याशित वर्षा होती थी, जिससे स्थायी जल स्रोत आवश्यक हो गए थे।<br>• कृष्ण देव राय और बुक्का प्रथम जैसे शासकों ने उन लोगों के लिए 'दशवंदा' (कर-मुक्त भूमि अनुदान) में भारी निवेश किया, जिन्होंने सिंचाई कार्यों का निर्माण या रखरखाव किया।<br>• सबसे प्रमुख विशेषता तुंगभद्रा नदी का उपयोग था, जहाँ जलाशय बनाने के लिए तटबंध बनाए गए थे।<br><br><strong>Information Booster::</strong><br>• <strong>कमलापुरम टैंक:</strong> साम्राज्य के शुरुआती वर्षों के दौरान बने सबसे प्रसिद्ध सिंचाई टैंकों में से एक, जिसका उपयोग कृषि और शाही केंद्र को पानी की आपूर्ति दोनों के लिए किया जाता था।<br>• <strong>हिरिया नहर:</strong> यह नहर तुंगभद्रा के पार एक बांध से पानी खींचती थी और 'पवित्र केंद्र' को 'शहरी कोर' से अलग करने वाली घाटी की सिंचाई करती थी।<br>• <strong>मंदिर अर्थव्यवस्था:</strong> मंदिर अक्सर कृषि विस्तार के लिए केंद्रीय संस्थानों के रूप में कार्य करते थे, जो अपने संबंधित क्षेत्रों में भूमि और सिंचाई बुनियादी ढांचे का प्रबंधन करते थे।<br><br><strong><br>Additional Knowledge:</strong><br>• <strong>धातु के औजारों की कमी (विकल्प A):</strong> हालांकि लोहे का उपयोग किया जाता था, साम्राज्य के पास परिष्कृत धातु विज्ञान (विशेष रूप से हथियारों और घंटों के लिए) था; पानी की तुलना में औजार प्राथमिक संरचनात्मक बाधा नहीं थे।<br>• <strong>माल ढोने वाले पशुओं की कमी (विकल्प C):</strong> साम्राज्य के पास एक विशाल घुड़सवार सेना थी और बैलों का बड़े पैमाने पर उपयोग किया जाता था; हालांकि, पानी की कमी फसल की पैदावार के लिए 'सीमित कारक' थी।<br>• <strong>मिट्टी की उर्वरता में गिरावट (विकल्प D):</strong> जबकि अधिक सिंचाई वाली शुष्क भूमि में लवणता होती है, राज्य द्वारा संबोधित प्राथमिक चुनौती पानी का *अधिग्रहण* थी, न कि मिट्टी की लवणता का उपचार।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which of the following falls under the Supreme Court’s original wurisdiction, according to the Constitution of India (Article 131)?  <br></p></span><span class=\"hqt\"><p>भारत के संविधान (अनुच्छेद 131) के अनुसार, निम्नलिखित में से कौन सर्वोच्च न्यायालय के मूल अधिकार क्षेत्र के अंतर्गत आता है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Disputes between States or between a State and the Union  <br></p></span><span class=\"hqt\"><p>राज्यों के बीच या एक राज्य और संघ के बीच विवाद  <br></p></span>",
+      "<span class=\"eqt\"><p>Election petitions against sitting Members of Parliament  <br></p></span><span class=\"hqt\"><p>संसद के मौजूदा सदस्यों के खिलाफ चुनाव याचिकाएँ  <br></p></span>",
+      "<span class=\"eqt\"><p>Enforcement of fundamental rights of individuals  <br></p></span><span class=\"hqt\"><p>व्यक्तियों के मौलिक अधिकारों का प्रवर्तन  <br></p></span>",
+      "<span class=\"eqt\"><p>Appeals from criminal cases in High Courts  <br></p></span><span class=\"hqt\"><p>उच्च न्यायालयों में आपराधिक मामलों से अपील  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (a) Disputes between States or between a State and the Union  <br> <strong>Explanation:</strong> <br> . Article 131 grants original wurisdiction.  <br> . It covers federal disputes only.  <br> . Supreme Court acts as a federal court.  <br> . Jurisdiction is exclusive.  <br> . Private individuals cannot invoke Article 131.  <br> <strong>Information Booster:</strong> <br> . Writ wurisdiction comes under Article 32.  <br> . Appellate wurisdiction is separate.  <br><br> </p></span><span class=\"hqt\"><p>सही उत्तर (a) राज्यों के बीच या एक राज्य और संघ के बीच विवाद है  <br> <strong>व्याख्या:</strong> <br> . अनुच्छेद 131 मूल अधिकार क्षेत्र प्रदान करता है।  <br> . यह केवल संघीय विवादों को कवर करता है।  <br> . सर्वोच्च न्यायालय एक संघीय अदालत के रूप में कार्य करता है।  <br> . अधिकार क्षेत्र अनन्य (exclusive) है।  <br> . निजी व्यक्ति अनुच्छेद 131 का आह्वान नहीं कर सकते।  <br> <strong>Information Booster:</strong> <br> . रिट अधिकार क्षेत्र अनुच्छेद 32 के अंतर्गत आता है।  <br> . अपीलीय अधिकार क्षेत्र अलग है।  <br><br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which of the following is NOT a unicellular organism?<br></p></span><span class=\"hqt\"><p>निम्नलिखित में से कौन एककोशिकीय जीव नहीं है?<br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>​<span style=\"font-size:15px\">Paramecium</span>​<br></p></span><span class=\"hqt\"><p>पैरामीशियम</p></span>",
+      "<span class=\"eqt\"><p>​<span style=\"font-size:15px\">Bacteria</span>​<br></p></span><span class=\"hqt\"><p>जीवाणु</p></span>",
+      "<span class=\"eqt\"><p>​<span style=\"font-size:15px\">Fungi</span>​<br></p></span><span class=\"hqt\"><p>कवक</p></span>",
+      "<span class=\"eqt\"><p>​<span style=\"font-size:15px\">Chlamydomonas</span>​<br></p></span><span class=\"hqt\"><p>क्लैमाइडोमोनस​<br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p style=\"line-height: 1;text-align: wustify\">The correct answer is<strong> (c) Fungi</strong></p><p style=\"line-height: 1;text-align: wustify\"><strong>Explanation:</strong></p><ul type=\"disc\"><li><strong>Fungi</strong> can be <strong>unicellular or multicellular</strong>.      However, most fungi, such as <strong>mushrooms and molds</strong>, are <strong>multicellular</strong>,      making them different from the other options, which are exclusively <strong>unicellular</strong>      organisms.</li><li><strong>Yeast</strong> is an example of a <strong>unicellular fungus</strong>,      but in general, <strong>fungi are classified as multicellular organisms</strong>.</li></ul><p style=\"line-height: 1;text-align: wustify\"><strong>Information Booster:</strong></p><ul type=\"disc\"><li><strong>Unicellular organisms</strong> are made up of <strong>only      one cell</strong>, which performs all necessary life functions like      reproduction, respiration, and metabolism.</li><li>Examples include <strong>bacteria, protozoa (e.g.,      Paramecium), and some algae (e.g., Chlamydomonas)</strong>.</li></ul><p style=\"line-height: 1;text-align: wustify\"><strong>Additional Knowledge:</strong></p><ul><li><strong>Paramecium</strong> is a <strong>unicellular protozoan</strong> that moves using <strong>cilia</strong>.</li><li><strong>Bacteria</strong> are <strong>prokaryotic unicellular organisms</strong> with no nucleus.</li><li><strong>Chlamydomonas</strong> is a <strong>unicellular green algae</strong> that performs <strong>photosynthesis</strong>.</li></ul></span><span class=\"hqt\"><p style=\"line-height: 1;text-align: wustify\">सही उत्तर <strong>(c) कवक है</strong></p><p style=\"line-height: 1;text-align: wustify\"><strong>स्पष्टीकरण:</strong></p><ul type=\"disc\"><li><strong>कवक</strong> <strong>एककोशिकीय या बहुकोशिकीय</strong> हो सकते हैं। हालाँकि, अधिकांश कवक, जैसे <strong>मशरूम और फफूंद</strong>, <strong>बहुकोशिकीय</strong> होते हैं, जो उन्हें अन्य विकल्पों से अलग बनाता है, जो विशेष रूप से <strong>एककोशिकीय</strong> जीव होते हैं।</li><li><strong>यीस्ट</strong> एक <strong>एककोशिकीय कवक</strong> का एक उदाहरण है, लेकिन सामान्य तौर पर, <strong>कवकों को बहुकोशिकीय जीवों के रूप में वर्गीकृत किया जाता है</strong>।</li></ul><p style=\"line-height: 1;text-align: wustify\"><strong>Information Booster:</strong></p><ul type=\"disc\"><li><strong>एककोशिकीय जीव</strong> <strong>केवल एक कोशिका</strong> से बने होते हैं, जो प्रजनन, श्वसन और चयापचय जैसे सभी आवश्यक जीवन कार्य करती है।</li><li>उदाहरणों में शामिल हैं: <strong>जीवाणु, प्रोटोज़ोआ (जैसे, पैरामीशियम), और कुछ शैवाल (जैसे, क्लैमाइडोमोनस)</strong>।</li></ul><p style=\"line-height: 1;text-align: wustify\"><strong>Additional Knowledge:</strong></p><ul><li><strong>पैरामीशियम</strong> एक <strong>एककोशिकीय प्रोटोज़ोआ</strong> है जो <strong>सिलिया</strong> का उपयोग करके गति करता है।</li><li><strong>जीवाणु</strong> <strong>प्रोकैरियोटिक एककोशिकीय जीव</strong> हैं जिनमें कोई केंद्रक नहीं होता।</li><li><strong>क्लैमाइडोमोनस</strong> एक <strong>एककोशिकीय हरा शैवाल</strong> है जो <strong>प्रकाश संश्लेषण</strong> करता है।</li></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Based on the statements given below, choose the correct option: </p><p>Statement I: Gandhara art was influenced by Greco-Roman styles. </p><p>Statement II: Gandhara sculptures avoided depicting human figures.</p></span><span class=\"hqt\"><p>नीचे दिए गए कथनों के आधार पर सही विकल्प चुनें: </p><p>कथन I: गांधार कला ग्रीको-रोमन शैलियों से प्रभावित थी। </p><p>कथन II: गांधार मूर्तियों में मानव आकृतियों के चित्रण से बचा गया था।</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Statement I and II both are correct  <br></p></span><span class=\"hqt\"><p>कथन I और II दोनों सही हैं  <br></p></span>",
+      "<span class=\"eqt\"><p>Only statement I is correct  <br></p></span><span class=\"hqt\"><p>केवल कथन I सही है  <br></p></span>",
+      "<span class=\"eqt\"><p>Only statement II is correct  <br></p></span><span class=\"hqt\"><p>केवल कथन II सही है  <br></p></span>",
+      "<span class=\"eqt\"><p>Neither I nor II  <br></p></span><span class=\"hqt\"><p>न तो I और न ही II  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(B) Only statement I is correct</strong><br><br><strong>Explanation:</strong><br>• <strong>Statement I:</strong> This is correct. The Gandhara School of Art (1st century BC to 4th century AD) flourished in the northwestern part of ancient India (modern-day Pakistan/Afghanistan). It is also called the <strong>Greco-Buddhist School</strong> because it combined Indian Buddhist themes with Greek and Roman styles of sculpture (like wavy hair, muscular bodies, and draped garments).<br>• <strong>Statement II:</strong> This is incorrect. In fact, the Gandhara school is famous for being one of the first schools to depict the <strong>Buddha in human (anthropomorphic) form</strong>. Earlier, Buddha was represented only through symbols (like footprints or a Bodhi tree). Gandhara art is characterized by the physical beauty and anatomical accuracy of the human figures.<br><br><strong>Information Booster:</strong><br>• <strong>Kushan Period:</strong> This school of art reached its peak during the reign of Kushan king <strong>Kanishka</strong>.<br>• <strong>Material:</strong> It primarily used <strong>bluish-grey schist stone</strong> (and later stucco/mud) for sculptures.<br>• <strong>Mathura School:</strong> A contemporary school of art which was purely indigenous in style and used spotted red sandstone.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Human Figures:</strong> Gandhara sculptures often depicted Buddha looking like the Greek god Apollo. It did not avoid human figures; it celebrated them to make religious figures more relatable to the masses.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(B) केवल कथन I सही है</strong> है।<br><br><strong>व्याख्या:</strong><br>• <strong>कथन I:</strong> यह सही है। गांधार कला विद्यालय (प्रथम शताब्दी ईसा पूर्व से चौथी शताब्दी ईस्वी) प्राचीन भारत के उत्तर-पश्चिमी भाग (आधुनिक पाकिस्तान/अफगानिस्तान) में फला-फूला। इसे <strong>ग्रीको-बौद्ध विद्यालय</strong> भी कहा जाता है क्योंकि इसने भारतीय बौद्ध विषयों को मूर्तिकला की ग्रीक और रोमन शैलियों (जैसे लहरदार बाल, मांसल शरीर और लिपटे हुए वस्त्र) के साथ जोड़ा था।<br>• <strong>कथन II:</strong> यह गलत है। वास्तव में, गांधार शैली <strong>बुद्ध को मानवीय रूप</strong> में चित्रित करने वाले पहले विद्यालयों में से एक होने के लिए प्रसिद्ध है। पहले, बुद्ध को केवल प्रतीकों (जैसे पैरों के निशान या बोधि वृक्ष) के माध्यम से दर्शाया जाता था। गांधार कला की विशेषता मानव आकृतियों की शारीरिक सुंदरता और शारीरिक सटीकता है।<br><br><br><br><strong>Information Booster:</strong><br>• <strong>कुषाण काल:</strong> कला का यह विद्यालय कुषाण राजा <strong>कनिष्क</strong> के शासनकाल के दौरान अपने चरम पर पहुँचा।<br>• <strong>सामग्री:</strong> इसने मूर्तियों के लिए मुख्य रूप से <strong>नीले-धूसर शिस्ट पत्थर</strong> (और बाद में प्लास्टर/मिट्टी) का उपयोग किया।<br>• <strong>मथुरा शैली:</strong> कला की एक समकालीन शैली जो शैली में विशुद्ध रूप से स्वदेशी थी और चित्तीदार लाल बलुआ पत्थर का उपयोग करती थी।<br><br><strong>Additional Knowledge:</strong><br>• <strong>मानव आकृतियाँ:</strong> गांधार की मूर्तियों में अक्सर बुद्ध को यूनानी देवता अपोलो जैसा दिखाया जाता था। इसने मानव आकृतियों से परहेज नहीं किया; इसने धार्मिक आकृतियों को जनता के लिए अधिक सुलभ बनाने के लिए उन्हें मानवीय रूप में चित्रित किया।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which of the above statements is/are correct regarding the post-Gupta period?  <br> 1. The Huna invasions significantly weakened the Gupta Empire and accelerated its decline.  <br> 2. Harshavardhana established his capital at Kannauw and patronised Buddhism.  <br> 3. The Pallavas emerged as a dominant power in eastern India during the post-Gupta period.  <br></p></span><span class=\"hqt\"><p>गुप्तोत्तर काल के संबंध में उपरोक्त में से कौन सा/से कथन सही है/हैं?  <br> 1. हूण आक्रमणों ने गुप्त साम्राज्य को काफी कमजोर कर दिया और इसके पतन को तेज कर दिया।  <br> 2. हर्षवर्धन ने कन्नौज में अपनी राजधानी स्थापित की और बौद्ध धर्म को संरक्षण दिया।  <br> 3. गुप्तोत्तर काल के दौरान पल्लव पूर्वी भारत में एक प्रमुख शक्ति के रूप में उभरे।  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Only 1  <br></p></span><span class=\"hqt\"><p>केवल 1  <br></p></span>",
+      "<span class=\"eqt\"><p>Only 3  <br></p></span><span class=\"hqt\"><p>केवल 3  <br></p></span>",
+      "<span class=\"eqt\"><p>Only 2 and 3  <br></p></span><span class=\"hqt\"><p>केवल 2 और 3  <br></p></span>",
+      "<span class=\"eqt\"><p>Only 1 and 2  <br></p></span><span class=\"hqt\"><p>केवल 1 और 2  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (d) Only 1 and 2  <br> <strong>Explanation:</strong> <br> • Statement 1 is correct: The Huna invasions significantly weakened the Gupta Empire and accelerated its decline. The Hunas, led by Mihirakula and others, invaded India in the 5th century, causing the collapse of the Gupta dynasty.  <br> • Statement 2 is correct: Harshavardhana, the ruler of Kannauw, established his capital there and was known for promoting Buddhism. He also supported religious tolerance and patronized scholars like Banabhatta.  <br> • Statement 3 is incorrect: While the Pallavas were influential, they rose to prominence in southern India (not eastern India) after the Gupta period, not during it.  <br> <strong>Information Booster:</strong> <br> • The Pallavas were most prominent in Tamil Nadu and played a significant role in southern India, not in the eastern regions.  <br> </p></span><span class=\"hqt\"><p>सही उत्तर (d) केवल 1 और 2 है  <br> <strong>व्याख्या:</strong> <br> • कथन 1 सही है: हूण आक्रमणों ने गुप्त साम्राज्य को काफी कमजोर कर दिया और इसके पतन को तेज कर दिया। मिहिरकुल और अन्य के नेतृत्व में हूणों ने 5वीं शताब्दी में भारत पर आक्रमण किया, जिससे गुप्त वंश का पतन हुआ।  <br> • कथन 2 सही है: कन्नौज के शासक हर्षवर्धन ने वहां अपनी राजधानी स्थापित की और बौद्ध धर्म को बढ़ावा देने के लिए जाने जाते थे। उन्होंने धार्मिक सहिष्णुता का भी समर्थन किया और बाणभट्ट जैसे विद्वानों को संरक्षण दिया।  <br> • कथन 3 गलत है: हालांकि पल्लव प्रभावशाली थे, वे गुप्त काल के बाद दक्षिण भारत (न कि पूर्वी भारत) में प्रमुखता से उभरे, न कि इसके दौरान।  <br> <strong>Information Booster:</strong> <br> • पल्लव तमिलनाडु में सबसे प्रमुख थे और उन्होंने दक्षिण भारत में महत्वपूर्ण भूमिका निभाई, न कि पूर्वी क्षेत्रों में।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">How does the growth of tertiary activities reflect economic development in India?\n  <br></span><span class=\"hqt\"><p>तृतीयक गतिविधियों का विकास भारत में आर्थिक विकास को कैसे दर्शाता है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Improved services, urban growth, and rising demand\n  <br></span><span class=\"hqt\"><p>बेहतर सेवाएं, शहरी विकास और बढ़ती मांग  <br></p></span>",
+      "<span class=\"eqt\">Shift back to farm-based occupations\n  <br></span><span class=\"hqt\"><p>कृषि-आधारित व्यवसायों की ओर वापसी  <br></p></span>",
+      "<span class=\"eqt\">Fall in manufacturing employment\n  <br></span><span class=\"hqt\"><p>विनिर्माण रोजगार में गिरावट  <br></p></span>",
+      "<span class=\"eqt\">Slowdown in overall income generation\n  <br></span><span class=\"hqt\"><p>समग्र आय सृजन में मंदी  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\">\n  <br> The correct answer is (a) Improved services, urban growth, and rising demand\n  <br>  \n  <b>Explanation</b> \n  <br> • Growth of tertiary activities shows rising demand for services.\n  <br> • It reflects urbanisation and higher incomes.\n  <br> • Services expand as agriculture and industry mature.\n  <br>  \n  <b>Information Booster</b> \n  <br> • The tertiary sector includes banking, education, healthcare, transport.\n  <br> • India’s economy is increasingly service-driven.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br> • The service sector contributes the largest share to India’s GDP.\n  <br> • IT and digital services are key growth drivers.\n  <br> </span><span class=\"hqt\"><p>सही उत्तर (a) बेहतर सेवाएं, शहरी विकास और बढ़ती मांग है  <br> <strong>व्याख्या</strong> <br> • तृतीयक गतिविधियों का विकास सेवाओं की बढ़ती मांग को दर्शाता है。  <br> • यह शहरीकरण और उच्च आय को दर्शाता है。  <br> • कृषि और उद्योग के परिपक्व होने पर सेवाओं का विस्तार होता है。  <br> <strong>Information Booster</strong> <br> • तृतीयक क्षेत्र में बैंकिंग, शिक्षा, स्वास्थ्य सेवा, परिवहन शामिल हैं।   <br> • भारत की अर्थव्यवस्था तेजी से सेवा-संचालित हो रही है。  <br> <strong>Additional Knowledge</strong> <br> • भारत के सकल घरेलू उत्पाद (GDP) में सेवा क्षेत्र का योगदान सबसे अधिक है。  <br> • आईटी और डिजिटल सेवाएं प्रमुख विकास चालक हैं。  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Assertion (A): The first nationwide census in independent India was conducted in 1951. </p><p>Reason (R): Census operations are held every ten years in India.</p></span><span class=\"hqt\"><p>अभिकथन (A): स्वतंत्र भारत में पहली राष्ट्रव्यापी जनगणना 1951 में आयोजित की गई थी। </p><p>कारण (R): भारत में जनगणना कार्य हर दस साल में आयोजित किए जाते हैं।</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Both A and R are true, and R explains A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं, और R, A की सही व्याख्या करता है  <br></p></span>",
+      "<span class=\"eqt\"><p>Both A and R are true, but R does not explain A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं, लेकिन R, A की सही व्याख्या नहीं करता है  <br></p></span>",
+      "<span class=\"eqt\"><p>A is true, but R is false  <br></p></span><span class=\"hqt\"><p>A सत्य है, लेकिन R असत्य है  <br></p></span>",
+      "<span class=\"eqt\"><p>A is false, but R is true  <br></p></span><span class=\"hqt\"><p>A असत्य है, लेकिन R सत्य है  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(B) Both A and R are true, but R does not explain A</strong><br><br><strong>Explanation:</strong><br>• <strong>Assertion (A):</strong> Is correct. After independence, the first census of India was indeed conducted in 1951. It was the 9th census in the series if counting from 1872.<br>• <strong>Reason (R):</strong> Is correct. India has a long tradition of conducting decennial (every ten years) census operations, starting from the first synchronous census in 1881.<br>• <strong>Relationship:</strong> While both statements are factually true, the frequency of the census (every 10 years) is not the *reason* why the 1951 census was the first one for *independent* India. The reason for the 1951 census being the first in independent India is simply because India gained independence in 1947, making 1951 the first decennial milestone year thereafter.<br><br><strong>Information Booster:</strong><br>• <strong>Census Authority:</strong> The census is conducted by the Office of the Registrar General and Census Commissioner, India, under the Ministry of Home Affairs.<br>• <strong>Census Act:</strong> It is conducted under the provisions of the Census Act, 1948.<br><br><strong>Additional Knowledge:</strong><br>• <strong>First Non-Synchronous Census:</strong> 1872 (under Lord Mayo).<br>• <strong>First Synchronous Census:</strong> 1881 (under Lord Ripon).<br>• <strong>2021 Census:</strong> Due to the COVID-19 pandemic, the 2021 census was postponed, making it the first time in Indian history that a decennial census was delayed.</p></span><span class=\"hqt\"><p>सही उत्तर है <strong>(B) A और R दोनों सत्य हैं, लेकिन R, A की सही व्याख्या नहीं करता है</strong><br><br><strong>व्याख्या:</strong><br>• <strong>अभिकथन (A):</strong> सही है। स्वतंत्रता के बाद, भारत की पहली जनगणना वास्तव में 1951 में आयोजित की गई थी। यदि 1872 से गणना की जाए तो यह श्रृंखला में 9वीं जनगणना थी।<br>• <strong>कारण (R):</strong> सही है। भारत में 1881 में पहली समकालिक जनगणना से शुरू होकर, दशकीय (हर दस साल) जनगणना कार्यों को आयोजित करने की एक लंबी परंपरा है।<br>• <strong>संबंध:</strong> हालांकि दोनों कथन तथ्यात्मक रूप से सत्य हैं, जनगणना की आवृत्ति (हर 10 साल) *स्वतंत्र* भारत के लिए 1951 की जनगणना के पहले होने का *कारण* नहीं है। स्वतंत्र भारत में 1951 की जनगणना के पहले होने का कारण केवल यह है कि भारत को 1947 में स्वतंत्रता मिली, जिससे 1951 उसके बाद का पहला दशकीय मील का पत्थर वर्ष बन गया।<br></p><p><strong>Information Booster:</strong><br>• <strong>जनगणना प्राधिकरण:</strong> जनगणना गृह मंत्रालय के तहत भारत के महारजिस्ट्रार और जनगणना आयुक्त के कार्यालय द्वारा आयोजित की जाती है।<br>• <strong>जनगणना अधिनियम:</strong> यह जनगणना अधिनियम, 1948 के प्रावधानों के तहत आयोजित की जाती है।<br><br><strong>Additional Knowledge::</strong><br>• <strong>पहली गैर-समकालिक जनगणना:</strong> 1872 (लॉर्ड मेयो के तहत)।<br>• <strong>पहली समकालिक जनगणना:</strong> 1881 (लॉर्ड रिपन के तहत)।<br>• <strong>2021 जनगणना:</strong> कोविड-19 महामारी के कारण, 2021 की जनगणना स्थगित कर दी गई थी, जिससे यह भारतीय इतिहास में पहली बार हुआ कि दशकीय जनगणना में देरी हुई।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">In 2026, the Government of India awarded the Padma Shri to Dr. Hemchand Goswami for his contribution to which of the following traditional art forms?\n  <br></span><span class=\"hqt\"><p>2026 में, भारत सरकार ने डॉ. हेमचंद गोस्वामी को निम्नलिखित में से किस पारंपरिक कला रूप में उनके योगदान के लिए पद्म श्री से सम्मानित किया?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Mask making (Mukha Shilpa)\n  <br></span><span class=\"hqt\"><p>मुखौटा बनाना (मुख शिल्प)  <br></p></span>",
+      "<span class=\"eqt\">Madhubani Painting\n  <br></span><span class=\"hqt\"><p>मधुबनी चित्रकला  <br></p></span>",
+      "<span class=\"eqt\">Kathakali Dance\n  <br></span><span class=\"hqt\"><p>कथकली नृत्य  <br></p></span>",
+      "<span class=\"eqt\">Blue Pottery\n  <br></span><span class=\"hqt\"><p>ब्लू पॉटरी  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\">\n  <br> The correct answer is \n  <b>(a) Mask making (Mukha Shilpa)</b> \n  <br>  \n  <b>Explanation:</b> \n  <br> · \n  <b>Dr. Hemchand Goswami</b> was honored with the \n  <b>Padma Shri</b> in 2026 for his dedicated efforts in preserving and promoting the traditional \n  <b>Sattrriya mask-making</b> art of Assam.\n  <br> · This art form, known as \n  <b>Mukha Shilpa</b>, is an integral part of the Bhaona (traditional theatre) performances established by Srimanta Sankardev.\n  <br> · His work involves using biodegradable materials like bamboo, cloth, and clay to create intricate masks representing mythological characters.\n  <br> · The award highlights the importance of \n  <b>indigenous crafts</b> and the \"Vocal for Local\" initiative in the cultural sector.\n  <br> · He has also been active in training younger generations to ensure the \n  <b>longevity</b> of this heritage craft.\n  <br>  \n  <b>Information Booster:</b> \n  <br> · Assam's \n  <b>Mawuli island</b> is the primary hub for this mask-making tradition, specifically within the \n  <b>Sattras</b> (monasteries).\n  <br> · The \n  <b>Padma Shri</b> is the fourth-highest civilian award, recognizing \"distinguished service\" in various fields including Arts and Education.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br>  \n  <b>Madhubani Painting</b> (Option b)\n  <br> · A folk art style from the \n  <b>Mithila region</b> of Bihar.\n  <br> · Several artists like Dulari Devi have received Padma awards in previous years for this style.\n  <br>  \n  <b>Kathakali Dance</b> (Option c)\n  <br> · A classical dance-drama from \n  <b>Kerala</b>.\n  <br> · Renowned exponents like Milena Salvini (2019) have been recognized for promoting this form internationally.\n  <br>  \n  <b>Blue Pottery</b> (Option d)\n  <br> · A famous craft from \n  <b>Jaipur, Rawasthan</b>.\n  <br> · Kripal Singh Shekhawat was the most famous proponent, credited with reviving this dying art.\n  <br> </span><span class=\"hqt\"><p>सही उत्तर   <strong>(a) मुखौटा बनाना (मुख शिल्प)</strong> है।   <br> <strong>व्याख्या:</strong> <br> ·   <strong>डॉ. हेमचंद गोस्वामी</strong> को असम की पारंपरिक   <strong>सत्रीय मुखौटा बनाने</strong> की कला को संरक्षित करने और बढ़ावा देने के उनके समर्पित प्रयासों के लिए 2026 में   <strong>पद्म श्री</strong> से सम्मानित किया गया था।  <br> · इस कला रूप को   <strong>मुख शिल्प</strong> के रूप में जाना जाता है, जो श्रीमंत शंकरदेव द्वारा स्थापित भओना (पारंपरिक रंगमंच) प्रदर्शन का एक अभिन्न अंग है।  <br> · उनके काम में पौराणिक पात्रों का प्रतिनिधित्व करने वाले जटिल मुखौटे बनाने के लिए बांस, कपड़े और मिट्टी जैसे बायोडिग्रेडेबल सामग्री का उपयोग करना शामिल है।  <br> · यह पुरस्कार सांस्कृतिक क्षेत्र में   <strong>स्वदेशी शिल्प</strong> और \"वोकल फॉर लोकल\" पहल के महत्व पर प्रकाश डालता है।  <br> · वह इस विरासत शिल्प की   <strong>दीर्घायु</strong> सुनिश्चित करने के लिए युवा पीढ़ियों को प्रशिक्षित करने में भी सक्रिय रहे हैं।  <br> <strong> Information Booster:</strong> <br> · असम का   <strong>माजुली द्वीप</strong> इस मुखौटा बनाने की परंपरा का प्राथमिक केंद्र है, विशेष रूप से   <strong>सत्रों</strong> (मठों) के भीतर।  <br> ·   <strong>पद्म श्री</strong> चौथा सर्वोच्च नागरिक पुरस्कार है, जो कला और शिक्षा सहित विभिन्न क्षेत्रों में \"विशिष्ट सेवा\" को मान्यता देता है।  <br> <strong>Additional Knowledge:</strong> <br> <strong>मधुबनी चित्रकला</strong> (विकल्प b)  <br> · बिहार के   <strong>मिथिला क्षेत्र</strong> की एक लोक कला शैली।  <br> · दुलारी देवी जैसे कई कलाकारों को इस शैली के लिए पिछले वर्षों में पद्म पुरस्कार मिले हैं।  <br> <strong>कथकली नृत्य</strong> (विकल्प c)  <br> ·   <strong>केरल</strong> का एक शास्त्रीय नृत्य-नाटक।  <br> · मिलेना साल्विनी (2019) जैसे प्रसिद्ध प्रतिपादकों को अंतर्राष्ट्रीय स्तर पर इस रूप को बढ़ावा देने के लिए मान्यता दी गई है।  <br> <strong>ब्लू पॉटरी</strong> (विकल्प d)  <br> ·   <strong>जयपुर, राजस्थान</strong> का एक प्रसिद्ध शिल्प।  <br> · कृपाल सिंह शेखावत इसके सबसे प्रसिद्ध प्रस्तावक थे, जिन्हें इस मरती हुई कला को पुनर्जीवित करने का श्रेय दिया जाता है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>The Inter-State Council is constituted under which Article?  <br></p></span><span class=\"hqt\"><p>अंतर-राज्य परिषद का गठन किस अनुच्छेद के तहत किया जाता है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Article 280  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 280  <br></p></span>",
+      "<span class=\"eqt\"><p>Article 346  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 346  <br></p></span>",
+      "<span class=\"eqt\"><p>Article 368  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 368  <br></p></span>",
+      "<span class=\"eqt\"><p>Article 263  <br></p></span><span class=\"hqt\"><p>अनुच्छेद 263  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p><strong>The correct answer is (d) Article 263</strong> <br> <strong>Explanation:</strong> <br> • The Inter-State Council is constituted under Article 263 of the Indian Constitution.  <br> • Article 263 empowers the President of India to establish an Inter-State Council if it appears to be in the public interest.  <br> • The Council is meant to investigate and discuss subwects of common interest between the Union and the States.  <br> • It also provides recommendations for better coordination, cooperation, and resolution of inter-state disputes.  <br> <strong>Information Booster:</strong> <br> • The Inter-State Council was set up in 1990 following the recommendations of the Sarkaria Commission.  <br> • The Prime Minister acts as the Chairperson of the Council.  <br> • It includes Chief Ministers of States, Chief Ministers of Union Territories with legislatures, and Union Cabinet Ministers.  <br> <strong>Additional Knowledge (Information about incorrect options):</strong> <br> Article 280 (Option a)  <br> • Provides for the Finance Commission, not the Inter-State Council.  <br> Article 346 (Option b)  <br> • Deals with the official language for communication between the Union and States.  <br> Article 368 (Option c)  <br> • Relates to the procedure for amendment of the Constitution.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर (d) अनुच्छेद 263 है</strong> <br> <strong>व्याख्या:</strong> <br> • अंतर-राज्य परिषद का गठन भारतीय संविधान के अनुच्छेद 263 के तहत किया गया है।  <br> • अनुच्छेद 263 भारत के राष्ट्रपति को एक अंतर-राज्य परिषद स्थापित करने का अधिकार देता है यदि यह सार्वजनिक हित में प्रतीत होता है।  <br> • परिषद का उद्देश्य संघ और राज्यों के बीच सामान्य हित के विषयों की जांच और चर्चा करना है।  <br> • यह बेहतर समन्वय, सहयोग और अंतर-राज्यीय विवादों के समाधान के लिए सिफारिशें भी प्रदान करता है।  <br> <strong>Information Booster:</strong> <br> • सरकारिया आयोग की सिफारिशों के बाद 1990 में अंतर-राज्य परिषद की स्थापना की गई थी।  <br> • प्रधान मंत्री परिषद के अध्यक्ष के रूप में कार्य करते हैं।  <br> • इसमें राज्यों के मुख्यमंत्री, विधानसभा वाले केंद्र शासित प्रदेशों के मुख्यमंत्री और केंद्रीय कैबिनेट मंत्री शामिल हैं।  <br> <strong><span style=\"color: rgba(0, 0, 0, 0.87);font-size: 15px\">Additional Knowledge </span>(गलत विकल्पों के बारे में जानकारी):</strong> <br> अनुच्छेद 280 (विकल्प a)  <br> • वित्त आयोग के लिए प्रावधान करता है, अंतर-राज्य परिषद के लिए नहीं।  <br> अनुच्छेद 346 (विकल्प b)  <br> • संघ और राज्यों के बीच संचार के लिए आधिकारिक भाषा से संबंधित है।  <br> अनुच्छेद 368 (विकल्प c)  <br> • संविधान के संशोधन की प्रक्रिया से संबंधित है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Regarding the 2025 Global Innovation Index:</p><p></p><p>1. It ranks countries based on innovation capabilities.</p><p> </p><p>2. It is wointly published by WIPO and other global institutions.</p></span><span class=\"hqt\"><p>2025 ग्लोबल इनोवेशन इंडेक्स के संबंध में:</p><p>1. यह देशों को नवाचार क्षमताओं के आधार पर रैंक करता है。</p><p></p><p>2. यह WIPO और अन्य वैश्विक संस्थानों द्वारा संयुक्त रूप से प्रकाशित किया जाता है。</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Only 1<br></p></span><span class=\"hqt\"><p>केवल 1<br></p></span>",
+      "<span class=\"eqt\"><p>Only 2<br></p></span><span class=\"hqt\"><p>केवल 2<br></p></span>",
+      "<span class=\"eqt\"><p>Both 1 and 2<br></p></span><span class=\"hqt\"><p>दोनों 1 और 2<br></p></span>",
+      "<span class=\"eqt\"><p>Neither 1 nor 2<br></p></span><span class=\"hqt\"><p>न तो 1 और न ही 2<br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer: C</strong></p><p></p><p><strong>Explanation:</strong></p><p> </p><ul type=\"disc\"><li>The <strong>Global      Innovation Index (GII)</strong> is an annual ranking that measures the      innovation-driven performance of economies. It assesses countries based on      their <strong>innovation capabilities</strong>, including both inputs (like      infrastructure and human capital) and outputs (like patents and high-tech      exports).</li><li>The      index is published by the <strong>World Intellectual Property Organization      (WIPO)</strong>, a specialized agency of the United Nations. Historically and      traditionally, it has been a collaborative effort involving various      institutions, including the Portulans Institute, and it relies on data      from multiple global bodies like the World Bank and the International      Telecommunication Union.</li><li>Both      statements are correct as they accurately describe the core purpose and      the institutional nature of the report.</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li><strong>India's      2025 Performance:</strong> India achieved the <strong>38th rank</strong> in the 2025      index, reflecting its steady progress in knowledge and technology outputs      and market sophistication.</li><li><strong>Global      Leader:</strong> <strong>Switzerland</strong> continued its long-standing reign at the <strong>1st      position</strong>, followed by Sweden and the United States.</li><li><strong>The      7 Pillars:</strong> The GII ranks countries based on seven pillars:      Institutions, Human capital and research, Infrastructure, Market      sophistication, Business sophistication, Knowledge and technology outputs,      and Creative outputs.</li></ul></span><span class=\"hqt\"><p><strong>सही उत्तर: C</strong></p><p><strong>व्याख्या:</strong></p><p></p><ul type=\"disc\"><li><strong>ग्लोबल इनोवेशन इंडेक्स (GII)</strong> एक वार्षिक रैंकिंग है जो अर्थव्यवस्थाओं के नवाचार-संचालित प्रदर्शन को मापती है। यह देशों का आकलन उनकी <strong>नवाचार क्षमताओं</strong> के आधार पर करता है, जिसमें इनपुट (जैसे बुनियादी ढांचा और मानव पूंजी) और आउटपुट (जैसे पेटेंट और उच्च तकनीक निर्यात) दोनों शामिल हैं।</li><li>सूचकांक <strong>विश्व बौद्धिक संपदा संगठन (WIPO)</strong> द्वारा प्रकाशित किया जाता है, जो संयुक्त राष्ट्र की एक विशेष एजेंसी है। ऐतिहासिक और पारंपरिक रूप से, यह पोर्टुलन्स संस्थान सहित विभिन्न संस्थानों को शामिल करते हुए एक सहयोगी प्रयास रहा है, और यह विश्व बैंक तथा अंतर्राष्ट्रीय दूरसंचार संघ जैसे कई वैश्विक निकायों के डेटा पर निर्भर करता है।</li><li>दोनों कथन सही हैं क्योंकि वे रिपोर्ट के मुख्य उद्देश्य और संस्थागत प्रकृति का सटीक वर्णन करते हैं।</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li><strong>भारत का 2025 प्रदर्शन:</strong> ज्ञान और प्रौद्योगिकी आउटपुट तथा बाजार परिष्कार में अपनी स्थिर प्रगति को दर्शाते हुए भारत ने 2025 सूचकांक में <strong>38वीं रैंक</strong> हासिल की।</li><li><strong>वैश्विक नेता:</strong> <strong>स्विट्ज़रलैंड</strong> ने <strong>पहले स्थान</strong> पर अपना लंबे समय से चला आ रहा शासन जारी रखा, जिसके बाद स्वीडन और संयुक्त राज्य अमेरिका का स्थान रहा।</li><li><strong>7 स्तंभ:</strong> GII सात स्तंभों के आधार पर देशों को रैंक करता है: संस्थान, मानव पूंजी और अनुसंधान, बुनियादी ढांचा, बाजार परिष्कार, व्यवसाय परिष्कार, ज्ञान और प्रौद्योगिकी आउटपुट, और रचनात्मक आउटपुट।</li></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>The Startup India initiative includes which of the following components to financially support early-stage start-ups? </p></span><span class=\"hqt\"><p>स्टार्टअप इंडिया पहल में शुरुआती चरण के स्टार्टअप्स को आर्थिक रूप से समर्थन देने के लिए निम्नलिखित में से कौन सा घटक शामिल है? </p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Fund of Funds for Startups (FFS)<br></p></span><span class=\"hqt\"><p>स्टार्टअप्स के लिए फंड ऑफ फंड्स (FFS)<br></p></span>",
+      "<span class=\"eqt\"><p>Atal Tinkering Labs<br></p></span><span class=\"hqt\"><p>अटल टिंकरिंग लैब्स<br></p></span>",
+      "<span class=\"eqt\"><p>Pradhan Mantri Kaushal Vikas Yowana<br></p></span><span class=\"hqt\"><p>प्रधानमंत्री कौशल विकास योजना<br></p></span>",
+      "<span class=\"eqt\"><p>National Apprenticeship Promotion Scheme<br></p></span><span class=\"hqt\"><p>राष्ट्रीय शिक्षुता प्रोत्साहन योजना<br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (a) Fund of Funds for Startups (FFS)</p><p></p><p><strong>Explanation</strong></p><p> </p><ul type=\"disc\"><li>The      Fund of Funds for Startups (FFS) was established in 2016 under the Startup      India initiative to provide capital to early-stage startups.</li><li>It      does not invest directly in startups; instead, it provides capital to      SEBI-registered Alternative Investment Funds (AIFs), known as daughter      funds, who then invest in high-growth startups.</li><li>The      fund is managed by the Small Industries Development Bank of India (SIDBI).</li></ul><p> </p><p><strong>Information Booster</strong></p><p> </p><ul type=\"disc\"><li>The      Startup India Action Plan also includes the <strong>Startup India Seed Fund      Scheme (SISFS)</strong>, which provides financial assistance for proof of      concept, prototype development, and product trials. Together, these      schemes aim to solve the \"funding gap\" that entrepreneurs face      in the initial phases of their business. As of 2024, the FFS has catalyzed      investments many times its original corpus, significantly boosting the      Indian startup ecosystem.</li></ul><p> </p><p><strong>Additional Knowledge</strong></p><p> </p><ul type=\"disc\"><li><strong>(b)      Atal Tinkering Labs:</strong> These are part of the Atal Innovation Mission      (AIM) designed to foster curiosity and innovation at the school level      (Grades 6-12), rather than providing direct financial support to      businesses.</li><li><strong>(c)      Pradhan Mantri Kaushal Vikas Yowana:</strong> This is a flagship skill      certification scheme aimed at enabling Indian youth to take up      industry-relevant skill training; it is focused on employment rather than      startup funding.</li><li><strong>(d)      National Apprenticeship Promotion Scheme:</strong> This scheme provides      financial incentives to organizations to engage apprentices, focusing on      on-the-wob training for students and diploma holders.</li></ul></span><span class=\"hqt\"><p>सही उत्तर (a) स्टार्टअप्स के लिए फंड ऑफ फंड्स (FFS) है।</p><p><strong>व्याख्या</strong></p><p></p><ul type=\"disc\"><li>शुरुआती चरण के स्टार्टअप्स को पूंजी प्रदान करने के लिए स्टार्टअप इंडिया पहल के तहत 2016 में स्टार्टअप्स के लिए फंड ऑफ फंड्स (FFS) की स्थापना की गई थी।</li><li>यह सीधे स्टार्टअप्स में निवेश नहीं करता है; इसके बजाय, यह SEBI-पंजीकृत वैकल्पिक निवेश कोषों (AIFs) को पूंजी प्रदान करता है, जिन्हें डॉटर फंड्स (daughter funds) के रूप में जाना जाता है, जो फिर उच्च-विकास वाले स्टार्टअप्स में निवेश करते हैं।</li><li>इस फंड का प्रबंधन भारतीय लघु उद्योग विकास बैंक (SIDBI) द्वारा किया जाता है।</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>स्टार्टअप इंडिया कार्य योजना में <strong>स्टार्टअप इंडिया सीड फंड योजना (SISFS)</strong> भी शामिल है, जो अवधारणा के प्रमाण, प्रोटोटाइप विकास और उत्पाद परीक्षणों के लिए वित्तीय सहायता प्रदान करती है। साथ में, इन योजनाओं का लक्ष्य उस \"फंडिंग अंतर\" को हल करना है जिसका सामना उद्यमियों को अपने व्यवसाय के प्रारंभिक चरणों में करना पड़ता है। 2024 तक, FFS ने अपने मूल कोष से कई गुना अधिक निवेश को उत्प्रेरित किया है, जिससे भारतीय स्टार्टअप पारिस्थितिकी तंत्र को काफी बढ़ावा मिला है।</li></ul><p> </p><p><strong>Additional Knowledge:</strong></p><p> </p><ul type=\"disc\"><li><strong>(b) अटल टिंकरिंग लैब्स:</strong> ये अटल इनोवेशन मिशन (AIM) का हिस्सा हैं जो व्यवसायों को प्रत्यक्ष वित्तीय सहायता प्रदान करने के बजाय स्कूल स्तर (कक्षा 6-12) पर जिज्ञासा और नवाचार को बढ़ावा देने के लिए डिज़ाइन की गई हैं।</li><li><strong>(c) प्रधानमंत्री कौशल विकास योजना:</strong> यह एक प्रमुख कौशल प्रमाणन योजना है जिसका उद्देश्य भारतीय युवाओं को उद्योग-प्रासंगिक कौशल प्रशिक्षण लेने में सक्षम बनाना है; यह स्टार्टअप फंडिंग के बजाय रोजगार पर केंद्रित है।</li><li><strong>(d) राष्ट्रीय शिक्षुता प्रोत्साहन योजना:</strong> यह योजना छात्रों और डिप्लोमा धारकों के लिए ऑन-द-जॉब प्रशिक्षण पर ध्यान केंद्रित करते हुए, शिक्षुओं को नियुक्त करने के लिए संगठनों को वित्तीय प्रोत्साहन प्रदान करती है।</li></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  }
+];
+        const sectionsData = null;
+        const marksPerQ = 2.0;
+        const negMarks = 0.5;
+        const totalDuration = 15;
+        
+        class CBTExam {
+            constructor() {
+                this.questions = questions;
+                this.sections = sectionsData;
+                this.currentQuestion = 0;
+                this.answers = new Array(this.questions.length).fill(null);
+                this.markedForReview = new Array(this.questions.length).fill(false);
+                this.timeSpent = new Array(this.questions.length).fill(0);
+                this.isEnglish = true;
+                this.isSubmitted = false;
+                this.startTime = null;
+                this.lastQuestionTime = null;
+                this.mainTimer = null;
+                this.sectionTimer = null;
+                this.currentSection = this.sections ? 0 : null;
+                this.totalTimeLeft = totalDuration * 60;
+                
+                this.initElements();
+                this.setupWelcomeScreen();
+                this.setupBeforeUnload();
+            }
+            
+            initElements() {
+                this.els = {
+                    fullscreenBtn: document.getElementById('fullscreenBtn'),
+                    welcomeScreen: document.getElementById('welcomeScreen'),
+                    examContainer: document.getElementById('examContainer'),
+                    mainTimer: document.getElementById('mainTimer'),
+                    sectionBadge: document.getElementById('sectionBadge'),
+                    sectionName: document.getElementById('sectionName'),
+                    sectionTimer: document.getElementById('sectionTimer'),
+                    questionNum: document.getElementById('questionNum'),
+                    questionMarks: document.getElementById('questionMarks'),
+                    questionText: document.getElementById('questionText'),
+                    comprehension: document.getElementById('comprehension'),
+                    comprehensionText: document.getElementById('comprehensionText'),
+                    optionsList: document.getElementById('optionsList'),
+                    solutionBox: document.getElementById('solutionBox'),
+                    solutionStats: document.getElementById('solutionStats'),
+                    solutionText: document.getElementById('solutionText'),
+                    progressText: document.getElementById('progressText'),
+                    answeredCount: document.getElementById('answeredCount'),
+                    desktopNav: document.getElementById('desktopNav'),
+                    mobileNav: document.getElementById('mobileNav'),
+                    mobileNavGrid: document.getElementById('mobileNavGrid'),
+                    resultModal: document.getElementById('resultModal'),
+                    resultScore: document.getElementById('resultScore'),
+                    correctCount: document.getElementById('correctCount'),
+                    incorrectCount: document.getElementById('incorrectCount'),
+                    unattemptedCount: document.getElementById('unattemptedCount'),
+                    timeTaken: document.getElementById('timeTaken'),
+                    sectionResults: document.getElementById('sectionResults'),
+                    sectionResultsBody: document.getElementById('sectionResultsBody')
+                };
+            }
+            
+            setupWelcomeScreen() {
+                if (this.els.fullscreenBtn) {
+                    this.els.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+                document.addEventListener('fullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('webkitfullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('msfullscreenchange', () => this.updateFullscreenIcon());
+
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.els.welcomeScreen.classList.add('hidden');
+                    this.els.examContainer.classList.add('active');
+                    setTimeout(() => this.startExam(), 100);
+                });
+            }
+            
+            setupBeforeUnload() {
+                window.addEventListener('beforeunload', (e) => {
+                    if (!this.isSubmitted) {
+                        e.preventDefault();
+                        e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
+                        return e.returnValue;
+                    }
+                });
+            }
+            
+            startExam() {
+                this.startTime = Date.now();
+                this.lastQuestionTime = this.startTime;
+                this.createNavigator();
+                this.startMainTimer();
+                if (this.sections) {
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                }
+                this.loadQuestion(0);
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('engBtn').onclick = () => this.setLanguage(true);
+                document.getElementById('hinBtn').onclick = () => this.setLanguage(false);
+                document.getElementById('prevBtn').onclick = () => this.navigate(-1);
+                document.getElementById('nextBtn').onclick = () => this.navigate(1);
+                document.getElementById('reviewBtn').onclick = () => this.toggleReview();
+                document.getElementById('submitBtn').onclick = () => this.confirmSubmit();
+                document.getElementById('submitBtnDesktop').onclick = () => this.confirmSubmit();
+                document.getElementById('navigatorBtn').onclick = () => this.openMobileNav();
+                document.getElementById('closeNav').onclick = () => this.closeMobileNav();
+                document.getElementById('closeResult').onclick = () => this.closeResultModal();
+                document.getElementById('reviewAnswers').onclick = () => this.reviewAnswers();
+            }
+            
+            createNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    container.innerHTML = '';
+                    this.questions.forEach((_, i) => {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-question';
+                        btn.textContent = i + 1;
+                        btn.onclick = () => this.goToQuestion(i);
+                        container.appendChild(btn);
+                    });
+                });
+            }
+            
+            extractText(html, isEng) {
+                if (!html) return '';
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                
+                const langSpans = temp.querySelectorAll('span.eqt, span.hqt');
+                langSpans.forEach(span => {
+                    if ((isEng && span.classList.contains('hqt')) || 
+                        (!isEng && span.classList.contains('eqt'))) {
+                        span.style.display = 'none';
+                    } else {
+                        span.style.display = '';
+                    }
+                });
+                
+                return temp.innerHTML;
+            }
+            
+            getQuestionMarks(qIdx) {
+                if (!this.sections) return marksPerQ;
+                
+                for (const section of this.sections) {
+                    if (qIdx >= section.start && qIdx <= section.end) {
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                if (qIdx >= subsec.start && qIdx <= subsec.end) {
+                                    return subsec.marks_per_q;
+                                }
+                            }
+                        }
+                        return marksPerQ;
+                    }
+                }
+                return marksPerQ;
+            }
+            
+            loadQuestion(idx) {
+                if (this.currentQuestion !== idx) {
+                    const now = Date.now();
+                    this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                    this.lastQuestionTime = now;
+                }
+                
+                this.currentQuestion = idx;
+                const q = this.questions[idx];
+                const qMarks = this.getQuestionMarks(idx);
+                
+                this.els.questionNum.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.els.questionMarks.textContent = `Marks: ${qMarks}`;
+                this.els.progressText.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.updateAnsweredCount();
+                this.updateNavigator();
+                this.updateNavigationButtons();
+                this.updateReviewButton();
+                
+                if (q.comp) {
+                    this.els.comprehension.style.display = 'block';
+                    this.els.comprehensionText.innerHTML = this.extractText(q.comp, this.isEnglish);
+                } else {
+                    this.els.comprehension.style.display = 'none';
+                }
+                
+                this.els.questionText.innerHTML = this.extractText(q.question, this.isEnglish);
+                this.loadOptions(q, idx);
+                
+                if (this.isSubmitted && q.solution) {
+                    const timeSpent = Math.round(this.timeSpent[idx]);
+                    const mins = Math.floor(timeSpent / 60);
+                    const secs = timeSpent % 60;
+                    const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                    
+                    this.els.solutionStats.innerHTML = `
+                        <span><i class="fas fa-clock"></i> Time: ${timeStr}</span>
+                        <span><i class="fas fa-check-circle"></i> Correct: ${String.fromCharCode(65 + q.correct_option_id)}</span>
+                    `;
+                    this.els.solutionText.innerHTML = this.extractText(q.solution, this.isEnglish);
+                    this.els.solutionBox.classList.add('show');
+                } else {
+                    this.els.solutionBox.classList.remove('show');
+                }
+                
+                // Render LaTeX in all updated elements
+                renderMath(this.els.questionText);
+                renderMath(this.els.comprehensionText);
+                renderMath(this.els.solutionText);
+            }
+            
+            loadOptions(q, qIdx) {
+                this.els.optionsList.innerHTML = '';
+                const userAnswer = this.answers[qIdx];
+                const correctAnswer = q.correct_option_id;
+                
+                if (!q.options || !Array.isArray(q.options)) return;
+                
+                q.options.forEach((opt, i) => {
+                    const div = document.createElement('div');
+                    let className = 'option';
+                    
+                    if (this.isSubmitted) className += ' submitted';
+                    if (userAnswer === i) className += ' selected';
+                    
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            className += ' correct';
+                        } else if (userAnswer === i && userAnswer !== correctAnswer) {
+                            className += ' wrong';
+                        }
+                    }
+                    
+                    div.className = className;
+                    
+                    let indicator = '';
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            indicator = '✓';
+                        } else if (userAnswer === i) {
+                            indicator = '✗';
+                        }
+                    } else if (userAnswer === i) {
+                        indicator = '✓';
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="option-indicator">${indicator}</div>
+                        <div class="option-text">${this.extractText(opt, this.isEnglish)}</div>
+                    `;
+                    
+                    if (!this.isSubmitted) {
+                        div.onclick = () => this.selectOption(i, qIdx);
+                    }
+                    
+                    this.els.optionsList.appendChild(div);
+                });
+                // Render LaTeX in options
+                renderMath(this.els.optionsList);
+            }
+            
+            selectOption(optIdx, qIdx) {
+                if (this.isSubmitted) return;
+                this.answers[qIdx] = this.answers[qIdx] === optIdx ? null : optIdx;
+                this.loadOptions(this.questions[qIdx], qIdx);
+                this.updateAnsweredCount();
+                this.updateNavigator();
+            }
+            
+            toggleReview() {
+                if (this.isSubmitted) return;
+                this.markedForReview[this.currentQuestion] = !this.markedForReview[this.currentQuestion];
+                this.updateNavigator();
+                this.updateReviewButton();
+            }
+            
+            updateReviewButton() {
+                const btn = document.getElementById('reviewBtn');
+                if (this.markedForReview[this.currentQuestion]) {
+                    btn.classList.add('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Marked';
+                } else {
+                    btn.classList.remove('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Mark for Review';
+                }
+            }
+            
+            navigate(dir) {
+                const newIdx = this.currentQuestion + dir;
+                
+                if (this.isSubmitted) {
+                    if (newIdx >= 0 && newIdx < this.questions.length) {
+                        this.loadQuestion(newIdx);
+                    }
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (newIdx < currentSection.start || newIdx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                if (newIdx >= 0 && newIdx < this.questions.length) {
+                    this.loadQuestion(newIdx);
+                }
+            }
+            
+            goToQuestion(idx) {
+                if (this.isSubmitted) {
+                    this.loadQuestion(idx);
+                    this.closeMobileNav();
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (idx < currentSection.start || idx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                this.loadQuestion(idx);
+                this.closeMobileNav();
+            }
+            
+            updateNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    const btns = container.querySelectorAll('.nav-question');
+                    btns.forEach((btn, i) => {
+                        btn.className = 'nav-question';
+                        
+                        if (i === this.currentQuestion) {
+                            btn.classList.add('current');
+                        } else if (this.isSubmitted) {
+                            if (this.answers[i] !== null && this.questions[i].correct_option_id !== undefined) {
+                                if (this.answers[i] === this.questions[i].correct_option_id) {
+                                    btn.classList.add('answered');
+                                } else {
+                                    btn.classList.add('wrong');
+                                }
+                            }
+                        } else {
+                            if (this.markedForReview[i]) {
+                                btn.classList.add('review');
+                            } else if (this.answers[i] !== null) {
+                                btn.classList.add('answered');
+                            }
+                            
+                            if (this.sections) {
+                                const currentSection = this.sections[this.currentSection];
+                                if (i < currentSection.start || i > currentSection.end) {
+                                    btn.classList.add('disabled');
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const reviewBtn = document.getElementById('reviewBtn');
+                
+                prevBtn.disabled = this.currentQuestion === 0;
+                nextBtn.disabled = this.currentQuestion === this.questions.length - 1;
+                
+                if (this.isSubmitted) {
+                    reviewBtn.style.display = 'none';
+                } else {
+                    reviewBtn.style.display = 'inline-flex';
+                }
+                
+                if (this.sections && !this.isSubmitted) {
+                    const currentSection = this.sections[this.currentSection];
+                    prevBtn.disabled = prevBtn.disabled || (this.currentQuestion === currentSection.start);
+                    nextBtn.disabled = nextBtn.disabled || (this.currentQuestion === currentSection.end);
+                }
+            }
+            
+            updateAnsweredCount() {
+                const count = this.answers.filter(a => a !== null).length;
+                this.els.answeredCount.textContent = count;
+            }
+            
+            setLanguage(isEng) {
+                this.isEnglish = isEng;
+                document.getElementById('engBtn').classList.toggle('active', isEng);
+                document.getElementById('hinBtn').classList.toggle('active', !isEng);
+                this.loadQuestion(this.currentQuestion);
+            }
+            
+            startMainTimer() {
+                this.mainTimer = setInterval(() => {
+                    this.totalTimeLeft--;
+                    if (this.totalTimeLeft <= 0) {
+                        clearInterval(this.mainTimer);
+                        this.submitTest();
+                        return;
+                    }
+                    const mins = Math.floor(this.totalTimeLeft / 60);
+                    const secs = this.totalTimeLeft % 60;
+                    this.els.mainTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+            
+            startSectionTimer() {
+                if (!this.sections) return;
+                
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                const section = this.sections[this.currentSection];
+                section.time_left = section.timer;
+                
+                this.sectionTimer = setInterval(() => {
+                    section.time_left--;
+                    const mins = Math.floor(section.time_left / 60);
+                    const secs = section.time_left % 60;
+                    this.els.sectionTimer.textContent = ` | ${mins}:${secs.toString().padStart(2, '0')}`;
+                    
+                    if (section.time_left <= 0) {
+                        clearInterval(this.sectionTimer);
+                        this.submitSection();
+                    }
+                }, 1000);
+            }
+            
+            updateSectionInfo() {
+                if (!this.sections) return;
+                const section = this.sections[this.currentSection];
+                this.els.sectionName.textContent = section.name;
+                this.els.sectionBadge.style.display = 'block';
+            }
+            
+            submitSection() {
+                if (!this.sections) return;
+                
+                const section = this.sections[this.currentSection];
+                section.submitted = true;
+                clearInterval(this.sectionTimer);
+                
+                const nextSectionIdx = this.currentSection + 1;
+                if (nextSectionIdx < this.sections.length) {
+                    this.currentSection = nextSectionIdx;
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                    this.loadQuestion(this.sections[nextSectionIdx].start);
+                } else {
+                    this.submitTest();
+                }
+                
+                this.updateNavigator();
+            }
+            
+            confirmSubmit() {
+                if (this.sections) {
+                    const section = this.sections[this.currentSection];
+                    const unanswered = this.answers.slice(section.start, section.end + 1)
+                        .filter(a => a === null).length;
+                    
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions in this section. Submit anyway?`
+                        : 'Submit this section?';
+                    
+                    if (confirm(msg)) this.submitSection();
+                } else {
+                    const unanswered = this.answers.filter(a => a === null).length;
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions. Submit test?`
+                        : 'Submit test?';
+                    
+                    if (confirm(msg)) this.submitTest();
+                }
+            }
+            
+            submitTest() {
+                if (this.isSubmitted) return;
+                
+                const now = Date.now();
+                this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                
+                this.isSubmitted = true;
+                clearInterval(this.mainTimer);
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('submitBtnDesktop').style.display = 'none';
+                document.getElementById('reviewBtn').style.display = 'none';
+                
+                if (this.sections) {
+                    this.els.sectionBadge.style.display = 'none';
+                }
+                
+                const results = this.calculateResults();
+                this.showResults(results);
+                this.loadQuestion(this.currentQuestion);
+                this.updateNavigator();
+            }
+            
+            calculateResults() {
+                const timeTaken = Math.round((Date.now() - this.startTime) / 60000);
+                let correct = 0, incorrect = 0, unattempted = 0, score = 0;
+                
+                const sectionResults = [];
+                
+                if (this.sections) {
+                    for (const section of this.sections) {
+                        let secCorrect = 0, secIncorrect = 0, secUnattempted = 0, secScore = 0;
+                        const subsecResults = [];
+                        
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                let subCorrect = 0, subIncorrect = 0, subUnattempted = 0, subScore = 0;
+                                
+                                for (let i = subsec.start; i <= subsec.end; i++) {
+                                    const userAns = this.answers[i];
+                                    const correctAns = this.questions[i].correct_option_id;
+                                    
+                                    if (userAns === null) {
+                                        subUnattempted++;
+                                    } else if (correctAns !== undefined && userAns === correctAns) {
+                                        subCorrect++;
+                                        subScore += subsec.marks_per_q;
+                                    } else {
+                                        subIncorrect++;
+                                        subScore -= negMarks;
+                                    }
+                                }
+                                
+                                subsecResults.push({
+                                    name: subsec.name,
+                                    attempted: subCorrect + subIncorrect,
+                                    correct: subCorrect,
+                                    incorrect: subIncorrect,
+                                    unattempted: subUnattempted,
+                                    score: Math.max(0, subScore)
+                                });
+                                
+                                secCorrect += subCorrect;
+                                secIncorrect += subIncorrect;
+                                secUnattempted += subUnattempted;
+                                secScore += subScore;
+                            }
+                        } else {
+                            for (let i = section.start; i <= section.end; i++) {
+                                const userAns = this.answers[i];
+                                const correctAns = this.questions[i].correct_option_id;
+                                
+                                if (userAns === null) {
+                                    secUnattempted++;
+                                } else if (correctAns !== undefined && userAns === correctAns) {
+                                    secCorrect++;
+                                    secScore += marksPerQ;
+                                } else {
+                                    secIncorrect++;
+                                    secScore -= negMarks;
+                                }
+                            }
+                        }
+                        
+                        sectionResults.push({
+                            name: section.name,
+                            attempted: secCorrect + secIncorrect,
+                            correct: secCorrect,
+                            incorrect: secIncorrect,
+                            unattempted: secUnattempted,
+                            score: Math.max(0, secScore),
+                            subsections: subsecResults.length > 0 ? subsecResults : null
+                        });
+                        
+                        correct += secCorrect;
+                        incorrect += secIncorrect;
+                        unattempted += secUnattempted;
+                        score += secScore;
+                    }
+                } else {
+                    this.questions.forEach((q, i) => {
+                        const userAns = this.answers[i];
+                        const correctAns = q.correct_option_id;
+                        
+                        if (userAns === null) {
+                            unattempted++;
+                        } else if (correctAns !== undefined && userAns === correctAns) {
+                            correct++;
+                            score += marksPerQ;
+                        } else {
+                            incorrect++;
+                            score -= negMarks;
+                        }
+                    });
+                }
+                
+                return {
+                    score: Math.max(0, score),
+                    correct,
+                    incorrect,
+                    unattempted,
+                    timeTaken,
+                    sectionResults: sectionResults.length > 0 ? sectionResults : null
+                };
+            }
+            
+            showResults(results) {
+                this.els.resultScore.textContent = `${results.score.toFixed(2)}/${this.questions.length * marksPerQ}`;
+                this.els.correctCount.textContent = results.correct;
+                this.els.incorrectCount.textContent = results.incorrect;
+                this.els.unattemptedCount.textContent = results.unattempted;
+                this.els.timeTaken.textContent = results.timeTaken;
+                
+                if (results.sectionResults) {
+                    this.els.sectionResults.style.display = 'block';
+                    this.els.sectionResultsBody.innerHTML = '';
+                    
+                    results.sectionResults.forEach(section => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${section.name}</strong></td>
+                            <td>${section.attempted}</td>
+                            <td>${section.correct}</td>
+                            <td>${section.incorrect}</td>
+                            <td><strong>${section.score.toFixed(2)}</strong></td>
+                        `;
+                        this.els.sectionResultsBody.appendChild(row);
+                        
+                        if (section.subsections) {
+                            section.subsections.forEach(subsec => {
+                                const subRow = document.createElement('tr');
+                                subRow.className = 'subsection-row';
+                                subRow.innerHTML = `
+                                    <td>${subsec.name}</td>
+                                    <td>${subsec.attempted}</td>
+                                    <td>${subsec.correct}</td>
+                                    <td>${subsec.incorrect}</td>
+                                    <td>${subsec.score.toFixed(2)}</td>
+                                `;
+                                this.els.sectionResultsBody.appendChild(subRow);
+                            });
+                        }
+                    });
+                } else {
+                    this.els.sectionResults.style.display = 'none';
+                }
+                
+                this.els.resultModal.classList.add('show');
+            }
+            
+            closeResultModal() {
+                this.els.resultModal.classList.remove('show');
+            }
+            
+            reviewAnswers() {
+                this.closeResultModal();
+                this.loadQuestion(0);
+            }
+            
+            openMobileNav() {
+                this.els.mobileNav.classList.add('open');
+            }
+            
+            closeMobileNav() {
+                this.els.mobileNav.classList.remove('open');
+            }
+        
+            toggleFullscreen() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) docEl.requestFullscreen();
+                    else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                    else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    else if (document.msExitFullscreen) document.msExitFullscreen();
+                }
+            }
+            
+            updateFullscreenIcon() {
+                const icon = document.querySelector('#fullscreenBtn i');
+                if (icon) {
+                    const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                    if (isFS) {
+                        icon.className = 'fas fa-compress';
+                    } else {
+                        icon.className = 'fas fa-expand';
+                    }
+                }
+            }
+}
+        
+        // ── KaTeX auto-render helper ──────────────────────────────────────
+        // Renders any LaTeX found in an element after innerHTML is set.
+        // Handles: \(...\)  \[...\]  $...$  $$...$$
+        function renderMath(el) {
+            if (!el || typeof renderMathInElement === 'undefined') return;
+            try {
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$',  right: '$$',  display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$',   right: '$',   display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                    ],
+                    throwOnError: false,
+                    strict: false,
+                });
+            } catch(e) {}
+        }
+
+        // Initialize the exam
+        document.addEventListener('DOMContentLoaded', () => {
+            new CBTExam();
+        });
+    </script>
+</body>
+</html>

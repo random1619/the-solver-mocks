@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Exam - adda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+@charset "UTF-8";
+:root {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --header-bg: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+/* Welcome Screen Styles */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.05) 0%, rgb(248, 250, 252) 100%);
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+.welcome-screen.hidden {
+  display: none;
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  margin: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome-header {
+  text-align: center;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+.welcome-header h1 {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.025em;
+}
+.welcome-header h1 i {
+  font-size: 28px;
+}
+.welcome-header p {
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.test-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.test-details .detail-item {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.test-details .detail-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+.test-details .detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.test-details .detail-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-info {
+  margin-bottom: 30px;
+}
+.section-info h3 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-table th, .section-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-table tr:last-child td {
+  border-bottom: none;
+}
+
+.subsec-container {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.subsec-row {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.subsec-row::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.welcome-instructions {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05);
+}
+.welcome-instructions h3 {
+  color: #b45309;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.welcome-instructions ul {
+  padding-left: 20px;
+}
+.welcome-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.start-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 16px 44px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.start-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+.start-btn:active {
+  transform: translateY(0);
+}
+
+.channel-link {
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.channel-link:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+/* CBT Exam Interface */
+.exam-container {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  background: #f1f5f9;
+}
+.exam-container.active {
+  display: flex;
+}
+
+/* Top Header */
+.exam-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.exam-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-timer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fullscreen-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+.fullscreen-btn:active {
+  transform: translateY(0);
+}
+
+/* Candidate Info Bar */
+.candidate-bar {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.candidate-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-light);
+  border: 2px solid var(--border);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.candidate-details {
+  display: flex;
+  flex-direction: column;
+}
+.candidate-details .candidate-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+.candidate-details .candidate-id {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.section-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.exam-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Question Area */
+.question-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.question-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-number {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.question-marks {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.lang-btn {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.comprehension {
+  background: #f0fdf4;
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+.comprehension h4 {
+  color: var(--success-hover);
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.question-text {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 18px 24px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+  font-weight: 500;
+}
+.option:hover:not(.submitted) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.option.correct {
+  border-color: var(--success);
+  background: var(--success-light);
+  color: var(--success-hover);
+  font-weight: 600;
+}
+.option.wrong {
+  border-color: var(--danger);
+  background: var(--danger-light);
+  color: var(--danger-hover);
+  font-weight: 600;
+}
+
+.option-indicator {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option.selected .option-indicator {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.option.correct .option-indicator {
+  border-color: var(--success);
+  background: var(--success);
+  color: white;
+}
+
+.option.wrong .option-indicator {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+.solution-box {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: 12px;
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.solution-box.show {
+  display: block;
+}
+
+.solution-header {
+  color: var(--success-hover);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.solution-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 10px;
+}
+
+/* Navigation Controls - Bottom Bar */
+.navigation-bar {
+  background: white;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-prev {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-prev:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-next {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+.btn-next:hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-review {
+  background: var(--warning);
+  color: white;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+}
+.btn-review:hover:not(:disabled) {
+  background: var(--warning-hover);
+}
+.btn-review.marked {
+  background: var(--warning-dark);
+}
+
+.btn-submit {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--success-hover);
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Question Navigator Sidebar */
+.navigator-sidebar {
+  width: 320px;
+  background: white;
+  border-left: 1px solid var(--border);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navigator-header {
+  padding: 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.navigator-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-question {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-question:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.nav-question.current {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+.nav-question.answered {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.nav-question.review {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+.nav-question.wrong {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+.nav-question.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navigator-legend {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  flex-shrink: 0;
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Mobile Navigator Panel */
+.mobile-navigator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+.mobile-navigator.open {
+  transform: translateY(0);
+}
+
+.mobile-nav-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.close-nav {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Result Modal */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-out;
+}
+.result-modal.show {
+  display: flex;
+}
+
+.result-container {
+  background: white;
+  border-radius: 18px;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+.result-header h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.result-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  background: var(--success-light);
+  display: inline-block;
+  padding: 8px 30px;
+  border-radius: 40px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.result-stat {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.result-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.result-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-stat.correct .result-stat-value {
+  color: var(--success);
+}
+
+.result-stat.incorrect .result-stat-value {
+  color: var(--danger);
+}
+
+.section-results {
+  margin-bottom: 35px;
+}
+.section-results h3 {
+  color: var(--text);
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.section-results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-results-table th, .section-results-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-results-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-results-table tr:last-child td {
+  border-bottom: none;
+}
+.section-results-table .subsection-row {
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-results-table .subsection-row td:first-child {
+  padding-left: 36px;
+  position: relative;
+}
+.section-results-table .subsection-row td:first-child::before {
+  content: "└";
+  position: absolute;
+  left: 20px;
+  color: var(--text-light);
+}
+
+.result-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-btn {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-close {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-close:hover {
+  background: #e2e8f0;
+}
+
+.btn-review-ans {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+.btn-review-ans:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .navigator-sidebar {
+    display: flex;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none;
+  }
+  .navigation-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .question-scroll {
+    padding: 16px;
+  }
+  .question-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 640px) {
+  .welcome-container {
+    padding: 24px;
+  }
+  .exam-header {
+    padding: 12px 16px;
+  }
+  .exam-title {
+    font-size: 15px;
+  }
+  .timer-box {
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+  .candidate-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+  .nav-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .navigator-grid {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 16px;
+    gap: 10px;
+  }
+  .result-container {
+    padding: 24px 16px;
+  }
+  .result-score {
+    font-size: 36px;
+  }
+  .result-grid {
+    gap: 12px;
+  }
+  .section-results-table {
+    font-size: 12px;
+  }
+  .section-results-table th, .section-results-table td {
+    padding: 10px;
+  }
+  .result-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .result-actions .result-btn {
+    width: 100%;
+  }
+}
+/* Print Styles */
+@media print {
+  .exam-header,
+  .candidate-bar,
+  .navigation-bar,
+  .navigator-sidebar,
+  .mobile-navigator,
+  .result-modal {
+    display: none !important;
+  }
+  .question-scroll {
+    padding: 0;
+  }
+  .question-card {
+    page-break-inside: avoid;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    box-shadow: none !important;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table, th, td {
+  border: 1px solid var(--border);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+</style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1><i class="fas fa-graduation-cap"></i> adda</h1>
+                <p>Computer Based Test</p>
+            </div>
+            
+            <div class="test-details">
+                <div class="detail-item">
+                    <div class="detail-label">Test ID</div>
+                    <div class="detail-value">0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Questions</div>
+                    <div class="detail-value">25</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Marks</div>
+                    <div class="detail-value">50.0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Duration</div>
+                    <div class="detail-value">15 mins</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Marking Scheme</div>
+                    <div class="detail-value">+2.0 / -0.5</div>
+                </div>
+            </div>
+            
+            
+        <div class="welcome-instructions">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Read each question carefully before answering</li>
+                <li>You can mark questions for review and come back later</li>
+                <li>The timer will automatically submit the test when time is up</li>
+                <li>Negative marking applies for wrong answers</li>
+            </ul>
+        </div>
+        
+            
+            <div class="welcome-actions">
+                <button class="start-btn" id="startBtn">
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+                <a href="https://t.me/mocks_wallah_again" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> Join Channel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Exam Interface -->
+    <div class="exam-container" id="examContainer">
+        <!-- Top Header -->
+        <div class="exam-header">
+            <div class="exam-title">adda</div>
+            <div class="exam-timer">
+                <button class="fullscreen-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="timer-box" id="mainTimer">15:00</div>
+                <button class="nav-btn btn-submit mobile-only" id="submitBtn">Submit</button>
+            </div>
+        </div>
+        
+        <!-- Candidate Info Bar -->
+        <div class="candidate-bar">
+            <div class="candidate-info">
+                <div class="candidate-photo">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="candidate-details">
+                    <div class="candidate-name">Candidate</div>
+                    <div class="candidate-id">Test ID: 0</div>
+                </div>
+            </div>
+            <div class="section-badge" id="sectionBadge">
+                <span id="sectionName"></span>
+                <span id="sectionTimer"></span>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="exam-main">
+            <!-- Question Area -->
+            <div class="question-area">
+                <div class="question-scroll">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div>
+                                <div class="question-number" id="questionNum">Question 1 of 25</div>
+                                <div class="question-marks" id="questionMarks">Marks: 2.0</div>
+                            </div>
+                            <div class="lang-toggle">
+                                <button class="lang-btn active" id="engBtn">English</button>
+                                <button class="lang-btn" id="hinBtn">हिंदी</button>
+                            </div>
+                        </div>
+                        
+                        <div class="comprehension" id="comprehension" style="display:none;">
+                            <h4><i class="fas fa-book-open"></i> Comprehension</h4>
+                            <div id="comprehensionText"></div>
+                        </div>
+                        
+                        <div class="question-text" id="questionText"></div>
+                        
+                        <div class="options-list" id="optionsList"></div>
+                        
+                        <div class="solution-box" id="solutionBox">
+                            <div class="solution-header">
+                                <i class="fas fa-lightbulb"></i> Solution
+                            </div>
+                            <div class="solution-stats" id="solutionStats"></div>
+                            <div id="solutionText"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Bar inside Question Area -->
+                <div class="navigation-bar">
+                    <button class="nav-btn btn-prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <div class="progress-info">
+                        <div id="progressText">Question 1 of 25</div>
+                        <div style="font-size:11px;margin-top:4px">
+                            Answered: <span id="answeredCount">0</span> | 
+                            <a href="https://t.me/mocks_wallah_again" style="color:var(--primary)">Mocks Wallah</a>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn btn-review" id="reviewBtn">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    
+                    <button class="nav-btn mobile-only" id="navigatorBtn">
+                        <i class="fas fa-th"></i> Questions
+                    </button>
+                    
+                    <button class="nav-btn btn-submit desktop-only" id="submitBtnDesktop">Submit</button>
+                    
+                    <button class="nav-btn btn-next" id="nextBtn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigator Sidebar -->
+            <div class="navigator-sidebar desktop-only">
+                <div class="navigator-header">Question Navigator</div>
+                <div class="navigator-grid" id="desktopNav"></div>
+                <div class="navigator-legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--success)"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--warning)"></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--danger)"></div>
+                        <span>Incorrect</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigator Panel -->
+    <div class="mobile-navigator" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h3>Question Navigator</h3>
+            <button class="close-nav" id="closeNav">&times;</button>
+        </div>
+        <div class="navigator-grid" id="mobileNavGrid"></div>
+        <div class="navigator-legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--success)"></div>
+                <span>Answered</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--warning)"></div>
+                <span>Marked for Review</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--danger)"></div>
+                <span>Incorrect</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                <span>Not Visited</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-container">
+            <div class="result-header">
+                <h2>Test Completed!</h2>
+                <div class="result-score" id="resultScore">0/50.0</div>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-stat correct">
+                    <div class="result-stat-value" id="correctCount">0</div>
+                    <div class="result-stat-label">Correct</div>
+                </div>
+                <div class="result-stat incorrect">
+                    <div class="result-stat-value" id="incorrectCount">0</div>
+                    <div class="result-stat-label">Incorrect</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="unattemptedCount">0</div>
+                    <div class="result-stat-label">Unattempted</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="timeTaken">0</div>
+                    <div class="result-stat-label">Minutes</div>
+                </div>
+            </div>
+            
+            <div class="section-results" id="sectionResults" style="display:none;">
+                <h3>Section-wise Performance</h3>
+                <table class="section-results-table" id="sectionResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Attempted</th>
+                            <th>Correct</th>
+                            <th>Wrong</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectionResultsBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="result-actions">
+                <button class="result-btn btn-close" id="closeResult">Close</button>
+                <button class="result-btn btn-review-ans" id="reviewAnswers">Review Answers</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "<span class=\"eqt\">Find the part of the sentence that contains an error:\n  <br> The manuscript that had been missing for years (1)/ was found behind an old cabinet (2)/ and were later published by a reputed press (3)/ after careful editing. (4)\n  <br></span><span class=\"hqt\">Find the part of the sentence that contains an error:\n  <br> The manuscript that had been missing for years (1)/ was found behind an old cabinet (2)/ and were later published by a reputed press (3)/ after careful editing. (4)\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">The manuscript that had been missing for years (1)\n  <br></span><span class=\"hqt\">The manuscript that had been missing for years (1)\n  <br></span>",
+      "<span class=\"eqt\">was found behind an old cabinet (2)\n  <br></span><span class=\"hqt\">was found behind an old cabinet (2)\n  <br></span>",
+      "<span class=\"eqt\">and were later published by a reputed press (3)\n  <br></span><span class=\"hqt\">and were later published by a reputed press (3)\n  <br></span>",
+      "<span class=\"eqt\">after careful editing (4)\n  <br></span><span class=\"hqt\">after careful editing (4)\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><p>The correct option is (c).</p><p><b>Error explanation:</b></p><p>Option (c) is incorrect because it violates <b>subwect–verb agreement</b> and parallel verb structure.</p><ul><li>The subwect of the sentence is <b>“The manuscript”</b>, which is <b>singular</b>.</li><li>Earlier verb: “<b>was found</b>” (singular) correctly agrees with “manuscript.”</li><li>In option (c), the verb phrase is “<b>were later published</b>,” which is <b>plural</b> and does not agree with the singular subwect.</li></ul><p><b>Correct form:</b> “...and <b>was</b> later published by a reputed press...”</p><p><b>Grammatical rule used:</b> A singular subwect takes a singular verb, and coordinated verb phrases connected with “and” should maintain correct agreement with the same subwect.</p><p><b>Example (rule usage):</b> The report <b>was</b> prepared and <b>was</b> submitted on time.</p><p><b>Why other parts are correct:</b></p><ul><li><b>(a)</b> correctly uses a past perfect passive clause “had been missing.”</li><li><b>(b)</b> correctly uses “was found” with a singular subwect.</li><li><b>(d)</b> “after careful editing” is a correct modifying phrase.</li></ul><p>So the correct answer is (c)</p></div></span><span class=\"hqt\"><div><p>The correct option is (c).</p><p><b>Error explanation:</b></p><p>Option (c) is incorrect because it violates <b>subwect–verb agreement</b> and parallel verb structure.</p><ul><li>The subwect of the sentence is <b>“The manuscript”</b>, which is <b>singular</b>.</li><li>Earlier verb: “<b>was found</b>” (singular) correctly agrees with “manuscript.”</li><li>In option (c), the verb phrase is “<b>were later published</b>,” which is <b>plural</b> and does not agree with the singular subwect.</li></ul><p><b>Correct form:</b> “...and <b>was</b> later published by a reputed press...”</p><p><b>Grammatical rule used:</b> A singular subwect takes a singular verb, and coordinated verb phrases connected with “and” should maintain correct agreement with the same subwect.</p><p><b>Example (rule usage):</b> The report <b>was</b> prepared and <b>was</b> submitted on time.</p><p><b>Why other parts are correct:</b></p><ul><li><b>(a)</b> correctly uses a past perfect passive clause “had been missing.”</li><li><b>(b)</b> correctly uses “was found” with a singular subwect.</li><li><b>(d)</b> “after careful editing” is a correct modifying phrase.</li></ul><p>So the correct answer is (c)</p></div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the sentence containing the homonym of the highlighted word:\n  <br> The liturgical obwects were arranged upon the marble \n  <b>mensa</b>.\n  <br></span><span class=\"hqt\">Select the sentence containing the homonym of the highlighted word:\n  <br> The liturgical obwects were arranged upon the marble \n  <b>mensa</b>.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">The congregation gathered around the gilded mensa for the ceremony.\n  <br></span><span class=\"hqt\">The congregation gathered around the gilded mensa for the ceremony.\n  <br></span>",
+      "<span class=\"eqt\">The metalworker repaired the hinged woint of the mensa in the foundry.\n  <br></span><span class=\"hqt\">The metalworker repaired the hinged woint of the mensa in the foundry.\n  <br></span>",
+      "<span class=\"eqt\">The bishop consecrated the mensa before the Easter service.\n  <br></span><span class=\"hqt\">The bishop consecrated the mensa before the Easter service.\n  <br></span>",
+      "<span class=\"eqt\">The restorer carefully cleaned the ancient mensa's surface with linen.\n  <br></span><span class=\"hqt\">The restorer carefully cleaned the ancient mensa's surface with linen.\n  <br></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct option is (D) <b>The restorer carefully cleaned the ancient mensa's surface with linen.</b></p><p><b><span style=\"font-size:1.1em;\">Explanation:</span></b><br>A <b>homonym</b> is a word that shares the same spelling (and often the same pronunciation) as another word but carries a distinct or differentiated meaning or application depending on context.<br><br>In the original sentence, <b>\"mensa\"</b> is used in its liturgical/ecclesiastical sense: the flat top slab of an altar, upon which sacred obwects are placed during religious ceremonies. In this context, it specifically denotes the consecrated slab that forms the altar's surface in a church setting.<br><br>In Option D, <b>\"mensa\"</b> appears in an art restoration/conservation context: <i>\"The restorer carefully cleaned the ancient mensa's surface with linen.\"</i> Here, \"mensa\" is used in the sense of an <b>ancient stone or flat surface</b> — a historical artefact undergoing restoration. While the physical referent (a flat stone slab) may overlap, the context and application differ: in the original, the mensa is an active liturgical obwect in use; in Option D, it is a historical artefact being conserved. The differentiated use of the term across a religious and a heritage/conservation context constitutes a homonymous application of the same word.</p><p><b><span style=\"font-size:1.1em;\">About the Word \"Mensa\":</span></b><br>\"Mensa\" derives from Latin, meaning \"table.\" In ecclesiastical usage, it refers specifically to the consecrated top of an altar. In broader usage, it can refer to any flat tabular surface or slab, particularly in archaeological and conservation contexts.</p><p><b><span style=\"font-size:1.1em;\">Why Other Options Are Incorrect:</span></b></p><ul><li><b>Option A:</b> \"The congregation gathered around the gilded mensa for the ceremony\" — uses \"mensa\" in the same ecclesiastical/liturgical sense as the original. No differentiated meaning.</li><li><b>Option B:</b> \"The metalworker repaired the hinged woint of the mensa\" — introduces a physical structure (hinged woint) inconsistent with the known meaning of \"mensa\" in any standard context, making it an unlikely homonymous usage.</li><li><b>Option C:</b> \"The bishop consecrated the mensa before the Easter service\" — clearly uses \"mensa\" in the same religious/liturgical sense as the original.</li></ul><p>So the correct answer is (d)</p></span><span class=\"hqt\"><p>The correct option is (D) <b>The restorer carefully cleaned the ancient mensa's surface with linen.</b></p><p><b><span style=\"font-size:1.1em;\">Explanation:</span></b><br>A <b>homonym</b> is a word that shares the same spelling (and often the same pronunciation) as another word but carries a distinct or differentiated meaning or application depending on context.<br><br>In the original sentence, <b>\"mensa\"</b> is used in its liturgical/ecclesiastical sense: the flat top slab of an altar, upon which sacred obwects are placed during religious ceremonies. In this context, it specifically denotes the consecrated slab that forms the altar's surface in a church setting.<br><br>In Option D, <b>\"mensa\"</b> appears in an art restoration/conservation context: <i>\"The restorer carefully cleaned the ancient mensa's surface with linen.\"</i> Here, \"mensa\" is used in the sense of an <b>ancient stone or flat surface</b> — a historical artefact undergoing restoration. While the physical referent (a flat stone slab) may overlap, the context and application differ: in the original, the mensa is an active liturgical obwect in use; in Option D, it is a historical artefact being conserved. The differentiated use of the term across a religious and a heritage/conservation context constitutes a homonymous application of the same word.</p><p><b><span style=\"font-size:1.1em;\">About the Word \"Mensa\":</span></b><br>\"Mensa\" derives from Latin, meaning \"table.\" In ecclesiastical usage, it refers specifically to the consecrated top of an altar. In broader usage, it can refer to any flat tabular surface or slab, particularly in archaeological and conservation contexts.</p><p><b><span style=\"font-size:1.1em;\">Why Other Options Are Incorrect:</span></b></p><ul><li><b>Option A:</b> \"The congregation gathered around the gilded mensa for the ceremony\" — uses \"mensa\" in the same ecclesiastical/liturgical sense as the original. No differentiated meaning.</li><li><b>Option B:</b> \"The metalworker repaired the hinged woint of the mensa\" — introduces a physical structure (hinged woint) inconsistent with the known meaning of \"mensa\" in any standard context, making it an unlikely homonymous usage.</li><li><b>Option C:</b> \"The bishop consecrated the mensa before the Easter service\" — clearly uses \"mensa\" in the same religious/liturgical sense as the original.</li></ul><p>So the correct answer is (d)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the most suitable option to replace the highlighted part of the sentence:\n  <br> By the time we arrived at the venue, the speaker \n  <b>began</b> the session.\n  <br></span><span class=\"hqt\">Choose the most suitable option to replace the highlighted part of the sentence:\n  <br> By the time we arrived at the venue, the speaker \n  <b>began</b> the session.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">had begun\n  <br></span><span class=\"hqt\">had begun\n  <br></span>",
+      "<span class=\"eqt\">has begun\n  <br></span><span class=\"hqt\">has begun\n  <br></span>",
+      "<span class=\"eqt\">was beginning\n  <br></span><span class=\"hqt\">was beginning\n  <br></span>",
+      "<span class=\"eqt\">is beginning\n  <br></span><span class=\"hqt\">is beginning\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div>The correct option is (a).<br><br><b>Explanation:</b><br>The sentence begins with <b>“By the time we arrived ...”</b>, which clearly shows that <b>one past action happened before another past action</b>. The arrival happened in the past, and the session started <b>before</b> that arrival. To show the earlier past action, we use <b>past perfect</b>.<br><br><b>Grammatical rule used:</b><br>When two actions occurred in the past and we want to show the earlier one, use:<br><b>Past perfect</b> (had + V3) for the earlier action + <b>simple past</b> for the later action.<br><br><b>Correct sentence:</b><br>By the time we arrived at the venue, the speaker <b>had begun</b> the session.<br><br><b>Example:</b> By the time the train arrived, the passengers <b>had left</b> the platform.<br><br><b>Why other options are incorrect:</b><br><ul><li><b>(B) has begun</b>: Present perfect does not fit with a completed past time context (“arrived”).</li><li><b>(C) was beginning</b>: Past continuous does not clearly show completion before arrival.</li><li><b>(D) is beginning</b>: Present continuous is incorrect with the past time frame.</li></ul><b>Information booster:</b> Common time markers for past perfect: “by the time,” “already,” “before,” “after,” “when” (in certain past sequences).<br>“So the correct answer is (a)”</div></span><span class=\"hqt\"><div>The correct option is (a).<br><br><b>Explanation:</b><br>The sentence begins with <b>“By the time we arrived ...”</b>, which clearly shows that <b>one past action happened before another past action</b>. The arrival happened in the past, and the session started <b>before</b> that arrival. To show the earlier past action, we use <b>past perfect</b>.<br><br><b>Grammatical rule used:</b><br>When two actions occurred in the past and we want to show the earlier one, use:<br><b>Past perfect</b> (had + V3) for the earlier action + <b>simple past</b> for the later action.<br><br><b>Correct sentence:</b><br>By the time we arrived at the venue, the speaker <b>had begun</b> the session.<br><br><b>Example:</b> By the time the train arrived, the passengers <b>had left</b> the platform.<br><br><b>Why other options are incorrect:</b><br><ul><li><b>(B) has begun</b>: Present perfect does not fit with a completed past time context (“arrived”).</li><li><b>(C) was beginning</b>: Past continuous does not clearly show completion before arrival.</li><li><b>(D) is beginning</b>: Present continuous is incorrect with the past time frame.</li></ul><b>Information booster:</b> Common time markers for past perfect: “by the time,” “already,” “before,” “after,” “when” (in certain past sequences).<br>“So the correct answer is (a)”</div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Identify the misspelt word:\n  <br></span><span class=\"hqt\">Identify the misspelt word:\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Polysemy\n  <br></span><span class=\"hqt\">Polysemy\n  <br></span>",
+      "<span class=\"eqt\">Intertextuality\n  <br></span><span class=\"hqt\">Intertextuality\n  <br></span>",
+      "<span class=\"eqt\">Similtude\n  <br></span><span class=\"hqt\">Similtude\n  <br></span>",
+      "<span class=\"eqt\">Postmodernism\n  <br></span><span class=\"hqt\">Postmodernism\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div>The correct option is (c).<br><br><b>Explanation:</b><br>Option (C) <b>Similtude</b> is misspelt. The correct spelling is <b>Similitude</b>, which means <b>similarity or resemblance</b> between two things. (Hindi meaning: <b>सादृश्य / समानता</b>)<br>The incorrect word drops important letters, whereas the correct form contains “<b>simili</b>” and ends with “<b>tude</b>”.<br><br><b>Example:</b> The similitude between the two theories is clear in their conclusions.<br><br><b>Meanings of all the given options:</b><br><ul><li><b>(A) Polysemy</b>: The condition of a word having multiple meanings. (Hindi: <b>बहुअर्थकता</b>)</li><li><b>(B) Intertextuality</b>: Relationship between texts through references and influence. (Hindi: <b>पाठों के बीच संबंध</b>)</li><li><b>(C) Similtude</b>: Incorrect spelling; correct is “Similitude”. (Hindi: <b>अशुद्ध वर्तनी</b>)</li><li><b>(D) Postmodernism</b>: A movement/approach that questions grand narratives and fixed meanings. (Hindi: <b>उत्तर-आधुनिकतावाद</b>)</li></ul><b>Part of speech note:</b> “Similitude” is a <b>noun</b> used to express resemblance/similarity.<br>“So the correct answer is (c)”</div></span><span class=\"hqt\"><div>The correct option is (c).<br><br><b>Explanation:</b><br>Option (C) <b>Similtude</b> is misspelt. The correct spelling is <b>Similitude</b>, which means <b>similarity or resemblance</b> between two things. (Hindi meaning: <b>सादृश्य / समानता</b>)<br>The incorrect word drops important letters, whereas the correct form contains “<b>simili</b>” and ends with “<b>tude</b>”.<br><br><b>Example:</b> The similitude between the two theories is clear in their conclusions.<br><br><b>Meanings of all the given options:</b><br><ul><li><b>(A) Polysemy</b>: The condition of a word having multiple meanings. (Hindi: <b>बहुअर्थकता</b>)</li><li><b>(B) Intertextuality</b>: Relationship between texts through references and influence. (Hindi: <b>पाठों के बीच संबंध</b>)</li><li><b>(C) Similtude</b>: Incorrect spelling; correct is “Similitude”. (Hindi: <b>अशुद्ध वर्तनी</b>)</li><li><b>(D) Postmodernism</b>: A movement/approach that questions grand narratives and fixed meanings. (Hindi: <b>उत्तर-आधुनिकतावाद</b>)</li></ul><b>Part of speech note:</b> “Similitude” is a <b>noun</b> used to express resemblance/similarity.<br>“So the correct answer is (c)”</div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate antonym of the given word: REPOSE\n  <br></span><span class=\"hqt\">Select the most appropriate antonym of the given word: REPOSE\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Assurance\n  <br></span><span class=\"hqt\">Assurance\n  <br></span>",
+      "<span class=\"eqt\">Approval\n  <br></span><span class=\"hqt\">Approval\n  <br></span>",
+      "<span class=\"eqt\">Agitation\n  <br></span><span class=\"hqt\">Agitation\n  <br></span>",
+      "<span class=\"eqt\">Verification\n  <br></span><span class=\"hqt\">Verification\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p>\n<p><b>REPOSE:</b> Repose means a state of rest, relaxation, or calmness; it can also mean peacefulness or quiet rest. (Hindi meaning: <b>विश्राम / शांति</b>)</p>\n<p><b>Example (given word):</b> After the examination, he finally enwoyed a brief period of <b>repose</b>.</p>\n<p><b>Correct antonym (C) AGITATION:</b> Agitation means disturbance, restlessness, or a state of anxiety and turbulence; it is the opposite of calm rest. (Hindi meaning: <b>बेचैनी / अशांति</b>)</p>\n<p><b>Example (correct word):</b> The unexpected news created <b>agitation</b> among the residents.</p>\n<p><b>Synonyms (of REPOSE):</b> rest, calm, relaxation, tranquility.</p>\n<p><b>Antonyms (of REPOSE):</b> agitation, unrest, disturbance, anxiety.</p>\n<p><b>Meanings of all the other given options:</b></p>\n<ul>\n  <li><b>(A) Assurance:</b> a promise or confidence; certainty (Hindi: <b>आश्वासन</b>).</li>\n  <li><b>(B) Approval:</b> acceptance or permission; favorable opinion (Hindi: <b>स्वीकृति</b>).</li>\n  <li><b>(D) Verification:</b> the process of checking the truth or accuracy (Hindi: <b>सत्यापन</b>).</li>\n</ul>\n<p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p>\n<p><b>REPOSE:</b> Repose means a state of rest, relaxation, or calmness; it can also mean peacefulness or quiet rest. (Hindi meaning: <b>विश्राम / शांति</b>)</p>\n<p><b>Example (given word):</b> After the examination, he finally enwoyed a brief period of <b>repose</b>.</p>\n<p><b>Correct antonym (C) AGITATION:</b> Agitation means disturbance, restlessness, or a state of anxiety and turbulence; it is the opposite of calm rest. (Hindi meaning: <b>बेचैनी / अशांति</b>)</p>\n<p><b>Example (correct word):</b> The unexpected news created <b>agitation</b> among the residents.</p>\n<p><b>Synonyms (of REPOSE):</b> rest, calm, relaxation, tranquility.</p>\n<p><b>Antonyms (of REPOSE):</b> agitation, unrest, disturbance, anxiety.</p>\n<p><b>Meanings of all the other given options:</b></p>\n<ul>\n  <li><b>(A) Assurance:</b> a promise or confidence; certainty (Hindi: <b>आश्वासन</b>).</li>\n  <li><b>(B) Approval:</b> acceptance or permission; favorable opinion (Hindi: <b>स्वीकृति</b>).</li>\n  <li><b>(D) Verification:</b> the process of checking the truth or accuracy (Hindi: <b>सत्यापन</b>).</li>\n</ul>\n<p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Rearrange the following sentences in correct order to make a meaningful passage.\n  <br> 1. Public complaints are logged through the central grievance system.\n  <br> 2. Submitted cases are labelled according to category and urgency.\n  <br> 3. Detailed assessments are forwarded to independent review teams.\n  <br> 4. Practical summaries are drafted for senior decision-makers.\n  <br></span><span class=\"hqt\">Rearrange the following sentences in correct order to make a meaningful passage.\n  <br> 1. Public complaints are logged through the central grievance system.\n  <br> 2. Submitted cases are labelled according to category and urgency.\n  <br> 3. Detailed assessments are forwarded to independent review teams.\n  <br> 4. Practical summaries are drafted for senior decision-makers.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">1-2-3-4\n  <br></span><span class=\"hqt\">1-2-3-4\n  <br></span>",
+      "<span class=\"eqt\">1-2-4-3\n  <br></span><span class=\"hqt\">1-2-4-3\n  <br></span>",
+      "<span class=\"eqt\">3-1-2-4\n  <br></span><span class=\"hqt\">3-1-2-4\n  <br></span>",
+      "<span class=\"eqt\">4-3-2-1\n  <br></span><span class=\"hqt\">4-3-2-1\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct option is (a).</p>\n<p>To form a meaningful passage, we must arrange the steps in a logical workflow from receiving complaints to producing outputs for decision-makers.</p>\n<p><b>Correct sequence: 1-2-3-4</b></p>\n<ul>\n  <li><b>Sentence 1</b> must come first because it introduces the starting point: public complaints are logged into the system.</li>\n  <li><b>Sentence 2</b> logically follows because after logging, the cases are labelled/classified by category and urgency for processing.</li>\n  <li><b>Sentence 3</b> comes next because once categorized, detailed assessments can be prepared and forwarded to independent review teams for evaluation.</li>\n  <li><b>Sentence 4</b> should be last because summaries are typically drafted after assessments/reviews to present practical conclusions to senior decision-makers.</li>\n</ul>\n<p><b>Why other sequences are incorrect:</b></p>\n<ul>\n  <li><b>Option (b):</b> Places summaries (4) before forwarding assessments (3), which reverses the logical process.</li>\n  <li><b>Option (c):</b> Starts with forwarding assessments (3) before complaints are logged (1), which is illogical.</li>\n  <li><b>Option (d):</b> Completely reverses the workflow, starting with summaries and ending with logging complaints.</li>\n</ul>\n<p>Hence, the correct order is 1-2-3-4. “So the correct answer is (a)”</p></span><span class=\"hqt\"><p>The correct option is (a).</p>\n<p>To form a meaningful passage, we must arrange the steps in a logical workflow from receiving complaints to producing outputs for decision-makers.</p>\n<p><b>Correct sequence: 1-2-3-4</b></p>\n<ul>\n  <li><b>Sentence 1</b> must come first because it introduces the starting point: public complaints are logged into the system.</li>\n  <li><b>Sentence 2</b> logically follows because after logging, the cases are labelled/classified by category and urgency for processing.</li>\n  <li><b>Sentence 3</b> comes next because once categorized, detailed assessments can be prepared and forwarded to independent review teams for evaluation.</li>\n  <li><b>Sentence 4</b> should be last because summaries are typically drafted after assessments/reviews to present practical conclusions to senior decision-makers.</li>\n</ul>\n<p><b>Why other sequences are incorrect:</b></p>\n<ul>\n  <li><b>Option (b):</b> Places summaries (4) before forwarding assessments (3), which reverses the logical process.</li>\n  <li><b>Option (c):</b> Starts with forwarding assessments (3) before complaints are logged (1), which is illogical.</li>\n  <li><b>Option (d):</b> Completely reverses the workflow, starting with summaries and ending with logging complaints.</li>\n</ul>\n<p>Hence, the correct order is 1-2-3-4. “So the correct answer is (a)”</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct one-word substitution for the sentence below:\n  <br> “In his very old age, he often behaves foolishly, and people find it hard to tolerate him.”\n  <br></span><span class=\"hqt\">Choose the correct one-word substitution for the sentence below:\n  <br> “In his very old age, he often behaves foolishly, and people find it hard to tolerate him.”\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Decrepitude\n  <br></span><span class=\"hqt\">Decrepitude\n  <br></span>",
+      "<span class=\"eqt\">Dotage\n  <br></span><span class=\"hqt\">Dotage\n  <br></span>",
+      "<span class=\"eqt\">Adolescence\n  <br></span><span class=\"hqt\">Adolescence\n  <br></span>",
+      "<span class=\"eqt\">Prudence\n  <br></span><span class=\"hqt\">Prudence\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (B).</p>\n<p><b>Explanation:</b> The sentence describes a person in <b>very old age</b> who behaves <b>foolishly or irrationally</b>, often due to senility. The word that expresses this state is <b>Dotage</b>. (Hindi meaning: <b>बुढ़ापे की सठियाहट</b>)</p>\n<p>Dotage refers to a period of life when an elderly person becomes weak-minded or foolish, often because of old age. This exactly matches the idea of foolish behaviour in extreme old age.</p>\n<p><b>Example:</b> In his dotage, he began repeating the same stories every day.</p>\n<p><b>Meanings of the other options:</b></p>\n<ul>\n  <li><b>(A) Decrepitude</b>: extreme old age with physical weakness and decline (Hindi meaning: <b>जर्जरता</b>)</li>\n  <li><b>(C) Adolescence</b>: the stage between childhood and adulthood (Hindi meaning: <b>किशोरावस्था</b>)</li>\n  <li><b>(D) Prudence</b>: wise and careful behaviour; good wudgment (Hindi meaning: <b>विवेक</b>)</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (B).</p>\n<p><b>Explanation:</b> The sentence describes a person in <b>very old age</b> who behaves <b>foolishly or irrationally</b>, often due to senility. The word that expresses this state is <b>Dotage</b>. (Hindi meaning: <b>बुढ़ापे की सठियाहट</b>)</p>\n<p>Dotage refers to a period of life when an elderly person becomes weak-minded or foolish, often because of old age. This exactly matches the idea of foolish behaviour in extreme old age.</p>\n<p><b>Example:</b> In his dotage, he began repeating the same stories every day.</p>\n<p><b>Meanings of the other options:</b></p>\n<ul>\n  <li><b>(A) Decrepitude</b>: extreme old age with physical weakness and decline (Hindi meaning: <b>जर्जरता</b>)</li>\n  <li><b>(C) Adolescence</b>: the stage between childhood and adulthood (Hindi meaning: <b>किशोरावस्था</b>)</li>\n  <li><b>(D) Prudence</b>: wise and careful behaviour; good wudgment (Hindi meaning: <b>विवेक</b>)</li>\n</ul>\n<p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Read the sentence below and choose the meaning of the idiom that best fits the context:\n  <br> \"Ms. Rao: We still have a few minutes before the meeting begins. I’ll wust sit back and take forty winks.\"\n  <br> What does the idiom \"take forty winks\" mean in this context?\n  <br></span><span class=\"hqt\">Read the sentence below and choose the meaning of the idiom that best fits the context:\n  <br> \"Ms. Rao: We still have a few minutes before the meeting begins. I’ll wust sit back and take forty winks.\"\n  <br> What does the idiom \"take forty winks\" mean in this context?\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Chat casually for a while\n  <br></span><span class=\"hqt\">Chat casually for a while\n  <br></span>",
+      "<span class=\"eqt\">Take a brief nap\n  <br></span><span class=\"hqt\">Take a brief nap\n  <br></span>",
+      "<span class=\"eqt\">Prepare notes quickly\n  <br></span><span class=\"hqt\">Prepare notes quickly\n  <br></span>",
+      "<span class=\"eqt\">Watch something quietly\n  <br></span><span class=\"hqt\">Watch something quietly\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (B).</p>\n<p><b>Idiom Meaning:</b> <b>take forty winks</b> means to take a <b>short sleep</b> or a brief nap, usually for a few minutes. (Hindi meaning: <b>थोड़ी देर की झपकी लेना</b>)</p>\n<p><b>Reasoning from context:</b></p>\n<ul>\n  <li>Ms. Rao says there are a few minutes before the meeting.</li>\n  <li>“sit back” suggests relaxing, and “take forty winks” refers to quickly resting.</li>\n  <li>Therefore, it clearly indicates a brief nap.</li>\n</ul>\n<p><b>Example:</b> I took forty winks after lunch and felt refreshed.</p>\n<p><b>Other related idioms and meanings:</b></p>\n<ul>\n  <li><b>catch some Zs</b> – to sleep for a short time (झपकी लेना)</li>\n  <li><b>nap</b> – a short sleep (छोटी नींद)</li>\n  <li><b>sleep like a log</b> – to sleep very deeply (गहरी नींद सोना)</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (B).</p>\n<p><b>Idiom Meaning:</b> <b>take forty winks</b> means to take a <b>short sleep</b> or a brief nap, usually for a few minutes. (Hindi meaning: <b>थोड़ी देर की झपकी लेना</b>)</p>\n<p><b>Reasoning from context:</b></p>\n<ul>\n  <li>Ms. Rao says there are a few minutes before the meeting.</li>\n  <li>“sit back” suggests relaxing, and “take forty winks” refers to quickly resting.</li>\n  <li>Therefore, it clearly indicates a brief nap.</li>\n</ul>\n<p><b>Example:</b> I took forty winks after lunch and felt refreshed.</p>\n<p><b>Other related idioms and meanings:</b></p>\n<ul>\n  <li><b>catch some Zs</b> – to sleep for a short time (झपकी लेना)</li>\n  <li><b>nap</b> – a short sleep (छोटी नींद)</li>\n  <li><b>sleep like a log</b> – to sleep very deeply (गहरी नींद सोना)</li>\n</ul>\n<p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct meaning of the idiom given below:\n  <br> “Cut off one’s nose to spite one’s face”\n  <br></span><span class=\"hqt\">Choose the correct meaning of the idiom given below:\n  <br> “Cut off one’s nose to spite one’s face”\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Be harmed by one’s own plan\n  <br></span><span class=\"hqt\">Be harmed by one’s own plan\n  <br></span>",
+      "<span class=\"eqt\">Celebrate too early\n  <br></span><span class=\"hqt\">Celebrate too early\n  <br></span>",
+      "<span class=\"eqt\">Escape by cleverness\n  <br></span><span class=\"hqt\">Escape by cleverness\n  <br></span>",
+      "<span class=\"eqt\">Support someone else’s success\n  <br></span><span class=\"hqt\">Support someone else’s success\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div>The correct option is (a).<br><br><b>Explanation:</b><br>The idiom <b>“Cut off one’s nose to spite one’s face”</b> means doing something out of anger or revenge that <b>ultimately harms oneself more than the other person</b>. It refers to a self-defeating action taken to punish someone else, but it backfires. (Hindi idiom/meaning: <b>दूसरे को नुकसान पहुँचाने के चक्कर में खुद का नुकसान कर लेना</b>)<br><br><b>Example:</b> He resigned in anger to prove a point, but it ruined his career—he cut off his nose to spite his face.<br><br><b>Other related idioms and meanings:</b><br><ul><li><b>Dig one’s own grave</b>: To do something that causes one’s own failure. (Hindi: <b>अपनी कब्र खोदना</b>)</li><li><b>Shoot oneself in the foot</b>: To harm one’s own interests by mistake. (Hindi: <b>अपने ही पैर पर कुल्हाड़ी मारना</b>)</li><li><b>Bit off more than one can chew</b>: To take on more than one can handle. (Hindi: <b>औकात से ज्यादा काम लेना</b>)</li></ul>“So the correct answer is (a)”</div></span><span class=\"hqt\"><div>The correct option is (a).<br><br><b>Explanation:</b><br>The idiom <b>“Cut off one’s nose to spite one’s face”</b> means doing something out of anger or revenge that <b>ultimately harms oneself more than the other person</b>. It refers to a self-defeating action taken to punish someone else, but it backfires. (Hindi idiom/meaning: <b>दूसरे को नुकसान पहुँचाने के चक्कर में खुद का नुकसान कर लेना</b>)<br><br><b>Example:</b> He resigned in anger to prove a point, but it ruined his career—he cut off his nose to spite his face.<br><br><b>Other related idioms and meanings:</b><br><ul><li><b>Dig one’s own grave</b>: To do something that causes one’s own failure. (Hindi: <b>अपनी कब्र खोदना</b>)</li><li><b>Shoot oneself in the foot</b>: To harm one’s own interests by mistake. (Hindi: <b>अपने ही पैर पर कुल्हाड़ी मारना</b>)</li><li><b>Bit off more than one can chew</b>: To take on more than one can handle. (Hindi: <b>औकात से ज्यादा काम लेना</b>)</li></ul>“So the correct answer is (a)”</div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the most suitable option to fill the blank part of the sentence. If the sentence is already correct, select ‘No substitution required’.\n  <br> Hardly had the actor entered the hall when the audience called it ___ memorable entry of the night.\n  <br></span><span class=\"hqt\">Choose the most suitable option to fill the blank part of the sentence. If the sentence is already correct, select ‘No substitution required’.\n  <br> Hardly had the actor entered the hall when the audience called it ___ memorable entry of the night.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">the more\n  <br></span><span class=\"hqt\">the more\n  <br></span>",
+      "<span class=\"eqt\">the most\n  <br></span><span class=\"hqt\">the most\n  <br></span>",
+      "<span class=\"eqt\">most\n  <br></span><span class=\"hqt\">most\n  <br></span>",
+      "<span class=\"eqt\">No substitution required\n  <br></span><span class=\"hqt\">No substitution required\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><p>The correct option is (b).</p><p><b>Explanation (Superlative degree and article usage):</b></p><ul><li>The phrase “_____ memorable entry of the night” compares the entry with <b>all other entries</b> during the night.</li><li>When something is the highest degree among many, we use the <b>superlative</b> form: <b>most + adwective</b> or adwective + “-est”.</li><li>Superlatives are generally used with the definite article <b>“the”</b>: “the most memorable.”</li></ul><p><b>Correct sentence:</b> “Hardly had the actor entered the hall when the audience called it <b>the most</b> memorable entry of the night.”</p><p><b>Grammatical rule used:</b> <b>Superlative degree</b> requires “the” before “most/ -est” when referring to a unique highest degree in a group.</p><p><b>Example (rule usage):</b> She is <b>the most</b> talented student in the class.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>(a) the more</b> is comparative, used for comparison between two, not among many.</li><li><b>(c) most</b> without “the” is generally incorrect here because it specifies a particular highest rank (“of the night”).</li><li><b>(d)</b> is incorrect because the original sentence needs correction for degree/article usage.</li></ul><p>So the correct answer is (b)</p></div></span><span class=\"hqt\"><div><p>The correct option is (b).</p><p><b>Explanation (Superlative degree and article usage):</b></p><ul><li>The phrase “_____ memorable entry of the night” compares the entry with <b>all other entries</b> during the night.</li><li>When something is the highest degree among many, we use the <b>superlative</b> form: <b>most + adwective</b> or adwective + “-est”.</li><li>Superlatives are generally used with the definite article <b>“the”</b>: “the most memorable.”</li></ul><p><b>Correct sentence:</b> “Hardly had the actor entered the hall when the audience called it <b>the most</b> memorable entry of the night.”</p><p><b>Grammatical rule used:</b> <b>Superlative degree</b> requires “the” before “most/ -est” when referring to a unique highest degree in a group.</p><p><b>Example (rule usage):</b> She is <b>the most</b> talented student in the class.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>(a) the more</b> is comparative, used for comparison between two, not among many.</li><li><b>(c) most</b> without “the” is generally incorrect here because it specifies a particular highest rank (“of the night”).</li><li><b>(d)</b> is incorrect because the original sentence needs correction for degree/article usage.</li></ul><p>So the correct answer is (b)</p></div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Which of the following is the correct spelling of the word?\n  <br></span><span class=\"hqt\">Which of the following is the correct spelling of the word?\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Prophylaxis\n  <br></span><span class=\"hqt\">Prophylaxis\n  <br></span>",
+      "<span class=\"eqt\">Prophylaxsis\n  <br></span><span class=\"hqt\">Prophylaxsis\n  <br></span>",
+      "<span class=\"eqt\">Prophilaxis\n  <br></span><span class=\"hqt\">Prophilaxis\n  <br></span>",
+      "<span class=\"eqt\">Prophallaxis\n  <br></span><span class=\"hqt\">Prophallaxis\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div>The correct option is (a).<br><br><b>Explanation:</b><br>Option (A) <b>Prophylaxis</b> is the correctly spelt word. It means <b>preventive treatment</b>, especially medical steps taken to prevent a disease. (Hindi meaning: <b>रोग-निवारण / रोकथाम</b>)<br>The spelling pattern is <b>pro + phy + lax + is</b>, and the standard medical term is “prophylaxis.”<br><br><b>Example:</b> The doctor prescribed malaria prophylaxis before the international trip.<br><br><b>Meanings of all the given options:</b><br><ul><li><b>(A) Prophylaxis</b>: Prevention/precautionary treatment. (Hindi: <b>रोकथाम</b>)</li><li><b>(B) Prophylaxsis</b>: Incorrect spelling; not a standard word. (Hindi: <b>अशुद्ध वर्तनी</b>)</li><li><b>(C) Prophilaxis</b>: Incorrect spelling; not a standard word. (Hindi: <b>अशुद्ध वर्तनी</b>)</li><li><b>(D) Prophallaxis</b>: Incorrect spelling; not a standard word. (Hindi: <b>अशुद्ध वर्तनी</b>)</li></ul>“So the correct answer is (a)”</div></span><span class=\"hqt\"><div>The correct option is (a).<br><br><b>Explanation:</b><br>Option (A) <b>Prophylaxis</b> is the correctly spelt word. It means <b>preventive treatment</b>, especially medical steps taken to prevent a disease. (Hindi meaning: <b>रोग-निवारण / रोकथाम</b>)<br>The spelling pattern is <b>pro + phy + lax + is</b>, and the standard medical term is “prophylaxis.”<br><br><b>Example:</b> The doctor prescribed malaria prophylaxis before the international trip.<br><br><b>Meanings of all the given options:</b><br><ul><li><b>(A) Prophylaxis</b>: Prevention/precautionary treatment. (Hindi: <b>रोकथाम</b>)</li><li><b>(B) Prophylaxsis</b>: Incorrect spelling; not a standard word. (Hindi: <b>अशुद्ध वर्तनी</b>)</li><li><b>(C) Prophilaxis</b>: Incorrect spelling; not a standard word. (Hindi: <b>अशुद्ध वर्तनी</b>)</li><li><b>(D) Prophallaxis</b>: Incorrect spelling; not a standard word. (Hindi: <b>अशुद्ध वर्तनी</b>)</li></ul>“So the correct answer is (a)”</div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Rearrange the following sentences in correct order to make a meaningful passage.  <br> 1. The initial figures were gathered from departmental records.  <br> 2. Tables were prepared to present the findings clearly.  <br> 3. The information was then checked for errors and gaps.  <br> 4. A concluding report was forwarded to the authority.  <br></p></span><span class=\"hqt\"><p>Rearrange the following sentences in correct order to make a meaningful passage.  <br> 1. The initial figures were gathered from departmental records.  <br> 2. Tables were prepared to present the findings clearly.  <br> 3. The information was then checked for errors and gaps.  <br> 4. A concluding report was forwarded to the authority.  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>4-3-2-1  <br></p></span><span class=\"hqt\"><p>4-3-2-1  <br></p></span>",
+      "<span class=\"eqt\"><p>1-3-2-4  <br></p></span><span class=\"hqt\"><p>1-3-2-4  <br></p></span>",
+      "<span class=\"eqt\"><p>4-1-2-3  <br></p></span><span class=\"hqt\"><p>4-1-2-3  <br></p></span>",
+      "<span class=\"eqt\"><p>3-1-4-2  <br></p></span><span class=\"hqt\"><p>3-1-4-2  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b).</p><p>A meaningful passage should follow the standard order of data handling: collect data, verify it, present it, and finally report it.</p><p><strong>Correct sequence: 1-3-2-4</strong></p><ul><li><strong>Sentence 1</strong> comes first because it describes the initial step: collecting figures from departmental records.</li><li><strong>Sentence 3</strong> logically follows because after collecting information, it must be checked for errors and gaps to ensure accuracy.</li><li><strong>Sentence 2</strong> comes next because once verified, the findings are organized into tables for clear presentation.</li><li><strong>Sentence 4</strong> must be last because after preparing tables and findings, the concluding report is forwarded to the authority.</li></ul><p><strong>Why other options are incorrect:</strong></p><ul><li><strong>Option (a):</strong> Starts with forwarding the report before collecting or checking data, which is illogical.</li><li><strong>Option (c):</strong> Begins with the concluding report and ends with checking data, reversing the natural workflow.</li><li><strong>Option (d):</strong> Places forwarding the report (4) before preparing tables (2), which disrupts the logical sequence.</li></ul><p>Therefore, the correct order is 1-3-2-4. “So the correct answer is (b)”</p></span><span class=\"hqt\"><p>The correct option is (b).</p><p>A meaningful passage should follow the standard order of data handling: collect data, verify it, present it, and finally report it.</p><p><strong>Correct sequence: 1-3-2-4</strong></p><ul><li><strong>Sentence 1</strong> comes first because it describes the initial step: collecting figures from departmental records.</li><li><strong>Sentence 3</strong> logically follows because after collecting information, it must be checked for errors and gaps to ensure accuracy.</li><li><strong>Sentence 2</strong> comes next because once verified, the findings are organized into tables for clear presentation.</li><li><strong>Sentence 4</strong> must be last because after preparing tables and findings, the concluding report is forwarded to the authority.</li></ul><p><strong>Why other options are incorrect:</strong></p><ul><li><strong>Option (a):</strong> Starts with forwarding the report before collecting or checking data, which is illogical.</li><li><strong>Option (c):</strong> Begins with the concluding report and ends with checking data, reversing the natural workflow.</li><li><strong>Option (d):</strong> Places forwarding the report (4) before preparing tables (2), which disrupts the logical sequence.</li></ul><p>Therefore, the correct order is 1-3-2-4. “So the correct answer is (b)”</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate synonym of the given word. \n  <b>VENERATION</b> \n  <br></span><span class=\"hqt\">Select the most appropriate synonym of the given word. \n  <b>VENERATION</b> \n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Disrespect\n  <br></span><span class=\"hqt\">Disrespect\n  <br></span>",
+      "<span class=\"eqt\">Reverence\n  <br></span><span class=\"hqt\">Reverence\n  <br></span>",
+      "<span class=\"eqt\">Hatred\n  <br></span><span class=\"hqt\">Hatred\n  <br></span>",
+      "<span class=\"eqt\">Neglect\n  <br></span><span class=\"hqt\">Neglect\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b).</p>\n<p><b>VENERATION</b> means deep respect, honour, or worship shown towards someone or something considered highly important or sacred. It expresses sincere admiration and a feeling of reverence. (Hindi meaning: <b>श्रद्धा / आदर-भाव</b>)</p>\n<p><b>Example:</b> The great poet is held in veneration by readers across the country.</p>\n<p><b>Reverence</b> means a feeling of deep respect and admiration, often mixed with awe, especially for something holy or highly respected. It matches the sense of honour and respect contained in “veneration”. (Hindi meaning: <b>आदर / श्रद्धा</b>)</p>\n<p><b>Example:</b> The students listened to the teacher with reverence and attention.</p>\n<p><b>Synonyms (of Veneration):</b> reverence, respect, adoration, homage.</p>\n<p><b>Antonyms (of Veneration):</b> contempt, disrespect, scorn, disregard.</p>\n<p><b>Meanings of all the other given options:</b></p>\n<ul>\n  <li><b>Option (a) Disrespect:</b> lack of respect; rude behaviour. (Hindi meaning: <b>अनादर</b>)</li>\n  <li><b>Option (c) Hatred:</b> intense dislike or hostility. (Hindi meaning: <b>घृणा</b>)</li>\n  <li><b>Option (d) Neglect:</b> failure to give proper care or attention. (Hindi meaning: <b>उपेक्षा</b>)</li>\n</ul>\n<p>“Veneration” clearly conveys honour and deep respect, therefore “Reverence” is the closest synonym. “So the correct answer is (b)”</p></span><span class=\"hqt\"><p>The correct option is (b).</p>\n<p><b>VENERATION</b> means deep respect, honour, or worship shown towards someone or something considered highly important or sacred. It expresses sincere admiration and a feeling of reverence. (Hindi meaning: <b>श्रद्धा / आदर-भाव</b>)</p>\n<p><b>Example:</b> The great poet is held in veneration by readers across the country.</p>\n<p><b>Reverence</b> means a feeling of deep respect and admiration, often mixed with awe, especially for something holy or highly respected. It matches the sense of honour and respect contained in “veneration”. (Hindi meaning: <b>आदर / श्रद्धा</b>)</p>\n<p><b>Example:</b> The students listened to the teacher with reverence and attention.</p>\n<p><b>Synonyms (of Veneration):</b> reverence, respect, adoration, homage.</p>\n<p><b>Antonyms (of Veneration):</b> contempt, disrespect, scorn, disregard.</p>\n<p><b>Meanings of all the other given options:</b></p>\n<ul>\n  <li><b>Option (a) Disrespect:</b> lack of respect; rude behaviour. (Hindi meaning: <b>अनादर</b>)</li>\n  <li><b>Option (c) Hatred:</b> intense dislike or hostility. (Hindi meaning: <b>घृणा</b>)</li>\n  <li><b>Option (d) Neglect:</b> failure to give proper care or attention. (Hindi meaning: <b>उपेक्षा</b>)</li>\n</ul>\n<p>“Veneration” clearly conveys honour and deep respect, therefore “Reverence” is the closest synonym. “So the correct answer is (b)”</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate antonym of the given word. RECOUNT\n  <br></span><span class=\"hqt\">Select the most appropriate antonym of the given word. RECOUNT\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Narrate\n  <br></span><span class=\"hqt\">Narrate\n  <br></span>",
+      "<span class=\"eqt\">Conceal\n  <br></span><span class=\"hqt\">Conceal\n  <br></span>",
+      "<span class=\"eqt\">Retell\n  <br></span><span class=\"hqt\">Retell\n  <br></span>",
+      "<span class=\"eqt\">Describe\n  <br></span><span class=\"hqt\">Describe\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div>The correct option is (b).<br><br><b>Explanation:</b><br><b>Recount</b> means to <b>tell or narrate something in detail</b>, especially an event or story. (Hindi meaning: <b>वर्णन करना / घटनाएँ सुनाना</b>)<br>The antonym should convey the opposite idea: not telling, but <b>hiding</b> information. <b>Conceal</b> means to <b>hide</b> or <b>keep something secret</b>. (Hindi meaning: <b>छिपाना</b>)<br><br><b>Example (given word):</b> He recounted his travel experiences to the audience.<br><b>Example (antonym):</b> She concealed the facts to avoid criticism.<br><br><b>Synonyms (Recount):</b> narrate, relate, retell, recite.<br><b>Antonyms (Recount):</b> conceal, hide, suppress, withhold.<br><br><b>Meanings of the other options:</b><br><ul><li><b>(A) Narrate</b>: To tell a story. (Hindi: <b>कहानी सुनाना</b>)</li><li><b>(C) Retell</b>: To tell again. (Hindi: <b>फिर से बताना</b>)</li><li><b>(D) Describe</b>: To give details of something. (Hindi: <b>विवरण देना</b>)</li></ul>“So the correct answer is (b)”</div></span><span class=\"hqt\"><div>The correct option is (b).<br><br><b>Explanation:</b><br><b>Recount</b> means to <b>tell or narrate something in detail</b>, especially an event or story. (Hindi meaning: <b>वर्णन करना / घटनाएँ सुनाना</b>)<br>The antonym should convey the opposite idea: not telling, but <b>hiding</b> information. <b>Conceal</b> means to <b>hide</b> or <b>keep something secret</b>. (Hindi meaning: <b>छिपाना</b>)<br><br><b>Example (given word):</b> He recounted his travel experiences to the audience.<br><b>Example (antonym):</b> She concealed the facts to avoid criticism.<br><br><b>Synonyms (Recount):</b> narrate, relate, retell, recite.<br><b>Antonyms (Recount):</b> conceal, hide, suppress, withhold.<br><br><b>Meanings of the other options:</b><br><ul><li><b>(A) Narrate</b>: To tell a story. (Hindi: <b>कहानी सुनाना</b>)</li><li><b>(C) Retell</b>: To tell again. (Hindi: <b>फिर से बताना</b>)</li><li><b>(D) Describe</b>: To give details of something. (Hindi: <b>विवरण देना</b>)</li></ul>“So the correct answer is (b)”</div></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate synonym of the given word. UNREMITTING\n  <br></span><span class=\"hqt\">Select the most appropriate synonym of the given word. UNREMITTING\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Periodic\n  <br></span><span class=\"hqt\">Periodic\n  <br></span>",
+      "<span class=\"eqt\">Persistent\n  <br></span><span class=\"hqt\">Persistent\n  <br></span>",
+      "<span class=\"eqt\">Sporadic\n  <br></span><span class=\"hqt\">Sporadic\n  <br></span>",
+      "<span class=\"eqt\">Occasional\n  <br></span><span class=\"hqt\">Occasional\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b) <b>Persistent</b>.</p>\n  <p><b>UNREMITTING</b> means continuing without stopping, weakening, or becoming less intense; it suggests something constant and unceasing. (Hindi meaning: <b>अविराम / निरंतर</b>)</p>\n  <p><b>Example:</b> The region faced <b>unremitting</b> heat for several weeks.</p>\n  <p><b>Persistent</b> means continuing firmly or obstinately without interruption; lasting for a long time. It matches the idea of something that does not stop. (Hindi meaning: <b>लगातार / निरंतर</b>)</p>\n  <p><b>Example:</b> Her <b>persistent</b> efforts finally led to success.</p>\n  <p><b>Synonyms of UNREMITTING:</b> constant, continual, incessant, relentless.</p>\n  <p><b>Antonyms of UNREMITTING:</b> intermittent, occasional, sporadic, periodic.</p>\n  <p><b>Meanings of all the other given options:</b></p>\n  <ul>\n    <li><b>Option (a) Periodic:</b> happening at regular intervals (Hindi meaning: <b>आवधिक</b>).</li>\n    <li><b>Option (c) Sporadic:</b> occurring irregularly; not continuous (Hindi meaning: <b>छिटपुट / अनियमित</b>).</li>\n    <li><b>Option (d) Occasional:</b> happening sometimes; not frequent (Hindi meaning: <b>कभी-कभार</b>).</li>\n  </ul>\n  <p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (b) <b>Persistent</b>.</p>\n  <p><b>UNREMITTING</b> means continuing without stopping, weakening, or becoming less intense; it suggests something constant and unceasing. (Hindi meaning: <b>अविराम / निरंतर</b>)</p>\n  <p><b>Example:</b> The region faced <b>unremitting</b> heat for several weeks.</p>\n  <p><b>Persistent</b> means continuing firmly or obstinately without interruption; lasting for a long time. It matches the idea of something that does not stop. (Hindi meaning: <b>लगातार / निरंतर</b>)</p>\n  <p><b>Example:</b> Her <b>persistent</b> efforts finally led to success.</p>\n  <p><b>Synonyms of UNREMITTING:</b> constant, continual, incessant, relentless.</p>\n  <p><b>Antonyms of UNREMITTING:</b> intermittent, occasional, sporadic, periodic.</p>\n  <p><b>Meanings of all the other given options:</b></p>\n  <ul>\n    <li><b>Option (a) Periodic:</b> happening at regular intervals (Hindi meaning: <b>आवधिक</b>).</li>\n    <li><b>Option (c) Sporadic:</b> occurring irregularly; not continuous (Hindi meaning: <b>छिटपुट / अनियमित</b>).</li>\n    <li><b>Option (d) Occasional:</b> happening sometimes; not frequent (Hindi meaning: <b>कभी-कभार</b>).</li>\n  </ul>\n  <p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct indirect speech form of the following sentence.\n  <br> Ritu said to Neha, “What will you buy for me on my birthday next year?”\n  <br></span><span class=\"hqt\">Choose the correct indirect speech form of the following sentence.\n  <br> Ritu said to Neha, “What will you buy for me on my birthday next year?”\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Ritu asked Neha what she would buy for her on her birthday the following year.\n  <br></span><span class=\"hqt\">Ritu asked Neha what she would buy for her on her birthday the following year.\n  <br></span>",
+      "<span class=\"eqt\">Ritu asked Neha what she would buy for her on her birthday the previous year.\n  <br></span><span class=\"hqt\">Ritu asked Neha what she would buy for her on her birthday the previous year.\n  <br></span>",
+      "<span class=\"eqt\">Ritu asked Neha what she should buy for her on her birthday next year.\n  <br></span><span class=\"hqt\">Ritu asked Neha what she should buy for her on her birthday next year.\n  <br></span>",
+      "<span class=\"eqt\">Ritu requested Neha what she should buy for her on her birthday the coming year.\n  <br></span><span class=\"hqt\">Ritu requested Neha what she should buy for her on her birthday the coming year.\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct option is (a).</p><p>To change direct to indirect speech for a question, we use the reporting verb “asked” and remove the question form by using statement order (subwect + verb). We also apply tense backshift when the reporting verb is in the past (“said”), and we change pronouns and time expressions appropriately.</p><p>Step-by-step rules applied:</p><ul><li>Reporting verb change: “said to” becomes “asked” because it is an interrogative sentence.</li><li>Remove quotation marks and question mark; use indirect question form.</li><li>Change word order: “What will you buy” becomes “what she would buy” (no auxiliary inversion in indirect questions).</li><li>Tense backshift: “will” changes to “would” because the reporting verb is in the past.</li><li>Pronoun changes: “you” (addressing Neha) becomes “she”; “me” (Ritu) becomes “her”.</li><li>Time expression change: “next year” becomes “the following year” in indirect speech.</li><li>Possessive/time reference: “on my birthday” becomes “on her birthday” referring to Ritu.</li></ul><p>Therefore, option (A) correctly follows all conversion rules.</p><p>So the correct answer is (a)</p></span><span class=\"hqt\"><p>The correct option is (a).</p><p>To change direct to indirect speech for a question, we use the reporting verb “asked” and remove the question form by using statement order (subwect + verb). We also apply tense backshift when the reporting verb is in the past (“said”), and we change pronouns and time expressions appropriately.</p><p>Step-by-step rules applied:</p><ul><li>Reporting verb change: “said to” becomes “asked” because it is an interrogative sentence.</li><li>Remove quotation marks and question mark; use indirect question form.</li><li>Change word order: “What will you buy” becomes “what she would buy” (no auxiliary inversion in indirect questions).</li><li>Tense backshift: “will” changes to “would” because the reporting verb is in the past.</li><li>Pronoun changes: “you” (addressing Neha) becomes “she”; “me” (Ritu) becomes “her”.</li><li>Time expression change: “next year” becomes “the following year” in indirect speech.</li><li>Possessive/time reference: “on my birthday” becomes “on her birthday” referring to Ritu.</li></ul><p>Therefore, option (A) correctly follows all conversion rules.</p><p>So the correct answer is (a)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Fill in the blank with the appropriate article:\n  <br> The council debated at length over whether ______ rise in tuition charges was defensible in view of the prevailing economic conditions.\n  <br></span><span class=\"hqt\">Fill in the blank with the appropriate article:\n  <br> The council debated at length over whether ______ rise in tuition charges was defensible in view of the prevailing economic conditions.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">a\n  <br></span><span class=\"hqt\">a\n  <br></span>",
+      "<span class=\"eqt\">an\n  <br></span><span class=\"hqt\">an\n  <br></span>",
+      "<span class=\"eqt\">the\n  <br></span><span class=\"hqt\">the\n  <br></span>",
+      "<span class=\"eqt\">no article\n  <br></span><span class=\"hqt\">no article\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (C).</p>\n<p><b>Explanation (Articles):</b></p>\n<ul>\n  <li>We use <b>the</b> (definite article) when we refer to something <b>specific</b> or already understood from the context.</li>\n  <li>Here, “whether <b>the rise</b> in tuition charges was defensible” refers to a particular rise being discussed by the council (a known, definite issue).</li>\n  <li>Therefore, the correct sentence is: “...over whether <b>the</b> rise in tuition charges was defensible...”</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A) a</b>: “a rise” would suggest a non-specific, indefinite rise, which does not fit because the council is debating a particular rise.</li>\n  <li><b>(B) an</b>: “an” is used before vowel sounds, but “rise” starts with the consonant sound /r/, so “an rise” is incorrect.</li>\n  <li><b>(D) no article</b>: Without an article (“whether rise...”), the noun becomes grammatically unnatural in this context.</li>\n</ul>\n<p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (C).</p>\n<p><b>Explanation (Articles):</b></p>\n<ul>\n  <li>We use <b>the</b> (definite article) when we refer to something <b>specific</b> or already understood from the context.</li>\n  <li>Here, “whether <b>the rise</b> in tuition charges was defensible” refers to a particular rise being discussed by the council (a known, definite issue).</li>\n  <li>Therefore, the correct sentence is: “...over whether <b>the</b> rise in tuition charges was defensible...”</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A) a</b>: “a rise” would suggest a non-specific, indefinite rise, which does not fit because the council is debating a particular rise.</li>\n  <li><b>(B) an</b>: “an” is used before vowel sounds, but “rise” starts with the consonant sound /r/, so “an rise” is incorrect.</li>\n  <li><b>(D) no article</b>: Without an article (“whether rise...”), the noun becomes grammatically unnatural in this context.</li>\n</ul>\n<p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Change the following from active to passive:\n  <br> The director was expected to have completed the script revisions before filming began.\n  <br></span><span class=\"hqt\">Change the following from active to passive:\n  <br> The director was expected to have completed the script revisions before filming began.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">The script revisions were expected to have completed by the director before filming began.\n  <br></span><span class=\"hqt\">The script revisions were expected to have completed by the director before filming began.\n  <br></span>",
+      "<span class=\"eqt\">The script revisions were expected to have been completed by the director before filming began.\n  <br></span><span class=\"hqt\">The script revisions were expected to have been completed by the director before filming began.\n  <br></span>",
+      "<span class=\"eqt\">The script revisions were being expected to have been completed by the director before filming began.\n  <br></span><span class=\"hqt\">The script revisions were being expected to have been completed by the director before filming began.\n  <br></span>",
+      "<span class=\"eqt\">The script revisions were expected to being completed by the director before filming began.\n  <br></span><span class=\"hqt\">The script revisions were expected to being completed by the director before filming began.\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (B).</p>\n<p><b>Explanation (Active to Passive with perfect infinitive):</b></p>\n<ul>\n  <li>Given sentence: “The director was expected <b>to have completed</b> the script revisions...”</li>\n  <li>Here, the main verb phrase is <b>was expected</b> (past passive form of “expect”), and after it we have a <b>perfect infinitive</b>: <b>to have completed</b>.</li>\n  <li>Rule: When a perfect infinitive (<b>to have + V3</b>) is made passive, it becomes <b>to have been + V3</b>.</li>\n  <li>Obwect in active sense: <b>the script revisions</b>. This becomes the subwect in passive construction.</li>\n  <li>Therefore, correct passive form: <b>The script revisions were expected to have been completed by the director before filming began.</b></li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> “to have completed” is not converted to passive; it should be “to have <b>been</b> completed.”</li>\n  <li><b>(C)</b> introduces “were being expected,” which changes the meaning and aspect unnecessarily and is not required by the original structure.</li>\n  <li><b>(D)</b> “to being completed” is grammatically incorrect; the correct passive infinitive forms are “to be completed” or “to have been completed.”</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (B).</p>\n<p><b>Explanation (Active to Passive with perfect infinitive):</b></p>\n<ul>\n  <li>Given sentence: “The director was expected <b>to have completed</b> the script revisions...”</li>\n  <li>Here, the main verb phrase is <b>was expected</b> (past passive form of “expect”), and after it we have a <b>perfect infinitive</b>: <b>to have completed</b>.</li>\n  <li>Rule: When a perfect infinitive (<b>to have + V3</b>) is made passive, it becomes <b>to have been + V3</b>.</li>\n  <li>Obwect in active sense: <b>the script revisions</b>. This becomes the subwect in passive construction.</li>\n  <li>Therefore, correct passive form: <b>The script revisions were expected to have been completed by the director before filming began.</b></li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> “to have completed” is not converted to passive; it should be “to have <b>been</b> completed.”</li>\n  <li><b>(C)</b> introduces “were being expected,” which changes the meaning and aspect unnecessarily and is not required by the original structure.</li>\n  <li><b>(D)</b> “to being completed” is grammatically incorrect; the correct passive infinitive forms are “to be completed” or “to have been completed.”</li>\n</ul>\n<p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Find the part of the sentence that contains an error:\n  <br> The complaint letters that were received through email (1)/ and verified by the clerk (2)/ are being files systematically (3)/ in separate folders. (4)\n  <br></span><span class=\"hqt\">Find the part of the sentence that contains an error:\n  <br> The complaint letters that were received through email (1)/ and verified by the clerk (2)/ are being files systematically (3)/ in separate folders. (4)\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">The complaint letters that were received through email (1)\n  <br></span><span class=\"hqt\">The complaint letters that were received through email (1)\n  <br></span>",
+      "<span class=\"eqt\">and verified by the clerk (2)\n  <br></span><span class=\"hqt\">and verified by the clerk (2)\n  <br></span>",
+      "<span class=\"eqt\">are being files systematically (3)\n  <br></span><span class=\"hqt\">are being files systematically (3)\n  <br></span>",
+      "<span class=\"eqt\">in separate folders (4)\n  <br></span><span class=\"hqt\">in separate folders (4)\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p><p>Option (c) contains an error.</p><p>Detailed explanation of error: The phrase “are being files” is grammatically incorrect because after “are being” (present continuous passive structure), we must use the past participle (V3) form of the main verb. The verb intended here is “file” (to arrange documents in folders). The correct past participle is “filed”, not “files”. Hence, the correct phrase should be “are being filed systematically”.</p><p>Correct sentence: The complaint letters that were received through email and verified by the clerk are being filed systematically in separate folders.</p><p>Grammatical rule used: Present Continuous Passive = am/is/are + being + V3.</p><p>Example: The reports are being checked by the manager.</p><p>Information booster: In passive voice, always ensure the main verb appears in V3 (past participle). Using the base form or present form after “being” leads to a direct grammar error.</p><p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p><p>Option (c) contains an error.</p><p>Detailed explanation of error: The phrase “are being files” is grammatically incorrect because after “are being” (present continuous passive structure), we must use the past participle (V3) form of the main verb. The verb intended here is “file” (to arrange documents in folders). The correct past participle is “filed”, not “files”. Hence, the correct phrase should be “are being filed systematically”.</p><p>Correct sentence: The complaint letters that were received through email and verified by the clerk are being filed systematically in separate folders.</p><p>Grammatical rule used: Present Continuous Passive = am/is/are + being + V3.</p><p>Example: The reports are being checked by the manager.</p><p>Information booster: In passive voice, always ensure the main verb appears in V3 (past participle). Using the base form or present form after “being” leads to a direct grammar error.</p><p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Which of the following best describes the grammatical structure of the sentence:\n  <br> “This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another…”\n  <br></span><span class=\"hqt\">. In the sentence “Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy,” the word “curvature” most nearly refers to:\n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the question:\n  <br> “Minkowski proposed that space and time are not separate arenas but fused into a single four-dimensional continuum, an idea that naturally follows from Einstein’s Special Relativity. Within this model, time ceases to be an absolute Newtonian backdrop and instead becomes interlaced with the three spatial dimensions to form space-time. Events are located as points in this space-time, and their separation is measured not by ordinary Euclidean distance but by the relativistic interval, which remains invariant across reference frames. This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another moving relative to the first.\n  <br> When gravity is introduced through Einstein’s General Relativity, the picture deepens further. Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy. Obwects travel along geodesics—paths determined by the geometry of curved space-time. A striking consequence is gravitational time dilation: clocks nearer a massive body tick more slowly than clocks farther away. This has been empirically verified, including observations that satellite clocks run slightly faster than clocks on Earth due to weaker gravitational influence.”\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the question:\n  <br> “Minkowski proposed that space and time are not separate arenas but fused into a single four-dimensional continuum, an idea that naturally follows from Einstein’s Special Relativity. Within this model, time ceases to be an absolute Newtonian backdrop and instead becomes interlaced with the three spatial dimensions to form space-time. Events are located as points in this space-time, and their separation is measured not by ordinary Euclidean distance but by the relativistic interval, which remains invariant across reference frames. This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another moving relative to the first.\n  <br> When gravity is introduced through Einstein’s General Relativity, the picture deepens further. Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy. Obwects travel along geodesics—paths determined by the geometry of curved space-time. A striking consequence is gravitational time dilation: clocks nearer a massive body tick more slowly than clocks farther away. This has been empirically verified, including observations that satellite clocks run slightly faster than clocks on Earth due to weaker gravitational influence.”\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">Simple sentence\n  <br></span><span class=\"hqt\">Folding of solid matter\n  <br></span>",
+      "<span class=\"eqt\">Complex sentence\n  <br></span><span class=\"hqt\">Bending limited only to planetary orbits\n  <br></span>",
+      "<span class=\"eqt\">Compound sentence\n  <br></span><span class=\"hqt\">Warping of the structure of space and time\n  <br></span>",
+      "<span class=\"eqt\">Compound-complex sentence\n  <br></span><span class=\"hqt\">Distortion of instruments by energy fields\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (B).</p>\n<p><b>Explanation (Context + Grammar):</b></p>\n<p>The sentence is: “This entails <b>that</b> simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another...”</p>\n<ul>\n  <li>It has one main clause: <b>This entails</b>.</li>\n  <li>It is followed by a subordinate clause introduced by <b>that</b>: <b>that simultaneity is observer-dependent</b>.</li>\n  <li>Further, it contains an additional dependent idea after the colon: <b>what appears simultaneous to one observer may not be so to another</b>. The “what” clause functions as a dependent clause explaining the statement.</li>\n  <li>A <b>complex sentence</b> contains <b>one independent clause</b> and <b>one or more dependent (subordinate) clauses</b>.</li>\n  <li>Therefore, the best description is <b>Complex sentence</b>.</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A) Simple sentence</b>: A simple sentence has only one independent clause and no dependent clause; here, “that” and “what” introduce dependent clauses.</li>\n  <li><b>(C) Compound sentence</b>: A compound sentence has two independent clauses woined by a coordinating conwunction; that structure is not present.</li>\n  <li><b>(D) Compound-complex</b>: This requires at least two independent clauses plus at least one dependent clause; the given sentence does not clearly contain two independent clauses.</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (C).</p>\n<p><b>Explanation (Vocabulary in context):</b></p>\n<ul>\n  <li>The passage says: “Gravity is reconceived not as a Newtonian force but as the <b>curvature of space-time</b> produced by mass-energy.”</li>\n  <li>Here, <b>curvature</b> does not mean bending of a physical obwect; it refers to the way mass-energy changes the <b>geometry</b> of space and time.</li>\n  <li>This “warping” affects how obwects move (they follow geodesics), which is the main idea of General Relativity.</li>\n  <li>Therefore, “curvature” most nearly refers to <b>warping of the structure of space and time</b>.</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> “Folding of solid matter” is unrelated; space-time is not solid matter.</li>\n  <li><b>(B)</b> is too narrow and incorrect; curvature is not limited to planetary orbits only.</li>\n  <li><b>(D)</b> refers to instruments being distorted, which is not what the passage explains.</li>\n</ul>\n<p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">What is the closest meaning of “geodesics” in the context of the passage?\n  <br></span><span class=\"hqt\">. In the sentence “Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy,” the word “curvature” most nearly refers to:\n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the question:\n  <br> “Minkowski proposed that space and time are not separate arenas but fused into a single four-dimensional continuum, an idea that naturally follows from Einstein’s Special Relativity. Within this model, time ceases to be an absolute Newtonian backdrop and instead becomes interlaced with the three spatial dimensions to form space-time. Events are located as points in this space-time, and their separation is measured not by ordinary Euclidean distance but by the relativistic interval, which remains invariant across reference frames. This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another moving relative to the first.\n  <br> When gravity is introduced through Einstein’s General Relativity, the picture deepens further. Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy. Obwects travel along geodesics—paths determined by the geometry of curved space-time. A striking consequence is gravitational time dilation: clocks nearer a massive body tick more slowly than clocks farther away. This has been empirically verified, including observations that satellite clocks run slightly faster than clocks on Earth due to weaker gravitational influence.”\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the question:\n  <br> “Minkowski proposed that space and time are not separate arenas but fused into a single four-dimensional continuum, an idea that naturally follows from Einstein’s Special Relativity. Within this model, time ceases to be an absolute Newtonian backdrop and instead becomes interlaced with the three spatial dimensions to form space-time. Events are located as points in this space-time, and their separation is measured not by ordinary Euclidean distance but by the relativistic interval, which remains invariant across reference frames. This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another moving relative to the first.\n  <br> When gravity is introduced through Einstein’s General Relativity, the picture deepens further. Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy. Obwects travel along geodesics—paths determined by the geometry of curved space-time. A striking consequence is gravitational time dilation: clocks nearer a massive body tick more slowly than clocks farther away. This has been empirically verified, including observations that satellite clocks run slightly faster than clocks on Earth due to weaker gravitational influence.”\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">The most natural straight-like paths in curved space-time\n  <br></span><span class=\"hqt\">Folding of solid matter\n  <br></span>",
+      "<span class=\"eqt\">Vibrations travelling through space as waves\n  <br></span><span class=\"hqt\">Bending limited only to planetary orbits\n  <br></span>",
+      "<span class=\"eqt\">Circular tracks created only by orbital pull\n  <br></span><span class=\"hqt\">Warping of the structure of space and time\n  <br></span>",
+      "<span class=\"eqt\">Fixed reference points used for measurement\n  <br></span><span class=\"hqt\">Distortion of instruments by energy fields\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct option is (A).</p>\n<p><b>Explanation (Meaning from the passage):</b></p>\n<ul>\n  <li>The passage states: “Obwects travel along <b>geodesics</b>—paths determined by the geometry of curved space-time.”</li>\n  <li>So, <b>geodesics</b> are the <b>natural paths</b> followed by obwects when space-time is curved. They are the closest equivalent of a “straight line” in a curved geometry.</li>\n  <li>Thus, the closest meaning is: <b>The most natural straight-like paths in curved space-time</b>.</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(B)</b> refers to waves/vibrations, which relates to phenomena like electromagnetic waves or gravitational waves, not geodesics.</li>\n  <li><b>(C)</b> limits the meaning to circular tracks due to orbit, but geodesics can be many forms depending on curvature and are not restricted to circular orbits.</li>\n  <li><b>(D)</b> describes fixed reference points, which is unrelated to the idea of a path determined by geometry.</li>\n</ul>\n<p>So the correct answer is (a)</p></span><span class=\"hqt\"><p>The correct option is (C).</p>\n<p><b>Explanation (Vocabulary in context):</b></p>\n<ul>\n  <li>The passage says: “Gravity is reconceived not as a Newtonian force but as the <b>curvature of space-time</b> produced by mass-energy.”</li>\n  <li>Here, <b>curvature</b> does not mean bending of a physical obwect; it refers to the way mass-energy changes the <b>geometry</b> of space and time.</li>\n  <li>This “warping” affects how obwects move (they follow geodesics), which is the main idea of General Relativity.</li>\n  <li>Therefore, “curvature” most nearly refers to <b>warping of the structure of space and time</b>.</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> “Folding of solid matter” is unrelated; space-time is not solid matter.</li>\n  <li><b>(B)</b> is too narrow and incorrect; curvature is not limited to planetary orbits only.</li>\n  <li><b>(D)</b> refers to instruments being distorted, which is not what the passage explains.</li>\n</ul>\n<p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">. In the sentence “Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy,” the word “curvature” most nearly refers to:\n  <br></span><span class=\"hqt\">. In the sentence “Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy,” the word “curvature” most nearly refers to:\n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the question:\n  <br> “Minkowski proposed that space and time are not separate arenas but fused into a single four-dimensional continuum, an idea that naturally follows from Einstein’s Special Relativity. Within this model, time ceases to be an absolute Newtonian backdrop and instead becomes interlaced with the three spatial dimensions to form space-time. Events are located as points in this space-time, and their separation is measured not by ordinary Euclidean distance but by the relativistic interval, which remains invariant across reference frames. This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another moving relative to the first.\n  <br> When gravity is introduced through Einstein’s General Relativity, the picture deepens further. Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy. Obwects travel along geodesics—paths determined by the geometry of curved space-time. A striking consequence is gravitational time dilation: clocks nearer a massive body tick more slowly than clocks farther away. This has been empirically verified, including observations that satellite clocks run slightly faster than clocks on Earth due to weaker gravitational influence.”\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the question:\n  <br> “Minkowski proposed that space and time are not separate arenas but fused into a single four-dimensional continuum, an idea that naturally follows from Einstein’s Special Relativity. Within this model, time ceases to be an absolute Newtonian backdrop and instead becomes interlaced with the three spatial dimensions to form space-time. Events are located as points in this space-time, and their separation is measured not by ordinary Euclidean distance but by the relativistic interval, which remains invariant across reference frames. This entails that simultaneity is observer-dependent: what appears simultaneous to one observer may not be so to another moving relative to the first.\n  <br> When gravity is introduced through Einstein’s General Relativity, the picture deepens further. Gravity is reconceived not as a Newtonian force but as the curvature of space-time produced by mass-energy. Obwects travel along geodesics—paths determined by the geometry of curved space-time. A striking consequence is gravitational time dilation: clocks nearer a massive body tick more slowly than clocks farther away. This has been empirically verified, including observations that satellite clocks run slightly faster than clocks on Earth due to weaker gravitational influence.”\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">Folding of solid matter\n  <br></span><span class=\"hqt\">Folding of solid matter\n  <br></span>",
+      "<span class=\"eqt\">Bending limited only to planetary orbits\n  <br></span><span class=\"hqt\">Bending limited only to planetary orbits\n  <br></span>",
+      "<span class=\"eqt\">Warping of the structure of space and time\n  <br></span><span class=\"hqt\">Warping of the structure of space and time\n  <br></span>",
+      "<span class=\"eqt\">Distortion of instruments by energy fields\n  <br></span><span class=\"hqt\">Distortion of instruments by energy fields\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (C).</p>\n<p><b>Explanation (Vocabulary in context):</b></p>\n<ul>\n  <li>The passage says: “Gravity is reconceived not as a Newtonian force but as the <b>curvature of space-time</b> produced by mass-energy.”</li>\n  <li>Here, <b>curvature</b> does not mean bending of a physical obwect; it refers to the way mass-energy changes the <b>geometry</b> of space and time.</li>\n  <li>This “warping” affects how obwects move (they follow geodesics), which is the main idea of General Relativity.</li>\n  <li>Therefore, “curvature” most nearly refers to <b>warping of the structure of space and time</b>.</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> “Folding of solid matter” is unrelated; space-time is not solid matter.</li>\n  <li><b>(B)</b> is too narrow and incorrect; curvature is not limited to planetary orbits only.</li>\n  <li><b>(D)</b> refers to instruments being distorted, which is not what the passage explains.</li>\n</ul>\n<p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (C).</p>\n<p><b>Explanation (Vocabulary in context):</b></p>\n<ul>\n  <li>The passage says: “Gravity is reconceived not as a Newtonian force but as the <b>curvature of space-time</b> produced by mass-energy.”</li>\n  <li>Here, <b>curvature</b> does not mean bending of a physical obwect; it refers to the way mass-energy changes the <b>geometry</b> of space and time.</li>\n  <li>This “warping” affects how obwects move (they follow geodesics), which is the main idea of General Relativity.</li>\n  <li>Therefore, “curvature” most nearly refers to <b>warping of the structure of space and time</b>.</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> “Folding of solid matter” is unrelated; space-time is not solid matter.</li>\n  <li><b>(B)</b> is too narrow and incorrect; curvature is not limited to planetary orbits only.</li>\n  <li><b>(D)</b> refers to instruments being distorted, which is not what the passage explains.</li>\n</ul>\n<p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Choose the most suitable option to replace the highlighted part:  <br> She plays the violin   <strong>as good as</strong> a professional musician.  <br></p></span><span class=\"hqt\"><p>Choose the most suitable option to replace the highlighted part:  <br> She plays the violin   <strong>as good as</strong> a professional musician.  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>so good as  <br></p></span><span class=\"hqt\"><p>so good as  <br></p></span>",
+      "<span class=\"eqt\"><p>as well as  <br></p></span><span class=\"hqt\"><p>as well as  <br></p></span>",
+      "<span class=\"eqt\"><p>as goodly as  <br></p></span><span class=\"hqt\"><p>as goodly as  <br></p></span>",
+      "<span class=\"eqt\"><p>as better as  <br></p></span><span class=\"hqt\"><p>as better as  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer: B. as well as</strong></p><p><strong>Given sentence:</strong><br>She plays the violin <strong>as good as</strong> a professional musician.</p><p><strong>Correct sentence:</strong><br>She plays the violin <strong>as well as</strong> a professional musician.</p><p><strong>Explanation:</strong><br>The error lies in the phrase <strong>“as good as”</strong>. In the given sentence, the word <strong>“plays”</strong> is a verb. A verb should be modified by an <strong>adverb</strong>, not by an adwective.</p><p>Here, <strong>good</strong> is an adwective, while <strong>well</strong> is an adverb. Since the sentence talks about how she <strong>plays</strong> the violin, we need the adverb <strong>well</strong>.</p><p>So, the correct phrase is <strong>“as well as”</strong>, which is used to compare the manner or quality of performing an action.</p><p><strong>Option-wise explanation:</strong></p><p><strong>A. so good as</strong><br>This is incorrect. <strong>“So good as”</strong> is not suitable in this affirmative comparison. Also, <strong>good</strong> is an adwective, whereas the verb <strong>plays</strong> requires the adverb <strong>well</strong>.</p><p><strong>B. as well as</strong><br>This is correct. <strong>“Well”</strong> is an adverb and correctly modifies the verb <strong>plays</strong>. The structure <strong>“as + adverb + as”</strong> is used for comparison.</p><p><strong>C. as goodly as</strong><br>This is incorrect. <strong>Goodly</strong> is not used as the adverb of <strong>good</strong> in modern standard English. The correct adverb is <strong>well</strong>.</p><p><strong>D. as better as</strong><br>This is incorrect. <strong>Better</strong> is a comparative form, and it cannot be used in the structure <strong>“as + comparative + as”</strong>. The correct structure is <strong>“as + positive degree + as”</strong>.</p><p>Therefore, the correct answer is <strong>B. as well as</strong>.</p></span><span class=\"hqt\"><p><strong>Correct Answer: B. as well as</strong></p><p><strong>Given sentence:</strong><br>She plays the violin <strong>as good as</strong> a professional musician.</p><p><strong>Correct sentence:</strong><br>She plays the violin <strong>as well as</strong> a professional musician.</p><p><strong>Explanation:</strong><br>The error lies in the phrase <strong>“as good as”</strong>. In the given sentence, the word <strong>“plays”</strong> is a verb. A verb should be modified by an <strong>adverb</strong>, not by an adwective.</p><p>Here, <strong>good</strong> is an adwective, while <strong>well</strong> is an adverb. Since the sentence talks about how she <strong>plays</strong> the violin, we need the adverb <strong>well</strong>.</p><p>So, the correct phrase is <strong>“as well as”</strong>, which is used to compare the manner or quality of performing an action.</p><p><strong>Option-wise explanation:</strong></p><p><strong>A. so good as</strong><br>This is incorrect. <strong>“So good as”</strong> is not suitable in this affirmative comparison. Also, <strong>good</strong> is an adwective, whereas the verb <strong>plays</strong> requires the adverb <strong>well</strong>.</p><p><strong>B. as well as</strong><br>This is correct. <strong>“Well”</strong> is an adverb and correctly modifies the verb <strong>plays</strong>. The structure <strong>“as + adverb + as”</strong> is used for comparison.</p><p><strong>C. as goodly as</strong><br>This is incorrect. <strong>Goodly</strong> is not used as the adverb of <strong>good</strong> in modern standard English. The correct adverb is <strong>well</strong>.</p><p><strong>D. as better as</strong><br>This is incorrect. <strong>Better</strong> is a comparative form, and it cannot be used in the structure <strong>“as + comparative + as”</strong>. The correct structure is <strong>“as + positive degree + as”</strong>.</p><p>Therefore, the correct answer is <strong>B. as well as</strong>.</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">What is the active voice of the following sentence?\n  <br> When was the monument built by the emperor and later it was restored by the council?\n  <br></span><span class=\"hqt\">What is the active voice of the following sentence?\n  <br> When was the monument built by the emperor and later it was restored by the council?\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">When was the emperor built the monument and later they had restored it by the council?\n  <br></span><span class=\"hqt\">When was the emperor built the monument and later they had restored it by the council?\n  <br></span>",
+      "<span class=\"eqt\">When the emperor builds the monument and later who restored it by the council?\n  <br></span><span class=\"hqt\">When the emperor builds the monument and later who restored it by the council?\n  <br></span>",
+      "<span class=\"eqt\">When did the emperor build the monument and later the council restored it?\n  <br></span><span class=\"hqt\">When did the emperor build the monument and later the council restored it?\n  <br></span>",
+      "<span class=\"eqt\">When the emperor built the monument and later he were restored it by the council?\n  <br></span><span class=\"hqt\">When the emperor built the monument and later he were restored it by the council?\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p><p>To convert from passive to active voice, we make the agent (introduced by “by”) the subwect, change the verb into the correct tense, and keep the obwect as the receiver of action. The sentence contains two passive clauses woined by “and later”.</p><p>Structure used:</p><p>Passive voice: Obwect + was/were + V3 + by + Subwect.</p><p>Active voice: Subwect + V2 + Obwect.</p><p>Step-by-step conversion:</p><ul><li>First clause: “the monument built by the emperor” becomes “the emperor built the monument”. Since the question is in past, “When was … built?” becomes “When did … build?”</li><li>Second clause: “it was restored by the council” becomes “the council restored it”.</li><li>Maintain sequence: “and later” remains to show the second action happened afterwards.</li></ul><p>Thus, the correct active form is: “When did the emperor build the monument and later the council restored it?”</p><p>Why other options are incorrect:</p><ul><li>Option A: Incorrect question formation (“was the emperor built”), wrong tense and unnecessary “by the council” again.</li><li>Option B: Wrong tense (“builds”) and incorrect structure of the second clause.</li><li>Option D: Incorrect grammar (“he were restored”) and wrong subwect-agent mapping.</li></ul><p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p><p>To convert from passive to active voice, we make the agent (introduced by “by”) the subwect, change the verb into the correct tense, and keep the obwect as the receiver of action. The sentence contains two passive clauses woined by “and later”.</p><p>Structure used:</p><p>Passive voice: Obwect + was/were + V3 + by + Subwect.</p><p>Active voice: Subwect + V2 + Obwect.</p><p>Step-by-step conversion:</p><ul><li>First clause: “the monument built by the emperor” becomes “the emperor built the monument”. Since the question is in past, “When was … built?” becomes “When did … build?”</li><li>Second clause: “it was restored by the council” becomes “the council restored it”.</li><li>Maintain sequence: “and later” remains to show the second action happened afterwards.</li></ul><p>Thus, the correct active form is: “When did the emperor build the monument and later the council restored it?”</p><p>Why other options are incorrect:</p><ul><li>Option A: Incorrect question formation (“was the emperor built”), wrong tense and unnecessary “by the council” again.</li><li>Option B: Wrong tense (“builds”) and incorrect structure of the second clause.</li><li>Option D: Incorrect grammar (“he were restored”) and wrong subwect-agent mapping.</li></ul><p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the one that correctly represents the sentence in direct speech:\n  <br> Rohan admitted that he did not have enough time to revise his notes the previous day.\n  <br></span><span class=\"hqt\">Choose the one that correctly represents the sentence in direct speech:\n  <br> Rohan admitted that he did not have enough time to revise his notes the previous day.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Rohan said, \"I don't have enough time to revise my notes the previous day.\"\n  <br></span><span class=\"hqt\">Rohan said, \"I don't have enough time to revise my notes the previous day.\"\n  <br></span>",
+      "<span class=\"eqt\">Rohan said, \"I didn't have enough time to revise my notes yesterday.\"\n  <br></span><span class=\"hqt\">Rohan said, \"I didn't have enough time to revise my notes yesterday.\"\n  <br></span>",
+      "<span class=\"eqt\">Rohan said, \"I didn’t have enough time to revise my notes the previous day.\"\n  <br></span><span class=\"hqt\">Rohan said, \"I didn’t have enough time to revise my notes the previous day.\"\n  <br></span>",
+      "<span class=\"eqt\">Rohan said, \"I hadn’t had enough time to revise my notes yesterday.\"\n  <br></span><span class=\"hqt\">Rohan said, \"I hadn’t had enough time to revise my notes yesterday.\"\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (B).</p>\n<p><b>Explanation (Indirect to Direct Speech):</b></p>\n<ul>\n  <li>Indirect sentence: “Rohan admitted that he did not have enough time to revise his notes the previous day.”</li>\n  <li>We must convert it into direct speech by restoring the original speaker’s words.</li>\n  <li>Pronoun change: “he” becomes “I” because Rohan is speaking in direct speech.</li>\n  <li>Time expression change: “the previous day” in indirect speech becomes <b>yesterday</b> in direct speech.</li>\n  <li>Tense: “did not have” (past simple) remains appropriate as “didn’t have” in direct speech.</li>\n  <li>Thus: <b>Rohan said, “I didn’t have enough time to revise my notes yesterday.”</b></li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> uses present tense “don’t have” and keeps “the previous day,” which is incorrect for direct speech time reference.</li>\n  <li><b>(C)</b> keeps “the previous day” instead of converting it to “yesterday,” which is less standard for direct speech conversion.</li>\n  <li><b>(D)</b> uses past perfect “hadn’t had,” which changes the tense unnecessarily and does not match the reported meaning here.</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (B).</p>\n<p><b>Explanation (Indirect to Direct Speech):</b></p>\n<ul>\n  <li>Indirect sentence: “Rohan admitted that he did not have enough time to revise his notes the previous day.”</li>\n  <li>We must convert it into direct speech by restoring the original speaker’s words.</li>\n  <li>Pronoun change: “he” becomes “I” because Rohan is speaking in direct speech.</li>\n  <li>Time expression change: “the previous day” in indirect speech becomes <b>yesterday</b> in direct speech.</li>\n  <li>Tense: “did not have” (past simple) remains appropriate as “didn’t have” in direct speech.</li>\n  <li>Thus: <b>Rohan said, “I didn’t have enough time to revise my notes yesterday.”</b></li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>(A)</b> uses present tense “don’t have” and keeps “the previous day,” which is incorrect for direct speech time reference.</li>\n  <li><b>(C)</b> keeps “the previous day” instead of converting it to “yesterday,” which is less standard for direct speech conversion.</li>\n  <li><b>(D)</b> uses past perfect “hadn’t had,” which changes the tense unnecessarily and does not match the reported meaning here.</li>\n</ul>\n<p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  }
+];
+        const sectionsData = null;
+        const marksPerQ = 2.0;
+        const negMarks = 0.5;
+        const totalDuration = 15;
+        
+        class CBTExam {
+            constructor() {
+                this.questions = questions;
+                this.sections = sectionsData;
+                this.currentQuestion = 0;
+                this.answers = new Array(this.questions.length).fill(null);
+                this.markedForReview = new Array(this.questions.length).fill(false);
+                this.timeSpent = new Array(this.questions.length).fill(0);
+                this.isEnglish = true;
+                this.isSubmitted = false;
+                this.startTime = null;
+                this.lastQuestionTime = null;
+                this.mainTimer = null;
+                this.sectionTimer = null;
+                this.currentSection = this.sections ? 0 : null;
+                this.totalTimeLeft = totalDuration * 60;
+                
+                this.initElements();
+                this.setupWelcomeScreen();
+                this.setupBeforeUnload();
+            }
+            
+            initElements() {
+                this.els = {
+                    fullscreenBtn: document.getElementById('fullscreenBtn'),
+                    welcomeScreen: document.getElementById('welcomeScreen'),
+                    examContainer: document.getElementById('examContainer'),
+                    mainTimer: document.getElementById('mainTimer'),
+                    sectionBadge: document.getElementById('sectionBadge'),
+                    sectionName: document.getElementById('sectionName'),
+                    sectionTimer: document.getElementById('sectionTimer'),
+                    questionNum: document.getElementById('questionNum'),
+                    questionMarks: document.getElementById('questionMarks'),
+                    questionText: document.getElementById('questionText'),
+                    comprehension: document.getElementById('comprehension'),
+                    comprehensionText: document.getElementById('comprehensionText'),
+                    optionsList: document.getElementById('optionsList'),
+                    solutionBox: document.getElementById('solutionBox'),
+                    solutionStats: document.getElementById('solutionStats'),
+                    solutionText: document.getElementById('solutionText'),
+                    progressText: document.getElementById('progressText'),
+                    answeredCount: document.getElementById('answeredCount'),
+                    desktopNav: document.getElementById('desktopNav'),
+                    mobileNav: document.getElementById('mobileNav'),
+                    mobileNavGrid: document.getElementById('mobileNavGrid'),
+                    resultModal: document.getElementById('resultModal'),
+                    resultScore: document.getElementById('resultScore'),
+                    correctCount: document.getElementById('correctCount'),
+                    incorrectCount: document.getElementById('incorrectCount'),
+                    unattemptedCount: document.getElementById('unattemptedCount'),
+                    timeTaken: document.getElementById('timeTaken'),
+                    sectionResults: document.getElementById('sectionResults'),
+                    sectionResultsBody: document.getElementById('sectionResultsBody')
+                };
+            }
+            
+            setupWelcomeScreen() {
+                if (this.els.fullscreenBtn) {
+                    this.els.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+                document.addEventListener('fullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('webkitfullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('msfullscreenchange', () => this.updateFullscreenIcon());
+
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.els.welcomeScreen.classList.add('hidden');
+                    this.els.examContainer.classList.add('active');
+                    setTimeout(() => this.startExam(), 100);
+                });
+            }
+            
+            setupBeforeUnload() {
+                window.addEventListener('beforeunload', (e) => {
+                    if (!this.isSubmitted) {
+                        e.preventDefault();
+                        e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
+                        return e.returnValue;
+                    }
+                });
+            }
+            
+            startExam() {
+                this.startTime = Date.now();
+                this.lastQuestionTime = this.startTime;
+                this.createNavigator();
+                this.startMainTimer();
+                if (this.sections) {
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                }
+                this.loadQuestion(0);
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('engBtn').onclick = () => this.setLanguage(true);
+                document.getElementById('hinBtn').onclick = () => this.setLanguage(false);
+                document.getElementById('prevBtn').onclick = () => this.navigate(-1);
+                document.getElementById('nextBtn').onclick = () => this.navigate(1);
+                document.getElementById('reviewBtn').onclick = () => this.toggleReview();
+                document.getElementById('submitBtn').onclick = () => this.confirmSubmit();
+                document.getElementById('submitBtnDesktop').onclick = () => this.confirmSubmit();
+                document.getElementById('navigatorBtn').onclick = () => this.openMobileNav();
+                document.getElementById('closeNav').onclick = () => this.closeMobileNav();
+                document.getElementById('closeResult').onclick = () => this.closeResultModal();
+                document.getElementById('reviewAnswers').onclick = () => this.reviewAnswers();
+            }
+            
+            createNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    container.innerHTML = '';
+                    this.questions.forEach((_, i) => {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-question';
+                        btn.textContent = i + 1;
+                        btn.onclick = () => this.goToQuestion(i);
+                        container.appendChild(btn);
+                    });
+                });
+            }
+            
+            extractText(html, isEng) {
+                if (!html) return '';
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                
+                const langSpans = temp.querySelectorAll('span.eqt, span.hqt');
+                langSpans.forEach(span => {
+                    if ((isEng && span.classList.contains('hqt')) || 
+                        (!isEng && span.classList.contains('eqt'))) {
+                        span.style.display = 'none';
+                    } else {
+                        span.style.display = '';
+                    }
+                });
+                
+                return temp.innerHTML;
+            }
+            
+            getQuestionMarks(qIdx) {
+                if (!this.sections) return marksPerQ;
+                
+                for (const section of this.sections) {
+                    if (qIdx >= section.start && qIdx <= section.end) {
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                if (qIdx >= subsec.start && qIdx <= subsec.end) {
+                                    return subsec.marks_per_q;
+                                }
+                            }
+                        }
+                        return marksPerQ;
+                    }
+                }
+                return marksPerQ;
+            }
+            
+            loadQuestion(idx) {
+                if (this.currentQuestion !== idx) {
+                    const now = Date.now();
+                    this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                    this.lastQuestionTime = now;
+                }
+                
+                this.currentQuestion = idx;
+                const q = this.questions[idx];
+                const qMarks = this.getQuestionMarks(idx);
+                
+                this.els.questionNum.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.els.questionMarks.textContent = `Marks: ${qMarks}`;
+                this.els.progressText.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.updateAnsweredCount();
+                this.updateNavigator();
+                this.updateNavigationButtons();
+                this.updateReviewButton();
+                
+                if (q.comp) {
+                    this.els.comprehension.style.display = 'block';
+                    this.els.comprehensionText.innerHTML = this.extractText(q.comp, this.isEnglish);
+                } else {
+                    this.els.comprehension.style.display = 'none';
+                }
+                
+                this.els.questionText.innerHTML = this.extractText(q.question, this.isEnglish);
+                this.loadOptions(q, idx);
+                
+                if (this.isSubmitted && q.solution) {
+                    const timeSpent = Math.round(this.timeSpent[idx]);
+                    const mins = Math.floor(timeSpent / 60);
+                    const secs = timeSpent % 60;
+                    const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                    
+                    this.els.solutionStats.innerHTML = `
+                        <span><i class="fas fa-clock"></i> Time: ${timeStr}</span>
+                        <span><i class="fas fa-check-circle"></i> Correct: ${String.fromCharCode(65 + q.correct_option_id)}</span>
+                    `;
+                    this.els.solutionText.innerHTML = this.extractText(q.solution, this.isEnglish);
+                    this.els.solutionBox.classList.add('show');
+                } else {
+                    this.els.solutionBox.classList.remove('show');
+                }
+                
+                // Render LaTeX in all updated elements
+                renderMath(this.els.questionText);
+                renderMath(this.els.comprehensionText);
+                renderMath(this.els.solutionText);
+            }
+            
+            loadOptions(q, qIdx) {
+                this.els.optionsList.innerHTML = '';
+                const userAnswer = this.answers[qIdx];
+                const correctAnswer = q.correct_option_id;
+                
+                if (!q.options || !Array.isArray(q.options)) return;
+                
+                q.options.forEach((opt, i) => {
+                    const div = document.createElement('div');
+                    let className = 'option';
+                    
+                    if (this.isSubmitted) className += ' submitted';
+                    if (userAnswer === i) className += ' selected';
+                    
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            className += ' correct';
+                        } else if (userAnswer === i && userAnswer !== correctAnswer) {
+                            className += ' wrong';
+                        }
+                    }
+                    
+                    div.className = className;
+                    
+                    let indicator = '';
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            indicator = '✓';
+                        } else if (userAnswer === i) {
+                            indicator = '✗';
+                        }
+                    } else if (userAnswer === i) {
+                        indicator = '✓';
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="option-indicator">${indicator}</div>
+                        <div class="option-text">${this.extractText(opt, this.isEnglish)}</div>
+                    `;
+                    
+                    if (!this.isSubmitted) {
+                        div.onclick = () => this.selectOption(i, qIdx);
+                    }
+                    
+                    this.els.optionsList.appendChild(div);
+                });
+                // Render LaTeX in options
+                renderMath(this.els.optionsList);
+            }
+            
+            selectOption(optIdx, qIdx) {
+                if (this.isSubmitted) return;
+                this.answers[qIdx] = this.answers[qIdx] === optIdx ? null : optIdx;
+                this.loadOptions(this.questions[qIdx], qIdx);
+                this.updateAnsweredCount();
+                this.updateNavigator();
+            }
+            
+            toggleReview() {
+                if (this.isSubmitted) return;
+                this.markedForReview[this.currentQuestion] = !this.markedForReview[this.currentQuestion];
+                this.updateNavigator();
+                this.updateReviewButton();
+            }
+            
+            updateReviewButton() {
+                const btn = document.getElementById('reviewBtn');
+                if (this.markedForReview[this.currentQuestion]) {
+                    btn.classList.add('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Marked';
+                } else {
+                    btn.classList.remove('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Mark for Review';
+                }
+            }
+            
+            navigate(dir) {
+                const newIdx = this.currentQuestion + dir;
+                
+                if (this.isSubmitted) {
+                    if (newIdx >= 0 && newIdx < this.questions.length) {
+                        this.loadQuestion(newIdx);
+                    }
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (newIdx < currentSection.start || newIdx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                if (newIdx >= 0 && newIdx < this.questions.length) {
+                    this.loadQuestion(newIdx);
+                }
+            }
+            
+            goToQuestion(idx) {
+                if (this.isSubmitted) {
+                    this.loadQuestion(idx);
+                    this.closeMobileNav();
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (idx < currentSection.start || idx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                this.loadQuestion(idx);
+                this.closeMobileNav();
+            }
+            
+            updateNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    const btns = container.querySelectorAll('.nav-question');
+                    btns.forEach((btn, i) => {
+                        btn.className = 'nav-question';
+                        
+                        if (i === this.currentQuestion) {
+                            btn.classList.add('current');
+                        } else if (this.isSubmitted) {
+                            if (this.answers[i] !== null && this.questions[i].correct_option_id !== undefined) {
+                                if (this.answers[i] === this.questions[i].correct_option_id) {
+                                    btn.classList.add('answered');
+                                } else {
+                                    btn.classList.add('wrong');
+                                }
+                            }
+                        } else {
+                            if (this.markedForReview[i]) {
+                                btn.classList.add('review');
+                            } else if (this.answers[i] !== null) {
+                                btn.classList.add('answered');
+                            }
+                            
+                            if (this.sections) {
+                                const currentSection = this.sections[this.currentSection];
+                                if (i < currentSection.start || i > currentSection.end) {
+                                    btn.classList.add('disabled');
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const reviewBtn = document.getElementById('reviewBtn');
+                
+                prevBtn.disabled = this.currentQuestion === 0;
+                nextBtn.disabled = this.currentQuestion === this.questions.length - 1;
+                
+                if (this.isSubmitted) {
+                    reviewBtn.style.display = 'none';
+                } else {
+                    reviewBtn.style.display = 'inline-flex';
+                }
+                
+                if (this.sections && !this.isSubmitted) {
+                    const currentSection = this.sections[this.currentSection];
+                    prevBtn.disabled = prevBtn.disabled || (this.currentQuestion === currentSection.start);
+                    nextBtn.disabled = nextBtn.disabled || (this.currentQuestion === currentSection.end);
+                }
+            }
+            
+            updateAnsweredCount() {
+                const count = this.answers.filter(a => a !== null).length;
+                this.els.answeredCount.textContent = count;
+            }
+            
+            setLanguage(isEng) {
+                this.isEnglish = isEng;
+                document.getElementById('engBtn').classList.toggle('active', isEng);
+                document.getElementById('hinBtn').classList.toggle('active', !isEng);
+                this.loadQuestion(this.currentQuestion);
+            }
+            
+            startMainTimer() {
+                this.mainTimer = setInterval(() => {
+                    this.totalTimeLeft--;
+                    if (this.totalTimeLeft <= 0) {
+                        clearInterval(this.mainTimer);
+                        this.submitTest();
+                        return;
+                    }
+                    const mins = Math.floor(this.totalTimeLeft / 60);
+                    const secs = this.totalTimeLeft % 60;
+                    this.els.mainTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+            
+            startSectionTimer() {
+                if (!this.sections) return;
+                
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                const section = this.sections[this.currentSection];
+                section.time_left = section.timer;
+                
+                this.sectionTimer = setInterval(() => {
+                    section.time_left--;
+                    const mins = Math.floor(section.time_left / 60);
+                    const secs = section.time_left % 60;
+                    this.els.sectionTimer.textContent = ` | ${mins}:${secs.toString().padStart(2, '0')}`;
+                    
+                    if (section.time_left <= 0) {
+                        clearInterval(this.sectionTimer);
+                        this.submitSection();
+                    }
+                }, 1000);
+            }
+            
+            updateSectionInfo() {
+                if (!this.sections) return;
+                const section = this.sections[this.currentSection];
+                this.els.sectionName.textContent = section.name;
+                this.els.sectionBadge.style.display = 'block';
+            }
+            
+            submitSection() {
+                if (!this.sections) return;
+                
+                const section = this.sections[this.currentSection];
+                section.submitted = true;
+                clearInterval(this.sectionTimer);
+                
+                const nextSectionIdx = this.currentSection + 1;
+                if (nextSectionIdx < this.sections.length) {
+                    this.currentSection = nextSectionIdx;
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                    this.loadQuestion(this.sections[nextSectionIdx].start);
+                } else {
+                    this.submitTest();
+                }
+                
+                this.updateNavigator();
+            }
+            
+            confirmSubmit() {
+                if (this.sections) {
+                    const section = this.sections[this.currentSection];
+                    const unanswered = this.answers.slice(section.start, section.end + 1)
+                        .filter(a => a === null).length;
+                    
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions in this section. Submit anyway?`
+                        : 'Submit this section?';
+                    
+                    if (confirm(msg)) this.submitSection();
+                } else {
+                    const unanswered = this.answers.filter(a => a === null).length;
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions. Submit test?`
+                        : 'Submit test?';
+                    
+                    if (confirm(msg)) this.submitTest();
+                }
+            }
+            
+            submitTest() {
+                if (this.isSubmitted) return;
+                
+                const now = Date.now();
+                this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                
+                this.isSubmitted = true;
+                clearInterval(this.mainTimer);
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('submitBtnDesktop').style.display = 'none';
+                document.getElementById('reviewBtn').style.display = 'none';
+                
+                if (this.sections) {
+                    this.els.sectionBadge.style.display = 'none';
+                }
+                
+                const results = this.calculateResults();
+                this.showResults(results);
+                this.loadQuestion(this.currentQuestion);
+                this.updateNavigator();
+            }
+            
+            calculateResults() {
+                const timeTaken = Math.round((Date.now() - this.startTime) / 60000);
+                let correct = 0, incorrect = 0, unattempted = 0, score = 0;
+                
+                const sectionResults = [];
+                
+                if (this.sections) {
+                    for (const section of this.sections) {
+                        let secCorrect = 0, secIncorrect = 0, secUnattempted = 0, secScore = 0;
+                        const subsecResults = [];
+                        
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                let subCorrect = 0, subIncorrect = 0, subUnattempted = 0, subScore = 0;
+                                
+                                for (let i = subsec.start; i <= subsec.end; i++) {
+                                    const userAns = this.answers[i];
+                                    const correctAns = this.questions[i].correct_option_id;
+                                    
+                                    if (userAns === null) {
+                                        subUnattempted++;
+                                    } else if (correctAns !== undefined && userAns === correctAns) {
+                                        subCorrect++;
+                                        subScore += subsec.marks_per_q;
+                                    } else {
+                                        subIncorrect++;
+                                        subScore -= negMarks;
+                                    }
+                                }
+                                
+                                subsecResults.push({
+                                    name: subsec.name,
+                                    attempted: subCorrect + subIncorrect,
+                                    correct: subCorrect,
+                                    incorrect: subIncorrect,
+                                    unattempted: subUnattempted,
+                                    score: Math.max(0, subScore)
+                                });
+                                
+                                secCorrect += subCorrect;
+                                secIncorrect += subIncorrect;
+                                secUnattempted += subUnattempted;
+                                secScore += subScore;
+                            }
+                        } else {
+                            for (let i = section.start; i <= section.end; i++) {
+                                const userAns = this.answers[i];
+                                const correctAns = this.questions[i].correct_option_id;
+                                
+                                if (userAns === null) {
+                                    secUnattempted++;
+                                } else if (correctAns !== undefined && userAns === correctAns) {
+                                    secCorrect++;
+                                    secScore += marksPerQ;
+                                } else {
+                                    secIncorrect++;
+                                    secScore -= negMarks;
+                                }
+                            }
+                        }
+                        
+                        sectionResults.push({
+                            name: section.name,
+                            attempted: secCorrect + secIncorrect,
+                            correct: secCorrect,
+                            incorrect: secIncorrect,
+                            unattempted: secUnattempted,
+                            score: Math.max(0, secScore),
+                            subsections: subsecResults.length > 0 ? subsecResults : null
+                        });
+                        
+                        correct += secCorrect;
+                        incorrect += secIncorrect;
+                        unattempted += secUnattempted;
+                        score += secScore;
+                    }
+                } else {
+                    this.questions.forEach((q, i) => {
+                        const userAns = this.answers[i];
+                        const correctAns = q.correct_option_id;
+                        
+                        if (userAns === null) {
+                            unattempted++;
+                        } else if (correctAns !== undefined && userAns === correctAns) {
+                            correct++;
+                            score += marksPerQ;
+                        } else {
+                            incorrect++;
+                            score -= negMarks;
+                        }
+                    });
+                }
+                
+                return {
+                    score: Math.max(0, score),
+                    correct,
+                    incorrect,
+                    unattempted,
+                    timeTaken,
+                    sectionResults: sectionResults.length > 0 ? sectionResults : null
+                };
+            }
+            
+            showResults(results) {
+                this.els.resultScore.textContent = `${results.score.toFixed(2)}/${this.questions.length * marksPerQ}`;
+                this.els.correctCount.textContent = results.correct;
+                this.els.incorrectCount.textContent = results.incorrect;
+                this.els.unattemptedCount.textContent = results.unattempted;
+                this.els.timeTaken.textContent = results.timeTaken;
+                
+                if (results.sectionResults) {
+                    this.els.sectionResults.style.display = 'block';
+                    this.els.sectionResultsBody.innerHTML = '';
+                    
+                    results.sectionResults.forEach(section => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${section.name}</strong></td>
+                            <td>${section.attempted}</td>
+                            <td>${section.correct}</td>
+                            <td>${section.incorrect}</td>
+                            <td><strong>${section.score.toFixed(2)}</strong></td>
+                        `;
+                        this.els.sectionResultsBody.appendChild(row);
+                        
+                        if (section.subsections) {
+                            section.subsections.forEach(subsec => {
+                                const subRow = document.createElement('tr');
+                                subRow.className = 'subsection-row';
+                                subRow.innerHTML = `
+                                    <td>${subsec.name}</td>
+                                    <td>${subsec.attempted}</td>
+                                    <td>${subsec.correct}</td>
+                                    <td>${subsec.incorrect}</td>
+                                    <td>${subsec.score.toFixed(2)}</td>
+                                `;
+                                this.els.sectionResultsBody.appendChild(subRow);
+                            });
+                        }
+                    });
+                } else {
+                    this.els.sectionResults.style.display = 'none';
+                }
+                
+                this.els.resultModal.classList.add('show');
+            }
+            
+            closeResultModal() {
+                this.els.resultModal.classList.remove('show');
+            }
+            
+            reviewAnswers() {
+                this.closeResultModal();
+                this.loadQuestion(0);
+            }
+            
+            openMobileNav() {
+                this.els.mobileNav.classList.add('open');
+            }
+            
+            closeMobileNav() {
+                this.els.mobileNav.classList.remove('open');
+            }
+        
+            toggleFullscreen() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) docEl.requestFullscreen();
+                    else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                    else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    else if (document.msExitFullscreen) document.msExitFullscreen();
+                }
+            }
+            
+            updateFullscreenIcon() {
+                const icon = document.querySelector('#fullscreenBtn i');
+                if (icon) {
+                    const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                    if (isFS) {
+                        icon.className = 'fas fa-compress';
+                    } else {
+                        icon.className = 'fas fa-expand';
+                    }
+                }
+            }
+}
+        
+        // ── KaTeX auto-render helper ──────────────────────────────────────
+        // Renders any LaTeX found in an element after innerHTML is set.
+        // Handles: \(...\)  \[...\]  $...$  $$...$$
+        function renderMath(el) {
+            if (!el || typeof renderMathInElement === 'undefined') return;
+            try {
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$',  right: '$$',  display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$',   right: '$',   display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                    ],
+                    throwOnError: false,
+                    strict: false,
+                });
+            } catch(e) {}
+        }
+
+        // Initialize the exam
+        document.addEventListener('DOMContentLoaded', () => {
+            new CBTExam();
+        });
+    </script>
+</body>
+</html>

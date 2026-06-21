@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Exam - adda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+@charset "UTF-8";
+:root {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --header-bg: linear-gradient(135deg, #2e1065 0%, #4c1d95 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+/* Welcome Screen Styles */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.05) 0%, rgb(248, 250, 252) 100%);
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+.welcome-screen.hidden {
+  display: none;
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  margin: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome-header {
+  text-align: center;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+.welcome-header h1 {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.025em;
+}
+.welcome-header h1 i {
+  font-size: 28px;
+}
+.welcome-header p {
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.test-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.test-details .detail-item {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.test-details .detail-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+.test-details .detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.test-details .detail-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-info {
+  margin-bottom: 30px;
+}
+.section-info h3 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-table th, .section-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-table tr:last-child td {
+  border-bottom: none;
+}
+
+.subsec-container {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.subsec-row {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.subsec-row::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.welcome-instructions {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05);
+}
+.welcome-instructions h3 {
+  color: #b45309;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.welcome-instructions ul {
+  padding-left: 20px;
+}
+.welcome-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.start-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 16px 44px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.start-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+.start-btn:active {
+  transform: translateY(0);
+}
+
+.channel-link {
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.channel-link:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+/* CBT Exam Interface */
+.exam-container {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  background: #f1f5f9;
+}
+.exam-container.active {
+  display: flex;
+}
+
+/* Top Header */
+.exam-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.exam-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-timer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fullscreen-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+.fullscreen-btn:active {
+  transform: translateY(0);
+}
+
+/* Candidate Info Bar */
+.candidate-bar {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.candidate-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-light);
+  border: 2px solid var(--border);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.candidate-details {
+  display: flex;
+  flex-direction: column;
+}
+.candidate-details .candidate-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+.candidate-details .candidate-id {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.section-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.exam-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Question Area */
+.question-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.question-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-number {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.question-marks {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.lang-btn {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.comprehension {
+  background: #f0fdf4;
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+.comprehension h4 {
+  color: var(--success-hover);
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.question-text {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 18px 24px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+  font-weight: 500;
+}
+.option:hover:not(.submitted) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.option.correct {
+  border-color: var(--success);
+  background: var(--success-light);
+  color: var(--success-hover);
+  font-weight: 600;
+}
+.option.wrong {
+  border-color: var(--danger);
+  background: var(--danger-light);
+  color: var(--danger-hover);
+  font-weight: 600;
+}
+
+.option-indicator {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option.selected .option-indicator {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.option.correct .option-indicator {
+  border-color: var(--success);
+  background: var(--success);
+  color: white;
+}
+
+.option.wrong .option-indicator {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+.solution-box {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: 12px;
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.solution-box.show {
+  display: block;
+}
+
+.solution-header {
+  color: var(--success-hover);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.solution-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 10px;
+}
+
+/* Navigation Controls - Bottom Bar */
+.navigation-bar {
+  background: white;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-prev {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-prev:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-next {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+.btn-next:hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-review {
+  background: var(--warning);
+  color: white;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+}
+.btn-review:hover:not(:disabled) {
+  background: var(--warning-hover);
+}
+.btn-review.marked {
+  background: var(--warning-dark);
+}
+
+.btn-submit {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--success-hover);
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Question Navigator Sidebar */
+.navigator-sidebar {
+  width: 320px;
+  background: white;
+  border-left: 1px solid var(--border);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navigator-header {
+  padding: 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.navigator-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-question {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-question:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.nav-question.current {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+.nav-question.answered {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.nav-question.review {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+.nav-question.wrong {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+.nav-question.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navigator-legend {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  flex-shrink: 0;
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Mobile Navigator Panel */
+.mobile-navigator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+.mobile-navigator.open {
+  transform: translateY(0);
+}
+
+.mobile-nav-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.close-nav {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Result Modal */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-out;
+}
+.result-modal.show {
+  display: flex;
+}
+
+.result-container {
+  background: white;
+  border-radius: 18px;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+.result-header h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.result-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  background: var(--success-light);
+  display: inline-block;
+  padding: 8px 30px;
+  border-radius: 40px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.result-stat {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.result-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.result-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-stat.correct .result-stat-value {
+  color: var(--success);
+}
+
+.result-stat.incorrect .result-stat-value {
+  color: var(--danger);
+}
+
+.section-results {
+  margin-bottom: 35px;
+}
+.section-results h3 {
+  color: var(--text);
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.section-results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-results-table th, .section-results-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-results-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-results-table tr:last-child td {
+  border-bottom: none;
+}
+.section-results-table .subsection-row {
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-results-table .subsection-row td:first-child {
+  padding-left: 36px;
+  position: relative;
+}
+.section-results-table .subsection-row td:first-child::before {
+  content: "└";
+  position: absolute;
+  left: 20px;
+  color: var(--text-light);
+}
+
+.result-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-btn {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-close {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-close:hover {
+  background: #e2e8f0;
+}
+
+.btn-review-ans {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+.btn-review-ans:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .navigator-sidebar {
+    display: flex;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none;
+  }
+  .navigation-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .question-scroll {
+    padding: 16px;
+  }
+  .question-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 640px) {
+  .welcome-container {
+    padding: 24px;
+  }
+  .exam-header {
+    padding: 12px 16px;
+  }
+  .exam-title {
+    font-size: 15px;
+  }
+  .timer-box {
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+  .candidate-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+  .nav-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .navigator-grid {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 16px;
+    gap: 10px;
+  }
+  .result-container {
+    padding: 24px 16px;
+  }
+  .result-score {
+    font-size: 36px;
+  }
+  .result-grid {
+    gap: 12px;
+  }
+  .section-results-table {
+    font-size: 12px;
+  }
+  .section-results-table th, .section-results-table td {
+    padding: 10px;
+  }
+  .result-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .result-actions .result-btn {
+    width: 100%;
+  }
+}
+/* Print Styles */
+@media print {
+  .exam-header,
+  .candidate-bar,
+  .navigation-bar,
+  .navigator-sidebar,
+  .mobile-navigator,
+  .result-modal {
+    display: none !important;
+  }
+  .question-scroll {
+    padding: 0;
+  }
+  .question-card {
+    page-break-inside: avoid;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    box-shadow: none !important;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table, th, td {
+  border: 1px solid var(--border);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+</style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1><i class="fas fa-graduation-cap"></i> adda</h1>
+                <p>Computer Based Test</p>
+            </div>
+            
+            <div class="test-details">
+                <div class="detail-item">
+                    <div class="detail-label">Test ID</div>
+                    <div class="detail-value">0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Questions</div>
+                    <div class="detail-value">25</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Marks</div>
+                    <div class="detail-value">50.0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Duration</div>
+                    <div class="detail-value">15 mins</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Marking Scheme</div>
+                    <div class="detail-value">+2.0 / -0.5</div>
+                </div>
+            </div>
+            
+            
+        <div class="welcome-instructions">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Read each question carefully before answering</li>
+                <li>You can mark questions for review and come back later</li>
+                <li>The timer will automatically submit the test when time is up</li>
+                <li>Negative marking applies for wrong answers</li>
+            </ul>
+        </div>
+        
+            
+            <div class="welcome-actions">
+                <button class="start-btn" id="startBtn">
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+                <a href="https://t.me/mocks_wallah_again" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> Join Channel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Exam Interface -->
+    <div class="exam-container" id="examContainer">
+        <!-- Top Header -->
+        <div class="exam-header">
+            <div class="exam-title">adda</div>
+            <div class="exam-timer">
+                <button class="fullscreen-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="timer-box" id="mainTimer">15:00</div>
+                <button class="nav-btn btn-submit mobile-only" id="submitBtn">Submit</button>
+            </div>
+        </div>
+        
+        <!-- Candidate Info Bar -->
+        <div class="candidate-bar">
+            <div class="candidate-info">
+                <div class="candidate-photo">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="candidate-details">
+                    <div class="candidate-name">Candidate</div>
+                    <div class="candidate-id">Test ID: 0</div>
+                </div>
+            </div>
+            <div class="section-badge" id="sectionBadge">
+                <span id="sectionName"></span>
+                <span id="sectionTimer"></span>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="exam-main">
+            <!-- Question Area -->
+            <div class="question-area">
+                <div class="question-scroll">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div>
+                                <div class="question-number" id="questionNum">Question 1 of 25</div>
+                                <div class="question-marks" id="questionMarks">Marks: 2.0</div>
+                            </div>
+                            <div class="lang-toggle">
+                                <button class="lang-btn active" id="engBtn">English</button>
+                                <button class="lang-btn" id="hinBtn">हिंदी</button>
+                            </div>
+                        </div>
+                        
+                        <div class="comprehension" id="comprehension" style="display:none;">
+                            <h4><i class="fas fa-book-open"></i> Comprehension</h4>
+                            <div id="comprehensionText"></div>
+                        </div>
+                        
+                        <div class="question-text" id="questionText"></div>
+                        
+                        <div class="options-list" id="optionsList"></div>
+                        
+                        <div class="solution-box" id="solutionBox">
+                            <div class="solution-header">
+                                <i class="fas fa-lightbulb"></i> Solution
+                            </div>
+                            <div class="solution-stats" id="solutionStats"></div>
+                            <div id="solutionText"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Bar inside Question Area -->
+                <div class="navigation-bar">
+                    <button class="nav-btn btn-prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <div class="progress-info">
+                        <div id="progressText">Question 1 of 25</div>
+                        <div style="font-size:11px;margin-top:4px">
+                            Answered: <span id="answeredCount">0</span> | 
+                            <a href="https://t.me/mocks_wallah_again" style="color:var(--primary)">Mocks Wallah</a>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn btn-review" id="reviewBtn">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    
+                    <button class="nav-btn mobile-only" id="navigatorBtn">
+                        <i class="fas fa-th"></i> Questions
+                    </button>
+                    
+                    <button class="nav-btn btn-submit desktop-only" id="submitBtnDesktop">Submit</button>
+                    
+                    <button class="nav-btn btn-next" id="nextBtn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigator Sidebar -->
+            <div class="navigator-sidebar desktop-only">
+                <div class="navigator-header">Question Navigator</div>
+                <div class="navigator-grid" id="desktopNav"></div>
+                <div class="navigator-legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--success)"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--warning)"></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--danger)"></div>
+                        <span>Incorrect</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigator Panel -->
+    <div class="mobile-navigator" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h3>Question Navigator</h3>
+            <button class="close-nav" id="closeNav">&times;</button>
+        </div>
+        <div class="navigator-grid" id="mobileNavGrid"></div>
+        <div class="navigator-legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--success)"></div>
+                <span>Answered</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--warning)"></div>
+                <span>Marked for Review</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--danger)"></div>
+                <span>Incorrect</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                <span>Not Visited</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-container">
+            <div class="result-header">
+                <h2>Test Completed!</h2>
+                <div class="result-score" id="resultScore">0/50.0</div>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-stat correct">
+                    <div class="result-stat-value" id="correctCount">0</div>
+                    <div class="result-stat-label">Correct</div>
+                </div>
+                <div class="result-stat incorrect">
+                    <div class="result-stat-value" id="incorrectCount">0</div>
+                    <div class="result-stat-label">Incorrect</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="unattemptedCount">0</div>
+                    <div class="result-stat-label">Unattempted</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="timeTaken">0</div>
+                    <div class="result-stat-label">Minutes</div>
+                </div>
+            </div>
+            
+            <div class="section-results" id="sectionResults" style="display:none;">
+                <h3>Section-wise Performance</h3>
+                <table class="section-results-table" id="sectionResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Attempted</th>
+                            <th>Correct</th>
+                            <th>Wrong</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectionResultsBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="result-actions">
+                <button class="result-btn btn-close" id="closeResult">Close</button>
+                <button class="result-btn btn-review-ans" id="reviewAnswers">Review Answers</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "<span class=\"eqt\"><p>Match the feature with boundary: 1. Rift valley 2. Island arc 3. Strike-slip fault</p></span><span class=\"hqt\"><p>विशेषता का सीमा (boundary) के साथ मिलान करें: 1. भ्रंश घाटी (Rift valley) 2. द्वीप चाप (Island arc) 3. स्ट्राइक-स्लिप भ्रंश (Strike-slip fault)</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>1-Divergent, 2-Convergent, 3-Transform  <br></p></span><span class=\"hqt\"><p>1-अपसारी (Divergent), 2-अभिसारी (Convergent), 3-रूपांतर (Transform)  <br></p></span>",
+      "<span class=\"eqt\"><p>1-Convergent, 2-Transform, 3-Divergent  <br></p></span><span class=\"hqt\"><p>1-अभिसारी, 2-रूपांतर, 3-अपसारी  <br></p></span>",
+      "<span class=\"eqt\"><p>1-Transform, 2-Divergent, 3-Convergent  <br></p></span><span class=\"hqt\"><p>1-रूपांतर, 2-अपसारी, 3-अभिसारी  <br></p></span>",
+      "<span class=\"eqt\"><p>1-Divergent, 2-Transform, 3-Convergent  <br></p></span><span class=\"hqt\"><p>1-अपसारी, 2-रूपांतर, 3-अभिसारी  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(A) 1-Divergent, 2-Convergent, 3-Transform</strong><br><br><strong>Explanation:</strong><br>• <strong>Divergent Boundary (1):</strong> Occurs where plates pull apart. This stretching of the crust creates Rift Valleys (e.g., East African Rift) and mid-ocean ridges.<br>• <strong>Convergent Boundary (2):</strong> Occurs where plates collide. When two oceanic plates or an oceanic and continental plate converge, subduction occurs, leading to the formation of volcanic Island Arcs (e.g., Japan or Aleutian Islands).<br>• <strong>Transform Boundary (3):</strong> Occurs where plates slide past each other horizontally. This movement creates Strike-slip faults (e.g., the San Andreas Fault).<br><br><strong>Information Booster:</strong><br>• <strong>Plate Tectonics:</strong> This theory describes the large-scale motion of seven large plates and the movements of a larger number of smaller plates of Earth's lithosphere.<br>• <strong>Asthenosphere:</strong> The lithospheric plates float on the semi-fluid layer below them called the asthenosphere.<br>• <strong>Seismicity:</strong> Transform boundaries are famous for shallow-focus earthquakes, while subduction zones (convergent) can produce the deepest and most powerful earthquakes.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Fold Mountains:</strong> Formed at continental-continental convergent boundaries (e.g., the Himalayas).<br>• <strong>Sea-floor Spreading:</strong> A process that occurs at divergent boundaries in the ocean, creating new oceanic crust.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(A) 1-अपसारी (Divergent), 2-अभिसारी (Convergent), 3-रूपांतर (Transform)</strong> है<br><br><strong>स्पष्टीकरण:</strong><br>• <strong>अपसारी सीमा (1):</strong> वहां होती है जहां प्लेटें अलग हो जाती हैं। क्रस्ट का यह खिंचाव भ्रंश घाटियों (जैसे, पूर्वी अफ्रीकी रिफ्ट) और मध्य-महासागरीय लकीरें बनाता है।<br>• <strong>अभिसारी सीमा (2):</strong> वहां होती है जहां प्लेटें टकराती हैं। जब दो महासागरीय प्लेटें या एक महासागरीय और महाद्वीपीय प्लेट अभिसरण करती हैं, तो सबडक्शन (क्षेपण) होता है, जिससे ज्वालामुखी द्वीप चाप (जैसे, जापान या अलेउतियन द्वीप) का निर्माण होता है।<br>• <strong>रूपांतर सीमा (3):</strong> वहां होती है जहां प्लेटें एक-दूसरे के क्षैतिज रूप से स्लाइड करती हैं। यह आंदोलन स्ट्राइक-स्लिप भ्रंश (जैसे, सैन एंड्रियास फॉल्ट) बनाता है।<br><br><strong>Information Booster:</strong><br>• <strong>प्लेट विवर्तनिकी:</strong> यह सिद्धांत पृथ्वी के स्थलमंडल (lithosphere) की सात बड़ी प्लेटों की बड़े पैमाने पर गति और बड़ी संख्या में छोटी प्लेटों की गतिविधियों का वर्णन करता है।<br>• <strong>एस्थेनोस्फीयर:</strong> लिथोस्फेरिक प्लेटें उनके नीचे अर्ध-द्रव परत पर तैरती हैं जिसे एस्थेनोस्फीयर कहा जाता है।<br>• <strong>भूकंपीयता:</strong> रूपांतर सीमाएं उथले-फोकस भूकंपों के लिए प्रसिद्ध हैं, जबकि सबडक्शन क्षेत्र (अभिसारी) सबसे गहरे और सबसे शक्तिशाली भूकंप पैदा कर सकते हैं। [Image of plate tectonic boundaries types diagram]<br><br><strong>Additional Knowledge:</strong><br>• <strong>वलित पर्वत:</strong> महाद्वीपीय-महाद्वीपीय अभिसारी सीमाओं (जैसे, हिमालय) पर बनते हैं।<br>• <strong>सी-फ्लोर स्प्रेडिंग:</strong> एक प्रक्रिया जो समुद्र में अपसारी सीमाओं पर होती है, जिससे नई महासागरीय क्रस्ट बनती है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which Union Territory hosted the Khelo India Winter Games (KIWG) 2026 inauguration?<br></p></span><span class=\"hqt\"><p>खेलो इंडिया विंटर गेम्स (KIWG) 2026 के उद्घाटन की मेजबानी किस केंद्र शासित प्रदेश ने की?<br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Jammu &amp; Kashmir</p></span><span class=\"hqt\"><p>जम्मू और कश्मीर</p></span>",
+      "<span class=\"eqt\"><p>Himachal Pradesh<br></p></span><span class=\"hqt\"><p>हिमाचल प्रदेश<br></p></span>",
+      "<span class=\"eqt\"><p>Ladakh<br></p></span><span class=\"hqt\"><p>लद्दाख<br></p></span>",
+      "<span class=\"eqt\"><p>Uttarakhand<br></p></span><span class=\"hqt\"><p>उत्तराखंड<br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer:</strong> (c) Ladakh</p><p></p><p><strong>Explanation:</strong></p><p> </p><ul type=\"disc\"><li>The      Khelo India Winter Games 2026 were inaugurated at the Nawang Dorwan      Stobdan (NDS) Stadium in Leh, Union Territory of Ladakh.</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>Edition:      6th Khelo India Winter Games</li><li>Inauguration      date: 20 January 2026</li><li>Inaugurated      by: Lieutenant Governor Kavinder Gupta</li><li>Phase      1 (Ice sports): 20–26 January 2026 in Leh</li><li>Phase      2 (Snow sports): Kangdoori Phase 1 and Gulmarg Golf Course Club, J&amp;K</li><li>Medal      tally (Top 3):</li><ul type=\"circle\"><li>Haryana:       5 Gold, 1 Silver, 2 Bronze (1st)</li><li>Ladakh:       2 Gold, 5 Silver, 4 Bronze (2nd)</li><li>Maharashtra:       2 Gold, 3 Silver, 2 Bronze (3rd)</li></ul><li>Organisers:      UT Ladakh under supervision of SAI</li><li>Part      of: Khelo India Scheme (Central Sector Scheme of MYAS)</li><li>Sports      disciplines:</li><ul type=\"circle\"><li>Ice       sports: Ice Hockey, Ice Skating (Figure Skating introduced first time)</li><li>Snow       sports: Alpine Skiing, Nordic Skiing, Ski Mountaineering, Snowboarding</li></ul><li>Mascot:      Sheen-E-She (Snow Leopard)</li><li>Symbolism:      Resilience, agility, Himalayan legacy</li><li>MYAS:</li><ul type=\"circle\"><li>Union       Minister: Mansukh Mandaviya</li><li>MoS:       Raksha Khadse</li></ul></ul></span><span class=\"hqt\"><p><strong>सही उत्तर:</strong> (c) लद्दाख</p><p><strong>व्याख्या:</strong></p><p></p><ul type=\"disc\"><li>खेलो इंडिया विंटर गेम्स 2026 का उद्घाटन केंद्र शासित प्रदेश लद्दाख के लेह में नवांग दोरजेन स्टोबदान (NDS) स्टेडियम में किया गया था।</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>संस्करण: 6वां खेलो इंडिया विंटर गेम्स</li><li>उद्घाटन की तारीख: 20 जनवरी 2026</li><li>उद्घाटनकर्ता: उपराज्यपाल कविंदर गुप्ता</li><li>चरण 1 (आइस स्पोर्ट्स): 20–26 जनवरी 2026 लेह में</li><li>चरण 2 (स्नो स्पोर्ट्स): कांगदूरी फेज 1 और गुलमर्ग गोल्फ कोर्स क्लब, जम्मू और कश्मीर</li><li>पदक तालिका (शीर्ष 3):</li><ul type=\"circle\"><li>हरियाणा: 5 स्वर्ण, 1 रजत, 2 कांस्य (प्रथम)</li><li>लद्दाख: 2 स्वर्ण, 5 रजत, 4 कांस्य (द्वितीय)</li><li>महाराष्ट्र: 2 स्वर्ण, 3 रजत, 2 कांस्य (तृतीय)</li></ul><li>आयोजक: SAI के पर्यवेक्षण में केंद्र शासित प्रदेश लद्दाख</li><li>किसका हिस्सा: खेलो इंडिया योजना (MYAS की केंद्रीय क्षेत्र योजना)</li><li>खेल विधाएं:</li><ul type=\"circle\"><li>आइस स्पोर्ट्स: आइस हॉकी, आइस स्केटिंग (फिगर स्केटिंग पहली बार शामिल)</li><li>स्नो स्पोर्ट्स: अल्पाइन स्कीइंग, नॉर्डिक स्कीइंग, स्की पर्वतारोहण, स्नोबोर्डिंग</li></ul><li>शुभंकर: शीन-ए-शी (हिम तेंदुआ)</li><li>प्रतीकवाद: लचीलापन, चपलता, हिमालयी विरासत</li><li>MYAS:</li><ul type=\"circle\"><li>केंद्रीय मंत्री: मनसुख मंडाविया</li><li>राज्य मंत्री: रक्षा खडसे</li></ul></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">According to Article 51A, which of the following is NOT a Fundamental Duty?\n  <br></span><span class=\"hqt\"><p>अनुच्छेद 51A के अनुसार, निम्नलिखित में से कौन सा मौलिक कर्तव्य नहीं है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">To develop scientific temper, humanism, and spirit of inquiry\n  <br></span><span class=\"hqt\"><p>वैज्ञानिक दृष्टिकोण, मानवतावाद और जांच की भावना विकसित करना  <br></p></span>",
+      "<span class=\"eqt\">To pay taxes honestly\n  <br></span><span class=\"hqt\"><p>ईमानदारी से करों का भुगतान करना  <br></p></span>",
+      "<span class=\"eqt\">To safeguard public property\n  <br></span><span class=\"hqt\"><p>सार्वजनिक संपत्ति की रक्षा करना  <br></p></span>",
+      "<span class=\"eqt\">To protect and improve the natural environment\n  <br></span><span class=\"hqt\"><p>प्राकृतिक पर्यावरण की रक्षा और सुधार करना  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"> The correct answer is (b) To pay taxes honestly\n  <br>  \n  <b>Explanation:</b> \n  <br> • Article 51A of the Indian Constitution lists 11 Fundamental Duties.\n  <br> • These duties are moral obligations of all citizens towards the nation.\n  <br> • Paying taxes honestly is a legal obligation, not a fundamental duty.\n  <br> • It is governed by tax laws, not constitutional provisions under Article 51A.\n  <br> • Duties like promoting harmony, protecting environment, and public property are explicitly mentioned.\n  <br>  \n  <b>Information Booster:</b> \n  <br> • Fundamental Duties were added by the 42nd Constitutional Amendment Act, 1976.\n  <br> • They reflect the Gandhian philosophy of citizenship and responsibility.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br> (a) Developing scientific temper\n  <br> • It is explicitly listed in Article 51A[h].\n  <br> (c) Safeguarding public property\n  <br> • Covered under Article 51A[i].\n  <br> (d) Protecting the natural environment\n  <br> • Covered under Article 51A[g].\n  <br>  </span><span class=\"hqt\"><p>सही उत्तर (b) ईमानदारी से करों का भुगतान करना है  <br> <strong>व्याख्या:</strong> <br> • भारतीय संविधान का अनुच्छेद 51A 11 मौलिक कर्तव्यों को सूचीबद्ध करता है।  <br> • ये कर्तव्य राष्ट्र के प्रति सभी नागरिकों के नैतिक दायित्व हैं।  <br> • ईमानदारी से करों का भुगतान करना एक कानूनी दायित्व है, मौलिक कर्तव्य नहीं।  <br> • यह कर कानूनों द्वारा शासित होता है, अनुच्छेद 51A के तहत संवैधानिक प्रावधानों द्वारा नहीं।  <br> • सद्भाव को बढ़ावा देना, पर्यावरण और सार्वजनिक संपत्ति की रक्षा करना जैसे कर्तव्यों का स्पष्ट रूप से उल्लेख किया गया है।  <br> <strong>Information Booster:</strong> <br> • मौलिक कर्तव्यों को 42वें संविधान संशोधन अधिनियम, 1976 द्वारा जोड़ा गया था।  <br> • वे नागरिकता और जिम्मेदारी के गांधीवादी दर्शन को दर्शाते हैं।  <br> <strong>अतिरिक्त जानकारी:</strong> <br> (a) वैज्ञानिक दृष्टिकोण विकसित करना  <br> • यह स्पष्ट रूप से अनुच्छेद 51A[h] में सूचीबद्ध है।  <br> (c) सार्वजनिक संपत्ति की रक्षा करना  <br> • अनुच्छेद 51A[i] के तहत कवर किया गया है।  <br> (d) प्राकृतिक पर्यावरण की रक्षा करना  <br> • अनुच्छेद 51A[g] के तहत कवर किया गया है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which is the first thermal power plant of National Thermal Power Corporation Limited?</p></span><span class=\"hqt\"><p>नेशनल थर्मल पावर कॉर्पोरेशन लिमिटेड का पहला तापीय विद्युत संयंत्र कौन सा है?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Talcher Super Thermal Power Station</p></span><span class=\"hqt\"><p>तालचर सुपर थर्मल पावर स्टेशन</p></span>",
+      "<span class=\"eqt\"><p>Sikka Thermal Power Plant</p></span><span class=\"hqt\"><p>सिक्का तापीय विद्युत संयंत्र</p></span>",
+      "<span class=\"eqt\"><p>Rihand Thermal Power Plant</p></span><span class=\"hqt\"><p>रिहंद तापीय विद्युत संयंत्र</p></span>",
+      "<span class=\"eqt\"><p>Singrauli Super Thermal Power Plant  <br></p></span><span class=\"hqt\"><p>सिंगरौली सुपर थर्मल पावर प्लांट  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer:</strong> (d)  <br> <strong>Explanation:</strong> <br> · The   <strong>Singrauli Super Thermal Power Plant</strong> is the first thermal power plant established by the National Thermal Power Corporation (NTPC).  <br> · It is located at Shaktinagar in the Sonbhadra district of   <strong>Uttar Pradesh</strong>.  <br> · The prowect was approved in 1976, and the first unit was commissioned in   <strong>1982</strong>.  <br> <strong>Information Booster:</strong> <br> · NTPC Limited (formerly known as National Thermal Power Corporation) was founded in   <strong>1975</strong> to accelerate power development in India.  <br> · The Singrauli plant sources its coal from the Jayant and Bina mines of the Singrauli Coalfields and its water from the   <strong>Rihand Reservoir</strong>.  <br> · In 2010, NTPC was conferred the status of   <strong>Maharatna</strong> company by the Government of India.  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>Talcher Super Thermal Power Station:</strong> Located in Odisha, it is one of the important plants of NTPC, but it was established later than Singrauli.  <br> ·   <strong>Sikka Thermal Power Plant:</strong> This is a coal-based power station located in Jamnagar, Guwarat. It is operated by the Guwarat State Electricity Corporation Limited (GSECL), not NTPC.  <br> ·   <strong>Rihand Thermal Power Plant:</strong> Also located in Sonbhadra, Uttar Pradesh, and operated by NTPC, it began its first stage of operation in 1988, making it newer than the Singrauli plant.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर:</strong> (d)  <br> <strong>व्याख्या:</strong> <br> · <strong>सिंगरौली सुपर थर्मल पावर प्लांट</strong> नेशनल थर्मल पावर कॉर्पोरेशन द्वारा स्थापित पहला तापीय विद्युत संयंत्र है।  <br> · यह <strong>उत्तर प्रदेश</strong> के सोनभद्र जिले के शक्तिनगर में स्थित है।  <br> · परियोजना को 1976 में मंजूरी दी गई थी, और पहली इकाई <strong>1982</strong> में चालू की गई थी।  <br> <strong>Information Booster:</strong> <br> · भारत में विद्युत विकास को गति देने के लिए <strong>1975</strong> में NTPC लिमिटेड की स्थापना की गई थी।  <br> · सिंगरौली संयंत्र अपने कोयले का स्रोत सिंगरौली कोयला क्षेत्रों की जयंत और बीना खदानों से और अपना पानी <strong>रिहंद जलाशय</strong> से प्राप्त करता है।  <br> · 2010 में, भारत सरकार द्वारा NTPC को <strong>महारत्न</strong> कंपनी का दर्जा प्रदान किया गया था।  <br> <strong>Additional Knowledge:</strong> <br> · <strong>तालचर सुपर थर्मल पावर स्टेशन:</strong> ओडिशा में स्थित, यह NTPC के महत्वपूर्ण संयंत्रों में से एक है, लेकिन इसकी स्थापना सिंगरौली के बाद हुई थी।  <br> · <strong>सिक्का तापीय विद्युत संयंत्र:</strong> यह गुजरात के जामनगर में स्थित एक कोयला आधारित बिजली स्टेशन है। यह गुजरात राज्य विद्युत निगम लिमिटेड द्वारा संचालित है, NTPC द्वारा नहीं।  <br> · <strong>रिहंद तापीय विद्युत संयंत्र:</strong> यह भी उत्तर प्रदेश के सोनभद्र में स्थित है और NTPC द्वारा संचालित है, इसने 1988 में अपना पहला चरण शुरू किया था, जिससे यह सिंगरौली संयंत्र से नया है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Read the following statements marked as Assertion (A) and Reason (R). Choose the correct option:  <br> Assertion (A): The paintings found in Awanta caves are significant examples of Buddhist art in ancient India. </p><p>Reason (R): These paintings mainly depict scenes from the Jataka tales and the life of Buddha.  <br></p></span><span class=\"hqt\"><p>कथन (A) और कारण (R) के रूप में चिह्नित निम्नलिखित कथनों को पढ़ें। सही विकल्प चुनें: <br> कथन (A): अजंता की गुफाओं में पाए जाने वाले चित्र प्राचीन भारत में बौद्ध कला के महत्वपूर्ण उदाहरण हैं। </p><p>कारण (R): ये चित्र मुख्य रूप से जातक कथाओं और बुद्ध के जीवन के दृश्यों को चित्रित करते हैं। <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Both A and R are true, and R is the correct explanation of A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं, और R, A की सही व्याख्या है <br></p></span>",
+      "<span class=\"eqt\"><p>Both A and R are true, but R is not the correct explanation of A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं, लेकिन R, A की सही व्याख्या नहीं है <br></p></span>",
+      "<span class=\"eqt\"><p>A is true, but R is false  <br></p></span><span class=\"hqt\"><p>A सत्य है, लेकिन R असत्य है <br></p></span>",
+      "<span class=\"eqt\"><p>Both A and R are false  <br></p></span><span class=\"hqt\"><p>A और R दोनों असत्य हैं <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(A) Both A and R are true, and R is the correct explanation of A</strong><br><br><strong>Explanation:</strong><br>• Awanta Caves (Maharashtra) consist of 29 rock-cut cave monuments which are masterpieces of Buddhist religious art.<br>• The Reason (R) is correct because the murals and frescoes in these caves predominantly illustrate the various lives of the Buddha (Jataka tales) and his biographical events, which is what makes them Buddhist art.<br><br><strong>Information Booster:</strong><br>• Awanta was designated a UNESCO World Heritage site in 1983.<br>• The paintings use the 'fresco-secco' technique.<br><br><strong>Additional Knowledge:</strong><br>• Unlike Awanta (purely Buddhist), the nearby Ellora caves contain Hindu, Buddhist, and Jain monuments.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(A) A और R दोनों सत्य हैं, और R, A की सही व्याख्या है</strong> है<br><br><strong>व्याख्या:</strong><br>• अजंता की गुफाओं (महाराष्ट्र) में 29 चट्टानों को काटकर बनाए गए गुफा स्मारक शामिल हैं जो बौद्ध धार्मिक कला के उत्कृष्ट नमूने हैं।<br>• कारण (R) सही है क्योंकि इन गुफाओं में भित्ति चित्र और फ्रेस्को मुख्य रूप से बुद्ध के विभिन्न जीवन (जातक कथाओं) और उनकी जीवनी संबंधी घटनाओं का चित्रण करते हैं, जो उन्हें बौद्ध कला बनाता है।<br><br><strong>Information Booster:</strong><br>• अजंता को 1983 में यूनेस्को की विश्व धरोहर स्थल के रूप में नामित किया गया था।<br>• चित्रों में 'फ्रेस्को-सेक्को' तकनीक का उपयोग किया गया है।<br><br><strong>अतिरिक्त ज्ञान:</strong><br>• अजंता (पूरी तरह से बौद्ध) के विपरीत, पास की एलोरा की गुफाओं में हिंदू, बौद्ध और जैन स्मारक शामिल हैं।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Match the following offshore islands of the Arabian Sea with the Indian state to which they are geographically the closest.</p><p>Islands                       Closest State  <br> a. Arnala                     1. Goa  <br> b. Piram                      2. Karnataka  <br> c. Hog Island              3. Maharashtra  <br> d. Divar                      4. Guwarat  <br> Options:  <br></p></span><span class=\"hqt\"><p>अरब सागर के निम्नलिखित अपतटीय द्वीपों को उस भारतीय राज्य के साथ सुमेलित करें जिसके वे भौगोलिक रूप से सबसे करीब हैं।</p><p>द्वीप                       निकटतम राज्य  <br> a. अर्नाला                     1. गोवा  <br> b. पीरम                      2. कर्नाटक  <br> c. हॉग द्वीप              3. महाराष्ट्र  <br> d. दिवार                      4. गुजरात  <br> विकल्प:  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>a–3, b–4, c–1, d–2  <br></p></span><span class=\"hqt\"><p>a–3, b–4, c–1, d–2  <br></p></span>",
+      "<span class=\"eqt\"><p>a–3, b–2, c–4, d–1  <br></p></span><span class=\"hqt\"><p>a–3, b–2, c–4, d–1  <br></p></span>",
+      "<span class=\"eqt\"><p>a–3, b–4, c–2, d–1  <br></p></span><span class=\"hqt\"><p>a–3, b–4, c–2, d–1  <br></p></span>",
+      "<span class=\"eqt\"><p>a–4, b–3, c–2, d–1  <br></p></span><span class=\"hqt\"><p>a–4, b–3, c–2, d–1  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (c) a–3, b–4, c–2, d–1  <br> <strong>Explanation:</strong> <br> • Arnala Island is near Maharashtra coast, part of Palghar district.  <br> • Piram Island lies in the Gulf of Khambhat near Guwarat.  <br> • Hog Island is off the coast of Karnataka near Karwar.  <br> • Divar Island is located in Goa, in the Mandovi River.  <br> • These islands are all situated in or close to the Arabian Sea.  <br> <strong>Information Booster:</strong> <br> • India has over 1,200 offshore islands, many of which are significant for tourism or biodiversity.  <br> • Coastal states like Maharashtra, Guwarat, Goa, and Karnataka have multiple offshore islands.  <br> </p></span><span class=\"hqt\"><p>सही उत्तर (c) a–3, b–4, c–2, d–1 है  <br> <strong>व्याख्या:</strong> <br> • अर्नाला द्वीप महाराष्ट्र तट के पास है, जो पालघर जिले का हिस्सा है।  <br> • पीरम द्वीप गुजरात के पास खंभात की खाड़ी में स्थित है।  <br> • हॉग द्वीप कारवार के पास कर्नाटक के तट पर है।  <br> • दिवार द्वीप गोवा में मांडवी नदी में स्थित है।  <br> • ये द्वीप सभी अरब सागर में या उसके करीब स्थित हैं।  <br> <strong>Information Booster:</strong> <br> • भारत में 1,200 से अधिक अपतटीय द्वीप हैं, जिनमें से कई पर्यटन या जैव विविधता के लिए महत्वपूर्ण हैं।  <br> • महाराष्ट्र, गुजरात, गोवा और कर्नाटक जैसे तटीय राज्यों में कई अपतटीय द्वीप हैं।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">As per the Union Budget 2025–26, how much capital expenditure (Capex) has been earmarked for FY 2025–26?\n  <br></span><span class=\"hqt\"><p>केंद्रीय बजट 2025–26 के अनुसार, वित्त वर्ष 2025–26 के लिए कितना पूंजीगत व्यय (Capex) निर्धारित किया गया है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">₹11.21 lakh crore\n  <br></span><span class=\"hqt\"><p>₹11.21 लाख करोड़  <br></p></span>",
+      "<span class=\"eqt\">₹12.00 lakh crore\n  <br></span><span class=\"hqt\"><p>₹12.00 लाख करोड़  <br></p></span>",
+      "<span class=\"eqt\">₹9.85 lakh crore\n  <br></span><span class=\"hqt\"><p>₹9.85 लाख करोड़  <br></p></span>",
+      "<span class=\"eqt\">₹10.51 lakh crore\n  <br></span><span class=\"hqt\"><p>₹10.51 लाख करोड़  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"> The correct answer is (a) ₹11.21 lakh crore\n  <br>  \n  <b>Explanation:</b> \n  <br> • Union Budget 2025–26 allocated ₹11.21 lakh crore for capital expenditure.\n  <br> • It reflects a 11.1% increase over the previous fiscal year.\n  <br> • Capex is focused on infrastructure, railways, defence, and digital economy.\n  <br> • It aims to stimulate growth, generate employment, and attract private investment.\n  <br> • This investment forms 3.4% of India’s GDP.\n  <br>  \n  <b>Information Booster:</b> \n  <br> • Capex contributes to asset creation and long-term economic development.\n  <br> • It differs from revenue expenditure, which covers day-to-day operational costs.\n  <br>  \n  <b>Additional Knowledge:</b> \n  <br> ₹12.00 lakh crore (Option b)\n  <br> . Overstated figure compared to the actual 2025–26 budget allocation.\n  <br> ₹9.85 lakh crore (Option c)\n  <br> . Reflects the capex estimate from earlier years, not current.\n  <br> ₹10.51 lakh crore (Option d)\n  <br> . This was the capex for FY 2024–25, not for 2025–26.\n  <br>  </span><span class=\"hqt\"><p>सही उत्तर (a) ₹11.21 लाख करोड़ है  <br> <strong>व्याख्या:</strong> <br> • केंद्रीय बजट 2025–26 ने पूंजीगत व्यय के लिए ₹11.21 लाख करोड़ आवंटित किए।  <br> • यह पिछले वित्तीय वर्ष की तुलना में 11.1% की वृद्धि दर्शाता है।  <br> • केपेक्स (Capex) बुनियादी ढांचे, रेलवे, रक्षा और डिजिटल अर्थव्यवस्था पर केंद्रित है।  <br> • इसका उद्देश्य विकास को प्रोत्साहित करना, रोजगार पैदा करना और निजी निवेश को आकर्षित करना है।  <br> • यह निवेश भारत की GDP का 3.4% हिस्सा है।  <br> <strong>Information Booster:</strong> <br> • केपेक्स संपत्ति निर्माण और दीर्घकालिक आर्थिक विकास में योगदान देता है।  <br> • यह राजस्व व्यय से भिन्न होता है, जो दिन-प्रतिदिन के परिचालन खर्चों को कवर करता है।  <br> <strong>अतिरिक्त जानकारी:</strong> <br> ₹12.00 लाख करोड़ (विकल्प b)  <br> . वास्तविक 2025-26 बजट आवंटन की तुलना में बढ़ा-चढ़ा कर दिया गया आंकड़ा।  <br> ₹9.85 लाख करोड़ (विकल्प c)  <br> . पिछले वर्षों के केपेक्स अनुमान को दर्शाता है, वर्तमान का नहीं।  <br> ₹10.51 लाख करोड़ (विकल्प d)  <br> . यह वित्त वर्ष 2024-25 के लिए केपेक्स था, 2025-26 के लिए नहीं।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>What happens when there is a rise in the repo rate by the Reserve Bank of India?</p></span><span class=\"hqt\"><p>जब भारतीय रिजर्व बैंक द्वारा रेपो दर में वृद्धि होती है तो क्या होता है?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Increase investment and consumption.  <br></p></span><span class=\"hqt\"><p>निवेश और उपभोग में वृद्धि।  <br></p></span>",
+      "<span class=\"eqt\"><p>Increase inflation immediately.  <br></p></span><span class=\"hqt\"><p>मुद्रास्फीति में तत्काल वृद्धि।  <br></p></span>",
+      "<span class=\"eqt\"><p>Reduce money supply and investment.  <br></p></span><span class=\"hqt\"><p>मुद्रा आपूर्ति और निवेश में कमी।  <br></p></span>",
+      "<span class=\"eqt\"><p>Have no effect on the economy.  <br></p></span><span class=\"hqt\"><p>अर्थव्यवस्था पर कोई प्रभाव नहीं।  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(C) Reduce money supply and investment.</strong><br><br><strong>Explanation:</strong><br>• The Repo Rate is the rate at which the RBI lends money to commercial banks.<br>• When the RBI increases the repo rate, borrowing becomes more expensive for banks.<br>• Banks pass this cost to consumers by raising interest rates on loans, which discourages borrowing, reduces investment and consumption, and thereby contracts the money supply.<br><br><strong>Information Booster:</strong><br>• This is a tool used to control inflation.<br><br><strong>Additional Knowledge:</strong><br>• A decrease in the repo rate is used to boost growth during a slowdown.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(C) मुद्रा आपूर्ति और निवेश में कमी।</strong> है<br><br><strong>स्पष्टीकरण:</strong><br>• रेपो दर वह दर है जिस पर RBI वाणिज्यिक बैंकों को पैसा उधार देता है।<br>• जब RBI रेपो दर बढ़ाता है, तो बैंकों के लिए उधार लेना अधिक महंगा हो जाता है।<br>• बैंक इस लागत को ऋण पर ब्याज दर बढ़ाकर उपभोक्ताओं तक पहुंचाते हैं, जो उधार लेने को हतोत्साहित करता है, निवेश और उपभोग को कम करता है, और इस प्रकार मुद्रा आपूर्ति को संकुचित करता है।<br><br><strong>Information Booster:</strong><br>• यह मुद्रास्फीति को नियंत्रित करने के लिए उपयोग किया जाने वाला एक उपकरण है।<br><br><strong>Additional Knowledge:</strong><br>• मंदी के दौरान विकास को बढ़ावा देने के लिए रेपो दर में कमी का उपयोग किया जाता है। </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which among the plant kingdoms is also known as the amphibians of the plant kingdom?</p></span><span class=\"hqt\"><p>पादप जगत के किस समूह को पादप जगत का उभयचर भी कहा जाता है?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Bryophyte</p></span><span class=\"hqt\"><p>ब्रायोफाइटा (Bryophyte)</p></span>",
+      "<span class=\"eqt\"><p>Thallophyte</p></span><span class=\"hqt\"><p>थैलोफाइटा (Thallophyte)</p></span>",
+      "<span class=\"eqt\"><p>Gymnosperms</p></span><span class=\"hqt\"><p>जिम्नोस्पर्म (Gymnosperms)</p></span>",
+      "<span class=\"eqt\"><p>Angiosperms  <br></p></span><span class=\"hqt\"><p>एंजियोस्पर्म (Angiosperms)  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer:</strong> (a)  <br> <strong>Explanation:</strong> <br> ·   <strong>Bryophytes</strong> are known as the amphibians of the plant kingdom because they live in soil but are dependent on   <strong>water for sexual reproduction</strong>.  <br> · These plants lack true roots, stems, or leaves, but possess root-like (rhizoids), leaf-like, or stem-like structures.  <br> · The plant body is more differentiated than that of thallophytes and is commonly found in damp, humid, and shaded localities.  <br> <strong>Information Booster:</strong> <br> · Bryophytes are characterized by the absence of specialized   <strong>vascular tissues</strong> (xylem and phloem) for the conduction of water and other substances.  <br> · Common examples include   <strong>Mosses</strong> (  <em>Funaria</em>) and   <strong>Liverworts</strong> (  <em>Marchantia</em>).  <br> · They play an important role in plant succession on bare rocks and soil.  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>Thallophyte:</strong> These plants have a body that is not differentiated into roots, stems, and leaves; this group primarily includes algae (e.g.,   <em>Spirogyra</em>) and they are mostly aquatic.  <br> ·   <strong>Gymnosperms:</strong> These are \"naked-seeded\" plants where the ovules are not enclosed by any ovary wall and remain exposed both before and after fertilization (e.g., Pine, Deodar).  <br> ·   <strong>Angiosperms:</strong> These are flowering plants where the seeds are enclosed within fruits. They are the most highly evolved and diverse group of plants.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर:</strong> (a)  <br> <strong>व्याख्या:</strong> <br> · <strong>ब्रायोफाइट्स</strong> को पादप जगत के उभयचर के रूप में जाना जाता है क्योंकि वे मिट्टी में रहते हैं लेकिन <strong>यौन प्रजनन के लिए पानी</strong> पर निर्भर होते हैं।  <br> · इन पौधों में वास्तविक जड़ें, तने या पत्तियां नहीं होती हैं, लेकिन इनमें जड़ जैसी (राइजोइड्स), पत्ती जैसी या तने जैसी संरचनाएं होती हैं।  <br> · पादप शरीर थैलोफाइट्स की तुलना में अधिक विभेदित होता है और आमतौर पर नम, आर्द्र और छायादार स्थानों में पाया जाता है।  <br> <strong>Information Booster:</strong> <br> · ब्रायोफाइट्स की विशेषता पानी और अन्य पदार्थों के संचालन के लिए विशेष <strong>संवहनी ऊतकों</strong> (जाइलम और फ्लोएम) की अनुपस्थिति है।  <br> · सामान्य उदाहरणों में <strong>मॉस</strong> और <strong>लिवरवर्ट</strong> शामिल हैं।  <br> · वे नंगी चट्टानों और मिट्टी पर पादप उत्तराधिकार में महत्वपूर्ण भूमिका निभाते हैं।  <br> <strong>Additional Knowledge:</strong> <br> ·  <strong>थैलोफाइटा:</strong> इन पौधों का शरीर जड़ों, तनों और पत्तियों में विभेदित नहीं होता है; इस समूह में मुख्य रूप से शैवाल (जैसे,  शामिल हैं और वे ज्यादातर जलीय होते हैं।  <br> ·  <strong>जिम्नोस्पर्म:</strong> ये \"नग्न-बीजी\" पौधे हैं जहाँ बीजांड किसी भी अंडाशय की दीवार से घिरे नहीं होते हैं और निषेचन से पहले और बाद में दोनों समय खुले रहते हैं (जैसे, चीड़, देवदार)।  <br> ·  <strong>एंजियोस्पर्म:</strong> ये फूल वाले पौधे हैं जहाँ बीज फलों के भीतर घिरे होते हैं। ये पौधों का सबसे अधिक विकसित और विविध समूह हैं।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Assertion (A): GDP does not fully reflect income distribution. Reason (R): GDP measures total output, not equality.</p></span><span class=\"hqt\"><p>अभिकथन (A): जीडीपी (GDP) आय वितरण को पूरी तरह से प्रतिबिंबित नहीं करता है। कारण (R): जीडीपी कुल उत्पादन को मापता है, समानता को नहीं।</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Both A and R are true and R explains A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं और R, A की सही व्याख्या करता है  <br></p></span>",
+      "<span class=\"eqt\"><p>Both A and R are true but R does not explain A  <br></p></span><span class=\"hqt\"><p>A और R दोनों सत्य हैं लेकिन R, A की सही व्याख्या नहीं करता है  <br></p></span>",
+      "<span class=\"eqt\"><p>A is true but R is false  <br></p></span><span class=\"hqt\"><p>A सत्य है लेकिन R असत्य है  <br></p></span>",
+      "<span class=\"eqt\"><p>A is false but R is true  <br></p></span><span class=\"hqt\"><p>A असत्य है लेकिन R सत्य है  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(A) Both A and R are true and R explains A</strong><br><br><strong>Explanation:</strong><br>• GDP (Gross Domestic Product) is the market value of all final goods and services produced within a country in a specific period.<br>• Because it is an aggregate measure, it sums up all production but does not show how the resulting income is distributed among the population.<br>• For example, a country could have a high GDP growth rate while the mawority of that wealth goes to a small percentage of the population, leaving others in poverty.<br>• Reason R correctly identifies that GDP's definition and calculation focus on 'output' rather than 'distribution' or 'equity', thus explaining Assertion A.<br><br><strong>Information Booster:</strong><br>• <strong>Gini Coefficient:</strong> This is a standard measure used by economists to represent the income or wealth distribution of a nation's residents.<br>• <strong>GDP per capita:</strong> While slightly better, it is still an average and can be skewed by extreme wealth at the top.<br>• <strong>Human Development Index (HDI):</strong> Provides a broader view of a country's status by including life expectancy and education along with income.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Nominal vs. Real GDP:</strong> Nominal GDP is calculated at current prices, whereas Real GDP is adwusted for inflation.<br>• <strong>Lorenz Curve:</strong> A graphical representation of the distribution of income or of wealth.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(A) A और R दोनों सत्य हैं और R, A की सही व्याख्या करता है</strong> है<br><br><strong>स्पष्टीकरण:</strong><br>• जीडीपी (सकल घरेलू उत्पाद) एक विशिष्ट अवधि में किसी देश के भीतर उत्पादित सभी अंतिम वस्तुओं और सेवाओं का बाजार मूल्य है।<br>• चूंकि यह एक समग्र उपाय है, यह सभी उत्पादन को जोड़ता है लेकिन यह नहीं दिखाता है कि परिणामस्वरूप आय जनसंख्या के बीच कैसे वितरित की जाती है।<br>• उदाहरण के लिए, किसी देश में उच्च जीडीपी विकास दर हो सकती है, जबकि उस धन का अधिकांश हिस्सा आबादी के एक छोटे प्रतिशत के पास जाता है, जिससे अन्य गरीबी में रह जाते हैं।<br>• कारण R सही ढंग से पहचानता है कि जीडीपी की परिभाषा और गणना 'वितरण' या 'इक्विटी' के बजाय 'आउटपुट' पर केंद्रित है, इस प्रकार अभिकथन A की व्याख्या करती है। <br><br><strong>Information Booster:</strong><br>• <strong>गिनी गुणांक (Gini Coefficient):</strong> यह अर्थशास्त्रियों द्वारा किसी राष्ट्र के निवासियों की आय या धन वितरण का प्रतिनिधित्व करने के लिए उपयोग किया जाने वाला एक मानक उपाय है।<br>• <strong>प्रति व्यक्ति जीडीपी:</strong> हालांकि थोड़ा बेहतर, यह अभी भी एक औसत है और शीर्ष पर अत्यधिक धन द्वारा विषम हो सकता है।<br>• <strong>मानव विकास सूचकांक (HDI):</strong> आय के साथ जीवन प्रत्याशा और शिक्षा को शामिल करके किसी देश की स्थिति का व्यापक दृष्टिकोण प्रदान करता है।<br><br><strong>Additional Knowledge:</strong><br>• <strong>नाममात्र बनाम वास्तविक जीडीपी:</strong> नाममात्र जीडीपी की गणना मौजूदा कीमतों पर की जाती है, जबकि वास्तविक जीडीपी को मुद्रास्फीति के लिए समायोजित किया जाता है।<br>• <strong>लोरेन्ज वक्र:</strong> आय या धन के वितरण का एक चित्रमय प्रतिनिधित्व।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Which of the following systems of the Delhi sultanate had a influence on the Bahmani and Viwayanagar kingdoms?\n  <br></span><span class=\"hqt\"><p>दिल्ली सल्तनत की निम्नलिखित में से किस प्रणाली का बहमनी और विजयनगर साम्राज्यों पर प्रभाव पड़ा?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Walis\n  <br></span><span class=\"hqt\"><p>वालिस  <br></p></span>",
+      "<span class=\"eqt\">Cahalgani\n  <br></span><span class=\"hqt\"><p>कहलगानी  <br></p></span>",
+      "<span class=\"eqt\">Bitikchi \n  <br></span><span class=\"hqt\"><p>बिटिकची   <br></p></span>",
+      "<span class=\"eqt\">Iqtadari\n  <br></span><span class=\"hqt\"><p>इक्तादारी  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (d) Iqtadari.  <br>   • The Iqtadari System was a land revenue and administrative system used by the Delhi Sultanate, and it later influenced both the Bahmani and Viwayanagar kingdoms in several ways.<br>   • The iqtas were granted to iqta'dars (also called muqtis), who were responsible for collecting taxes, maintaining law and order, and managing their iqtas.<br>   • The Bahmanis adopted the Iqtadari system with modifications, using it to administer their vast territory.<br>   • The Viwayanagar kings also adapted the Iqtadari system, though to a lesser extent.<br></p></span><span class=\"hqt\"><p>सही उत्तर (d) इक्तादारी है।   <br>   • इक्तादारी प्रणाली दिल्ली सल्तनत द्वारा इस्तेमाल की जाने वाली एक भूमि राजस्व और प्रशासनिक प्रणाली थी, और बाद में इसने कई तरीकों से बहमनी और विजयनगर दोनों राज्यों को प्रभावित किया। <br>   • इक्ता को इक्तादारों (जिन्हें मुक्ती भी कहा जाता है) को दिया जाता था, जो कर एकत्र करने, कानून और व्यवस्था बनाए रखने और अपने इक्ता का प्रबंधन करने के लिए जिम्मेदार थे। <br>   • बहमनियों ने संशोधनों के साथ इक्तादारी प्रणाली को अपनाया और इसका उपयोग अपने विशाल क्षेत्र के प्रशासन के लिए किया। <br>   • विजयनगर के राजाओं ने भी इक्तादारी प्रणाली को अपनाया, हालाँकि कुछ हद तक।<br></p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Consider the following statements regarding India’s National Hydrogen Mission:  <br> 1. It aims to promote the production and use of green hydrogen.  <br> 2. The mission focuses on reducing dependence on fossil fuel imports.  <br> 3. It is implemented by the Ministry of New and Renewable Energy.  <br> Which of the statements given above is/are correct?  <br></p></span><span class=\"hqt\"><p>भारत के राष्ट्रीय हाइड्रोजन मिशन के संबंध में निम्नलिखित कथनों पर विचार कीजिए: <br> 1. इसका उद्देश्य ग्रीन हाइड्रोजन के उत्पादन और उपयोग को बढ़ावा देना है। <br> 2. यह मिशन जीवाश्म ईंधन के आयात पर निर्भरता कम करने पर केंद्रित है। <br> 3. इसे नवीन और नवीकरणीय ऊर्जा मंत्रालय द्वारा कार्यान्वित किया जाता है। <br> ऊपर दिए गए कथनों में से कौन सा/से सही है/हैं? <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Only 1 and 2 are correct  <br></p></span><span class=\"hqt\"><p>केवल 1 और 2 सही हैं <br></p></span>",
+      "<span class=\"eqt\"><p>Only 2 and 3 are correct  <br></p></span><span class=\"hqt\"><p>केवल 2 और 3 सही हैं <br></p></span>",
+      "<span class=\"eqt\"><p>Only 1 and 3 are correct  <br></p></span><span class=\"hqt\"><p>केवल 1 और 3 सही हैं <br></p></span>",
+      "<span class=\"eqt\"><p>1, 2 and 3 are correct  <br></p></span><span class=\"hqt\"><p>1, 2 और 3 सही हैं <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(D) 1, 2 and 3 are correct</strong><br><br><strong>Explanation:</strong><br>• Statement 1: The National Green Hydrogen Mission (launched in early 2023) aims to make India a global hub for the production and export of green hydrogen.<br>• Statement 2: By shifting to hydrogen, India aims to reduce its massive expenditure on importing oil and gas, thereby enhancing energy security.<br>• Statement 3: The Ministry of New and Renewable Energy (MNRE) is the nodal ministry for its implementation.<br><br><strong>Information Booster:</strong><br>• Green Hydrogen is produced through the electrolysis of water using renewable energy.<br>• The SIGHT (Strategic Interventions for Green Hydrogen Transition) program is a mawor sub-component of this mission.<br><br><strong>Additional Knowledge:</strong><br>• India targets to reach net-zero emissions by 2070, and this mission is a key pillar of that goal.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(D) 1, 2 और 3 सही हैं</strong> है<br><br><strong>व्याख्या:</strong><br>• कथन 1: राष्ट्रीय हरित हाइड्रोजन मिशन (2023 की शुरुआत में लॉन्च किया गया) का लक्ष्य भारत को हरित हाइड्रोजन के उत्पादन और निर्यात का वैश्विक केंद्र बनाना है।<br>• कथन 2: हाइड्रोजन की ओर स्थानांतरित होकर, भारत का लक्ष्य तेल और गैस के आयात पर अपने बड़े खर्च को कम करना है, जिससे ऊर्जा सुरक्षा बढ़ेगी।<br>• कथन 3: नवीन और नवीकरणीय ऊर्जा मंत्रालय (MNRE) इसके कार्यान्वयन के लिए नोडल मंत्रालय है।<br><br><strong>Information Booster:</strong><br>• ग्रीन हाइड्रोजन का उत्पादन नवीकरणीय ऊर्जा का उपयोग करके पानी के इलेक्ट्रोलिसिस के माध्यम से किया जाता है।<br>• SIGHT (ग्रीन हाइड्रोजन संक्रमण के लिए रणनीतिक हस्तक्षेप) कार्यक्रम इस मिशन का एक प्रमुख उप-घटक है।<br><br><strong>अतिरिक्त ज्ञान:</strong><br>• भारत का लक्ष्य 2070 तक शुद्ध-शून्य (net-zero) उत्सर्जन तक पहुँचने का है, और यह मिशन उस लक्ष्य का एक प्रमुख स्तंभ है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>The Narasimham Committee-I (1991) primarily recommended:</p></span><span class=\"hqt\"><p>नरसिम्हम समिति-I (1991) ने मुख्य रूप से सिफारिश की थी:</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Liberalization of interest rates, reduction of SLR-CRR, and strengthening prudential norms  <br></p></span><span class=\"hqt\"><p>ब्याज दरों का उदारीकरण, SLR-CRR में कमी, और विवेकपूर्ण मानदंडों को मजबूत करना  <br></p></span>",
+      "<span class=\"eqt\"><p>Full privatization of all public sector banks  <br></p></span><span class=\"hqt\"><p>सभी सार्वजनिक क्षेत्र के बैंकों का पूर्ण निजीकरण  <br></p></span>",
+      "<span class=\"eqt\"><p>A fixed and pegged exchange-rate regime  <br></p></span><span class=\"hqt\"><p>एक निश्चित और पेग्ड विनिमय दर व्यवस्था  <br></p></span>",
+      "<span class=\"eqt\"><p>Expansion and nationalization of Regional Rural Banks  <br></p></span><span class=\"hqt\"><p>क्षेत्रीय ग्रामीण बैंकों का विस्तार और राष्ट्रीयकरण  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(A) Liberalization of interest rates, reduction of SLR-CRR, and strengthening prudential norms</strong><br><br><strong>Explanation:</strong><br>• The Narasimham Committee-I was set up to recommend financial sector reforms.<br>• It suggested reducing the high Statutory Liquidity Ratio (SLR) and Cash Reserve Ratio (CRR) to release funds for the private sector.<br>• It also recommended the deregulation of interest rates.<br><br><strong>Information Booster:</strong><br>• It is often referred to as the blueprint for banking sector reforms in India.<br>• A second Narasimham Committee was constituted in 1998.<br><br><strong>Additional Knowledge:</strong><br>• The committee did not recommend full privatization (Option B) but suggested a mixed structure.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(A) ब्याज दरों का उदारीकरण, SLR-CRR में कमी, और विवेकपूर्ण मानदंडों को मजबूत करना</strong> है<br><br><strong>स्पष्टीकरण:</strong><br>• नरसिम्हम समिति-I का गठन वित्तीय क्षेत्र के सुधारों की सिफारिश करने के लिए किया गया था।<br>• इसने निजी क्षेत्र के लिए धन जारी करने के लिए उच्च वैधानिक तरलता अनुपात (SLR) और नकद आरक्षित अनुपात (CRR) को कम करने का सुझाव दिया।<br>• इसने ब्याज दरों के विनियमन की भी सिफारिश की।<br><br><strong>Information Booster:</strong><br>• इसे अक्सर भारत में बैंकिंग क्षेत्र के सुधारों के खाका (blueprint) के रूप में संदर्भित किया जाता है।<br>• 1998 में दूसरी नरसिम्हम समिति का गठन किया गया था।<br><br><strong>Additional Knowledge:</strong><br>• समिति ने पूर्ण निजीकरण (विकल्प B) की सिफारिश नहीं की बल्कि एक मिश्रित संरचना का सुझाव दिया。</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Read the following statements:  <br> 1. The amara-nayaka system was a mawor political innovation of the Viwayanagara Empire.  <br> 2. The amara-nayakas were farmers who were given territories by the raya.  <br> 3. They sent tribute to the king annually and personally appeared in court.  <br> Which of the above statement/s is/are true?  <br></p></span><span class=\"hqt\"><p>निम्नलिखित कथनों को पढ़ें: <br> 1. अमर-नायक प्रणाली विजयनगर साम्राज्य का एक प्रमुख राजनीतिक नवाचार था। <br> 2. अमर-नायक किसान थे जिन्हें राय द्वारा क्षेत्र दिए गए थे। <br> 3. वे सालाना राजा को श्रद्धांजलि भेजते थे और व्यक्तिगत रूप से दरबार में उपस्थित होते थे। <br> उपरोक्त में से कौन सा/से कथन सत्य है/हैं? <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Statement 1 and 2 only  <br></p></span><span class=\"hqt\"><p>केवल कथन 1 और 2 <br></p></span>",
+      "<span class=\"eqt\"><p>Statement 2 and 3 only  <br></p></span><span class=\"hqt\"><p>केवल कथन 2 और 3 <br></p></span>",
+      "<span class=\"eqt\"><p>Statement 1 and 3 only  <br></p></span><span class=\"hqt\"><p>केवल कथन 1 और 3 <br></p></span>",
+      "<span class=\"eqt\"><p>Statement 1 only  <br></p></span><span class=\"hqt\"><p>केवल कथन 1 <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (c) Statement 1 and 3 only  <br> Explanation:  <br> ● The Amara-nayaka system was a hallmark of Viwayanagara administration.  <br> ● Statement 2 is false; they were military commanders, not farmers.  <br> ● They collected taxes and maintained military contingents for the Raya (King).  <br> Information Booster:  <br> ● This system was similar to the Iqta system of the Delhi Sultanate.  <br> ● The term 'Amara' is derived from 'Samara' (battle).  <br> Additional Knowledge:  <br> ● Viwayanagara Empire: Founded by Harihara and Bukka in 1336.  <br> </p></span><span class=\"hqt\"><p>सही उत्तर (c) केवल कथन 1 और 3 है। <br> व्याख्या: <br> ● अमर-नायक प्रणाली विजयनगर प्रशासन की एक विशेषता थी। <br> ● कथन 2 गलत है; वे सैन्य कमांडर थे, किसान नहीं। <br> ● वे कर एकत्र करते थे और राय (राजा) के लिए सैन्य टुकड़ियों का रखरखाव करते थे। <br>  Information Booster: <br> ● यह प्रणाली दिल्ली सल्तनत की इक्ता प्रणाली के समान थी। <br> ● 'अमर' शब्द 'समर' (युद्ध) से बना है। <br> अतिरिक्त ज्ञान: <br> ● विजयनगर साम्राज्य: 1336 में हरिहर और बुक्का द्वारा स्थापित। <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">The Population Census in India is conducted by:\n  <br> I. Office of the Registrar General of India\n  <br> II. Ministry of Home Affairs\n  <br></span><span class=\"hqt\"><p>भारत में जनसंख्या जनगणना किसके द्वारा आयोजित की जाती है?  <br> I. भारत के महारजिस्ट्रार का कार्यालय (Office of the Registrar General of India)  <br> II. गृह मंत्रालय (Ministry of Home Affairs)  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Only I\n  <br></span><span class=\"hqt\"><p>केवल I  <br></p></span>",
+      "<span class=\"eqt\">Only II\n  <br></span><span class=\"hqt\"><p>केवल II  <br></p></span>",
+      "<span class=\"eqt\">Both I and II\n  <br></span><span class=\"hqt\"><p>I और II दोनों  <br></p></span>",
+      "<span class=\"eqt\">Neither I nor II\n  <br></span><span class=\"hqt\"><p>न तो I और न ही II  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\">The correct answer is <strong>(C) Both I and II</strong><br><br><strong>Explanation:</strong><br>• The decennial Population Census in India is conducted by the Office of the Registrar General and Census Commissioner (ORGI).<br>• This office (ORGI) functions directly under the administrative control of the Ministry of Home Affairs (MHA), Government of India. Therefore, both statements are correct in describing the conducting authority and its parent ministry.<br>• The Registrar General of India (RGI) is usually a senior IAS officer who oversees the entire process, including the preparation of questionnaires, training of enumerators, and the final publication of data.<br>• The census is conducted under the Census Act of 1948. This act makes it legally binding for citizens to answer census questions truthfully, and it also ensures the confidentiality of the individual data collected.<br>• Apart from the census, the ORGI is also responsible for the registration of births and deaths in the country under the Registration of Births and Deaths (RBD) Act, 1969.<br><br><strong>Information Booster:</strong><br>• The slogan of the 2011 Census was 'Our Census, Our Future'.<br>• The Census process involves two phases: 1. Houselisting and Housing Census, and 2. Population Enumeration.<br>• The upcoming census (intended for 2021 but delayed) is planned to be India's first 'Digital Census', where data will be collected via mobile apps.<br>• The data collected by the RGI is used by the Finance Commission for the devolution of funds to states and by the Delimitation Commission for fixing the boundaries of constituencies.<br><br><strong>Additional Knowledge:</strong><br>• The Ministry of Statistics and Programme Implementation (MoSPI) conducts the National Sample Surveys (NSS) and compiles the GDP and CPI data, but it does NOT conduct the Population Census.<br>• The Registrar General of India also manages the National Population Register (NPR).</span><span class=\"hqt\"><p>सही उत्तर <strong>(C) I और II दोनों</strong> है<br><br><strong>व्याख्या:</strong><br>• भारत में दशकीय जनसंख्या जनगणना भारत के महारजिस्ट्रार और जनगणना आयुक्त (ORGI) के कार्यालय द्वारा आयोजित की जाती है।<br>• यह कार्यालय (ORGI) भारत सरकार के गृह मंत्रालय (MHA) के प्रशासनिक नियंत्रण के तहत सीधे कार्य करता है। इसलिए, संचालन प्राधिकरण और उसके मूल मंत्रालय का वर्णन करने में दोनों कथन सही हैं।<br>• भारत का महारजिस्ट्रार (RGI) आमतौर पर एक वरिष्ठ IAS अधिकारी होता है जो प्रश्नावली तैयार करने, प्रगणकों के प्रशिक्षण और डेटा के अंतिम प्रकाशन सहित पूरी प्रक्रिया की देखरेख करता है।<br>• जनगणना 1948 के जनगणना अधिनियम के तहत आयोजित की जाती है। यह अधिनियम नागरिकों के लिए जनगणना के सवालों का सच्चाई से जवाब देना कानूनी रूप से बाध्यकारी बनाता है, और यह एकत्र किए गए व्यक्तिगत डेटा की गोपनीयता भी सुनिश्चित करता है।<br>• जनगणना के अलावा, ORGI जन्म और मृत्यु पंजीकरण (RBD) अधिनियम, 1969 के तहत देश में जन्म और मृत्यु के पंजीकरण के लिए भी जिम्मेदार है।<br><br><strong>Information Booster:</strong><br>• 2011 की जनगणना का नारा 'हमारी जनगणना, हमारा भविष्य' था।<br>• जनगणना प्रक्रिया में दो चरण शामिल हैं: 1. मकान सूचीकरण और आवास जनगणना, और 2. जनसंख्या की गिनती।<br>• आगामी जनगणना (2021 के लिए अभिप्रेत लेकिन विलंबित) भारत की पहली 'डिजिटल जनगणना' होने की योजना है, जहां डेटा मोबाइल ऐप के माध्यम से एकत्र किया जाएगा।<br>• RGI द्वारा एकत्र किए गए डेटा का उपयोग वित्त आयोग द्वारा राज्यों को धन के हस्तांतरण के लिए और परिसीमन आयोग द्वारा निर्वाचन क्षेत्रों की सीमाओं को तय करने के लिए किया जाता है।<br><br><strong>Additional Knowledge:</strong><br>• सांख्यिकी और कार्यक्रम कार्यान्वयन मंत्रालय (MoSPI) राष्ट्रीय नमूना सर्वेक्षण (NSS) आयोजित करता है और जीडीपी और सीपीआई डेटा संकलित करता है, लेकिन यह जनसंख्या जनगणना आयोजित *नहीं* करता है।<br>• भारत का महारजिस्ट्रार राष्ट्रीय जनसंख्या रजिस्टर (NPR) का प्रबंधन भी करता है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Who among the following received the Ati Vishisht Seva Medal (AVSM) in the 2026 Gallantry and Distinguished Service Awards for Indian Coast Guard personnel?</p></span><span class=\"hqt\"><p>भारतीय तटरक्षक कर्मियों के लिए 2026 के वीरता और विशिष्ट सेवा पुरस्कारों में निम्नलिखित में से किसे अति विशिष्ट सेवा पदक (AVSM) प्राप्त हुआ?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>K. S. Sitaram<br></p></span><span class=\"hqt\"><p>के. एस. सीताराम<br></p></span>",
+      "<span class=\"eqt\"><p>Donny Michael<br></p></span><span class=\"hqt\"><p>डोनी माइकल<br></p></span>",
+      "<span class=\"eqt\"><p>Iqbal Singh Chauhan<br></p></span><span class=\"hqt\"><p>इकबाल सिंह चौहान<br></p></span>",
+      "<span class=\"eqt\"><p>Saumyaranwan Behera<br></p></span><span class=\"hqt\"><p>सौम्यरंजन बेहरा<br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer:</strong> (b) Donny Michael</p><p></p><p><strong>Explanation:</strong></p><p> </p><ul type=\"disc\"><li>Additional      Director General (ADG) Donny Michael was awarded the Ati Vishisht Seva      Medal (AVSM) for distinguished service in the Indian Coast Guard in 2026.</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>Approved      by: President Droupadi Murmu on the eve of the 77th Republic Day (2026)</li><li>Purpose:      Recognition of gallantry, distinguished service, and meritorious service      in maritime security</li><li>Key      awards and recipients:</li><ul type=\"circle\"><li>Vishisht       Seva Medal (VSM): DIG K. S. Sitaram</li><li>President’s       Tatrakshak Medal (Distinguished Service): IG Iqbal Singh Chauhan and IG       Datwinder Singh Saini</li><li>Uttam       Jeevan Raksha Padak: Pradhan Navik Saumyaranwan Behera</li><li>Tatrakshak       Medal (Gallantry) – Posthumous:</li><ul type=\"square\"><li>Late        Commandant Rakesh Kumar Rana</li><li>Late        Commandant (JG) Vipin Babu</li><li>Late        Pradhan Navik Karan Singh</li></ul><li>Tatrakshak       Medal (Gallantry):</li><ul type=\"square\"><li>Commandant        (JG) Shailendra Singh Bisht</li><li>Pradhan        Navik Gautam Yadav</li><li>Pradhan        Navik Banti Kumar</li></ul><li>Tatrakshak       Medal (Meritorious Service):</li><ul type=\"square\"><li>DIG        Vinod Kumar Parmar</li><li>DIG        Arun Kumar Bhardwaw</li><li>DIG        Sudhakar Patil</li><li>Commandant        Indu P</li><li>Pradhan        Adhikari Tapas Kumar Banerwee</li></ul></ul><li>Other      awards (Railways):</li><ul type=\"circle\"><li>President’s       Medal for Distinguished Service (PSM) and Medal for Meritorious Service       (MSM) awarded to RPF/RPSF personnel</li></ul></ul></span><span class=\"hqt\"><p><strong>सही उत्तर:</strong> (b) डोनी माइकल</p><p><strong>व्याख्या:</strong></p><p></p><ul type=\"disc\"><li>अतिरिक्त महानिदेशक (ADG) डोनी माइकल को 2026 में भारतीय तटरक्षक बल में विशिष्ट सेवा के लिए अति विशिष्ट सेवा पदक (AVSM) से सम्मानित किया गया।</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>अनुमोदित कर्ता: 77वें गणतंत्र दिवस (2026) की पूर्व संध्या पर राष्ट्रपति द्रौपदी मुर्मू</li><li>उद्देश्य: समुद्री सुरक्षा में वीरता, विशिष्ट सेवा और सराहनीय सेवा की मान्यता</li><li>प्रमुख पुरस्कार और प्राप्तकर्ता:</li><ul type=\"circle\"><li>विशिष्ट सेवा पदक (VSM): डीआईजी के. एस. सीताराम</li><li>राष्ट्रपति का तटरक्षक पदक (विशिष्ट सेवा): आईजी इकबाल सिंह चौहान और आईजी दतविंदर सिंह सैनी</li><li>उत्तम जीवन रक्षा पदक: प्रधान नाविक सौम्यरंजन बेहरा</li><li>तटरक्षक पदक (वीरता) – मरणोपरांत:</li><ul type=\"square\"><li>दिवंगत कमांडेंट राकेश कुमार राणा</li><li>दिवंगत कमांडेंट (JG) विपिन बाबू</li><li>दिवंगत प्रधान नाविक करण सिंह</li></ul><li>तटरक्षक पदक (वीरता):</li><ul type=\"square\"><li>कमांडेंट (JG) शैलेंद्र सिंह बिष्ट</li><li>प्रधान नाविक गौतम यादव</li><li>प्रधान नाविक बंटी कुमार</li></ul><li>तटरक्षक पदक (सराहनीय सेवा):</li><ul type=\"square\"><li>डीआईजी विनोद कुमार परमार</li><li>डीआईजी अरुण कुमार भारद्वाज</li><li>डीआईजी सुधाकर पाटिल</li><li>कमांडेंट इंदु पी</li><li>प्रधान अधिकारी तापस कुमार बनर्जी</li></ul></ul><li>अन्य पुरस्कार (रेलवे):</li><ul type=\"circle\"><li>RPF/RPSF कर्मियों को प्रदान किए गए विशिष्ट सेवा के लिए राष्ट्रपति पदक (PSM) और सराहनीय सेवा के लिए पदक (MSM)</li></ul></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which statement correctly reflects Article 200 regarding state bills?</p></span><span class=\"hqt\"><p>राज्य विधेयकों के संबंध में अनुच्छेद 200 को कौन सा कथन सही ढंग से दर्शाता है?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Governor must always assent to bills.  <br></p></span><span class=\"hqt\"><p>राज्यपाल को हमेशा विधेयकों पर सहमति देनी चाहिए। <br></p></span>",
+      "<span class=\"eqt\"><p>Governor can reserve a bill for the President.  <br></p></span><span class=\"hqt\"><p>राज्यपाल राष्ट्रपति के लिए विधेयक सुरक्षित रख सकता है। <br></p></span>",
+      "<span class=\"eqt\"><p>Bills cannot be returned to the legislature.  <br></p></span><span class=\"hqt\"><p>विधेयकों को विधानमंडल को नहीं लौटाया जा सकता। <br></p></span>",
+      "<span class=\"eqt\"><p>President has no role in state legislation.  <br></p></span><span class=\"hqt\"><p>राज्य के कानून में राष्ट्रपति की कोई भूमिका नहीं है। <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(B) Governor can reserve a bill for the President</strong><br><br><strong>Explanation:</strong><br>• Under Article 200, when a bill passed by the State Legislature is presented to the Governor, he has four options: (1) Give assent, (2) Withhold assent, (3) Return the bill (if not a Money Bill) for reconsideration, or (4) Reserve the bill for the consideration of the President.<br>• Reservation is mandatory if the bill endangers the position of the State High Court.<br><br><strong>Information Booster:</strong><br>• <strong>Article 201:</strong> Deals with bills reserved by the Governor for the consideration of the President.<br>• <strong>Veto Power:</strong> The Governor has a suspensive veto (except for money bills) as he can return the bill once.<br><br><strong>Additional Knowledge:</strong><br>• <strong>Option A:</strong> Incorrect, as the Governor has discretionary powers to withhold or reserve bills.<br>• <strong>Option C:</strong> Incorrect, as the Governor can return non-money bills.<br>• <strong>Option D:</strong> Incorrect, as the President plays a role through Article 201 when a bill is reserved.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(B) राज्यपाल राष्ट्रपति के लिए विधेयक सुरक्षित रख सकता है</strong><br><br><strong>व्याख्या:</strong><br>• अनुच्छेद 200 के तहत, जब राज्य विधानमंडल द्वारा पारित कोई विधेयक राज्यपाल के समक्ष प्रस्तुत किया जाता है, तो उसके पास चार विकल्प होते हैं: (1) अनुमति देना, (2) अनुमति रोकना, (3) विधेयक को (यदि धन विधेयक नहीं है) पुनर्विचार के लिए लौटाना, या (4) राष्ट्रपति के विचारार्थ विधेयक को सुरक्षित रखना।<br>• यदि विधेयक राज्य उच्च न्यायालय की स्थिति को खतरे में डालता है तो आरक्षण (सुरक्षित रखना) अनिवार्य है।<br><br>Information Booster:<br>• <strong>अनुच्छेद 201:</strong> राज्यपाल द्वारा राष्ट्रपति के विचारार्थ सुरक्षित रखे गए विधेयकों से संबंधित है।<br>• <strong>वीटो पावर:</strong> राज्यपाल के पास निलंबनकारी वीटो (धन विधेयकों को छोड़कर) है क्योंकि वह विधेयक को एक बार लौटा सकता है।<br><br>Additional Knowledge:<br>• <strong>विकल्प A:</strong> गलत, क्योंकि राज्यपाल के पास विधेयकों को रोकने या सुरक्षित रखने की विवेकाधीन शक्तियां हैं।<br>• <strong>विकल्प C:</strong> गलत, क्योंकि राज्यपाल गैर-धन विधेयकों को लौटा सकता है।<br>• <strong>विकल्प D:</strong> गलत, क्योंकि जब कोई विधेयक सुरक्षित रखा जाता है तो अनुच्छेद 201 के माध्यम से राष्ट्रपति की भूमिका होती है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>The Pai songs are most popular folk songs in which of the following states?</p></span><span class=\"hqt\"><p>पाई (Pai) गीत निम्नलिखित में से किस राज्य में सबसे लोकप्रिय लोक गीत हैं?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Maharashtra</p></span><span class=\"hqt\"><p>महाराष्ट्र</p></span>",
+      "<span class=\"eqt\"><p>Madhya Pradesh</p></span><span class=\"hqt\"><p>मध्य प्रदेश</p></span>",
+      "<span class=\"eqt\"><p>Andhra Pradesh</p></span><span class=\"hqt\"><p>आंध्र प्रदेश</p></span>",
+      "<span class=\"eqt\"><p>West Bengal  <br></p></span><span class=\"hqt\"><p>पश्चिम बंगाल  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer: (b) Madhya Pradesh</strong> <br> <strong>Explaination:</strong> <br> · Pai songs are traditional folk songs specifically popular in the   <strong>Bundelkhand region</strong> of Madhya Pradesh.  <br> · These songs are typically performed during the rainy season and are associated with the   <strong>Pai-Danda</strong> dance, which is performed by farmers to pray for a good harvest.  <br> <strong>Information Booster:</strong> <br> · The Bundelkhand region (spanning parts of MP and UP) is rich in folk traditions, including other famous forms like   <strong>Alha</strong> (heroic ballads),   <strong>Hardaul ki Manauti</strong>, and   <strong>Lamtera</strong>.  <br> · These songs are often accompanied by traditional instruments like the dholak and manwira.  <br> <strong>Additional Knowledge:</strong> <br> ·   <strong>Option (a) Maharashtra:</strong> Famous for folk forms like   <strong>Lavani</strong>,   <strong>Povada</strong>, and   <strong>Bharud</strong>.  <br> ·   <strong>Option (c) Andhra Pradesh:</strong> Known for traditional musical forms like   <strong>Burra Katha</strong> and   <strong>Vilasini Natyam</strong>.  <br> ·   <strong>Option (d) West Bengal:</strong> Renowned for its rich   <strong>Baul</strong> music,   <strong>Bhatiali</strong> (boatman songs), and   <strong>Rabindra Sangeet</strong>.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर: (b) मध्य प्रदेश</strong> <br> <strong>व्याख्या:</strong> <br> · पाई गीत पारंपरिक लोक गीत हैं जो विशेष रूप से मध्य प्रदेश के <strong>बुंदेलखंड क्षेत्र</strong> में लोकप्रिय हैं।  <br> · ये गीत आमतौर पर वर्षा ऋतु के दौरान गाए जाते हैं और <strong>पाई-डंडा</strong> नृत्य से जुड़े होते हैं, जो किसानों द्वारा अच्छी फसल के लिए प्रार्थना करने हेतु किया जाता है।  <br> <strong>Information Booster:</strong> <br> · बुंदेलखंड क्षेत्र (मध्य प्रदेश और उत्तर प्रदेश के हिस्सों में फैला हुआ) लोक परंपराओं में समृद्ध है, जिसमें <strong>आल्हा</strong> (वीरगाथा गीत), <strong>हरदौल की मनौती</strong> और <strong>लमटेरा</strong> जैसे अन्य प्रसिद्ध रूप शामिल हैं।  <br> · इन गीतों के साथ अक्सर ढोलक और मंजीरा जैसे पारंपरिक वाद्ययंत्र बजाए जाते हैं।  <br> <strong>Additional Knowledge:</strong> <br> ·  <strong>विकल्प (a) महाराष्ट्र:</strong> <strong>लावणी</strong>, <strong>पोवाड़ा</strong> और <strong>भारुड़</strong> जैसे लोक रूपों के लिए प्रसिद्ध है।  <br> ·  <strong>विकल्प (c) आंध्र प्रदेश:</strong> <strong>बुरा कथा</strong> और <strong>विलासनी नाट्यम</strong> जैसे पारंपरिक संगीत रूपों के लिए जाना जाता है।  <br> ·  <strong>विकल्प (d) पश्चिम बंगाल:</strong> अपने समृद्ध <strong>बाउल</strong> संगीत, <strong>भाटियाली</strong> (नाविकों के गीत) और <strong>रवींद्र संगीत</strong> के लिए प्रसिद्ध है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>The Sarkaria Commission primarily focused on strengthening which type of federalism in India?  <br></p></span><span class=\"hqt\"><p>सरकारिया आयोग ने मुख्य रूप से भारत में किस प्रकार के संघवाद को मजबूत करने पर ध्यान केंद्रित किया? <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Fiscal federalism  <br></p></span><span class=\"hqt\"><p>राजकोषीय संघवाद <br></p></span>",
+      "<span class=\"eqt\"><p>Competitive federalism  <br></p></span><span class=\"hqt\"><p>प्रतिस्पर्धी संघवाद <br></p></span>",
+      "<span class=\"eqt\"><p>Unitary federalism  <br></p></span><span class=\"hqt\"><p>एकात्मक संघवाद <br></p></span>",
+      "<span class=\"eqt\"><p>Co-operative federalism  <br></p></span><span class=\"hqt\"><p>सहकारी संघवाद <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (d) Co-operative federalism  <br> <strong>Explanation:</strong> <br> • The Sarkaria Commission (appointed 1983; report 1988) examined Centre–State relations and recommended measures to strengthen co-operative federalism.  <br> • Emphasised consultation, mutual respect and institutional mechanisms for conflict resolution.  <br> • Recommended changes in Governor’s role, interstate councils and devolution practices.  <br> <strong>Information Booster:</strong> <br> • The Punchhi Commission (2007) later revisited Centre–State relations with similar cooperative aims.  <br> <strong>Additional Knowledge:</strong> <br> Fiscal federalism (a) — partially addressed but not the primary focus.  <br> Competitive (b)/Unitary (c) — not the Commission’s intent.  <br> </p></span><span class=\"hqt\"><p>सही उत्तर (d) सहकारी संघवाद है <br> <strong>स्पष्टीकरण:</strong> <br> • सरकारिया आयोग (नियुक्त 1983; रिपोर्ट 1988) ने केंद्र-राज्य संबंधों की जांच की और सहकारी संघवाद को मजबूत करने के लिए उपायों की सिफारिश की। <br> • परामर्श, आपसी सम्मान और संघर्ष समाधान के लिए संस्थागत तंत्र पर जोर दिया। <br> • राज्यपाल की भूमिका, अंतर-राज्य परिषदों और हस्तांतरण प्रथाओं में बदलाव की सिफारिश की। <br> <strong>Information Booster:</strong> <br> • पुंछी आयोग (2007) ने बाद में समान सहकारी उद्देश्यों के साथ केंद्र-राज्य संबंधों पर फिर से विचार किया। <br> <strong>Additional Knowledge:</strong> <br> राजकोषीय संघवाद (a) — आंशिक रूप से संबोधित किया गया लेकिन प्राथमिक फोकस नहीं। <br> प्रतिस्पर्धी (b)/एकात्मक (c) — आयोग का इरादा नहीं। <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which statement best explains the impact of the Doctrine of Lapse introduced by Lord Dalhousie?  <br></p></span><span class=\"hqt\"><p>कौन सा कथन लॉर्ड डलहौजी द्वारा शुरू किए गए व्यपगत के सिद्धांत (Doctrine of Lapse) के प्रभाव की सबसे अच्छी व्याख्या करता है? <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>It abolished princely rule altogether  <br></p></span><span class=\"hqt\"><p>इसने रियासतों के शासन को पूरी तरह से समाप्त कर दिया <br></p></span>",
+      "<span class=\"eqt\"><p>It promoted industrial growth in India  <br></p></span><span class=\"hqt\"><p>इसने भारत में औद्योगिक विकास को बढ़ावा दिया <br></p></span>",
+      "<span class=\"eqt\"><p>It allowed Indian rulers complete autonomy  <br></p></span><span class=\"hqt\"><p>इसने भारतीय शासकों को पूर्ण स्वायत्तता प्रदान की <br></p></span>",
+      "<span class=\"eqt\"><p>It annexed dependent princely states without male heirs into British India  <br></p></span><span class=\"hqt\"><p>इसने पुरुष उत्तराधिकारियों के बिना आश्रित रियासतों को ब्रिटिश भारत में मिला लिया <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct answer is (d) It annexed dependent princely states without male heirs into British India  <br> <strong>Explanation:</strong> <br> ● The Doctrine of Lapse was an annexation policy followed by Lord Dalhousie (Governor-General from 1848–1856).  <br> ● According to this policy, if an Indian ruler of a dependent state died without a natural male heir, the state would \"lapse\" or be annexed into the British Empire.  <br> ● It disregarded the traditional right of an Indian ruler to adopt an heir.  <br> <strong>Information Booster:</strong> <br> ● Mawor states annexed: Satara (1848), Sambalpur (1849), Jhansi (1853), and Nagpur (1854).  <br> ● Awadh was annexed in 1856 on grounds of misgovernance, not the Doctrine of Lapse.  <br> <strong>Additional Knowledge:</strong> <br> ● This policy was a mawor cause of resentment leading to the Revolt of 1857.  <br> </p></span><span class=\"hqt\"><p>सही उत्तर है (d) इसने पुरुष उत्तराधिकारियों के बिना आश्रित रियासतों को ब्रिटिश भारत में मिला लिया <br> <strong>Explanation:</strong> <br> ● व्यपगत का सिद्धांत लॉर्ड डलहौजी (1848-1856 तक गवर्नर-जनरल) द्वारा अपनाई गई एक विलय नीति थी। <br> ● इस नीति के अनुसार, यदि किसी आश्रित राज्य के भारतीय शासक की मृत्यु प्राकृतिक पुरुष उत्तराधिकारी के बिना हो जाती है, तो राज्य \"व्यपगत\" हो जाएगा या ब्रिटिश साम्राज्य में मिला लिया जाएगा। <br> ● इसने उत्तराधिकारी गोद लेने के भारतीय शासक के पारंपरिक अधिकार की अवहेलना की। <br> <strong>Information Booster:</strong> <br> ● विलय किए गए प्रमुख राज्य: सतारा (1848), संबलपुर (1849), झांसी (1853), और नागपुर (1854)। <br> ● अवध को 1856 में कुशासन के आधार पर मिलाया गया था, न कि व्यपगत के सिद्धांत के आधार पर। <br> <strong>Additional Knowledge:</strong> <br> ● यह नीति 1857 के विद्रोह के प्रमुख कारणों में से एक थी। <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Zemmado is a dance form in which women belonging to the Dhangar community of Goa imitate which animal?</p></span><span class=\"hqt\"><p>जेम्माडो एक नृत्य शैली है जिसमें गोवा के धनगर समुदाय की महिलाएँ किस जानवर की नकल करती हैं?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Elephant</p></span><span class=\"hqt\"><p>हाथी</p></span>",
+      "<span class=\"eqt\"><p>Lion</p></span><span class=\"hqt\"><p>शेर</p></span>",
+      "<span class=\"eqt\"><p>Goat</p></span><span class=\"hqt\"><p>बकरी</p></span>",
+      "<span class=\"eqt\"><p>Cow  <br></p></span><span class=\"hqt\"><p>गाय  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p><strong>Correct Answer:</strong> (c)  <br> <strong>Explanation:</strong> <br> · The   <strong>Zemmado</strong> (also spelled as   <em>Gawmado</em> or   <em>Zemado</em>) is a folk dance performed by the women of the   <strong>Dhangar community</strong>, who are traditional shepherds in Goa.  <br> · The dance is characterized by movements that mimic the behavior and gait of a   <strong>goat</strong>, reflecting the community's close relationship with their livestock.  <br> · It is typically performed during festivals or cultural gatherings, where women dance in circles or semi-circles to the rhythmic beats of traditional instruments.  <br> <strong>Information Booster:</strong> <br> · The   <strong>Dhangars</strong> are a semi-nomadic pastoral community found primarily in the states of Maharashtra, Goa, and Karnataka.  <br> · Their folk dances, such as the   <em>Dhangari Gawa</em> and   <em>Zemmado</em>, are deeply rooted in their occupation of sheep and goat rearing and are often performed to please their folk deity,   <strong>Biruba</strong>.  <br> · In Goa, these performances often take place during the   <strong>Shigmo festival</strong>, which celebrates the arrival of spring and harvest.  <br> </p></span><span class=\"hqt\"><p><strong>सही उत्तर:</strong> (c)  <br> <strong>व्याख्या:</strong> <br> · <strong>जेम्माडो</strong> (जिसे <em>Gawmado</em> या <em>Zemado</em> भी लिखा जाता है) गोवा के <strong>धनगर समुदाय</strong> की महिलाओं द्वारा किया जाने वाला एक लोक नृत्य है, जो पारंपरिक चरवाहे हैं।  <br> · इस नृत्य की विशेषता वे हरकतें हैं जो एक <strong>बकरी</strong> के व्यवहार और चाल की नकल करती हैं, जो अपने पशुधन के साथ समुदाय के करीबी रिश्ते को दर्शाती हैं।  <br> · यह आमतौर पर त्योहारों या सांस्कृतिक समारोहों के दौरान किया जाता है, जहाँ महिलाएँ पारंपरिक वाद्ययंत्रों की लयबद्ध थाप पर घेरे या अर्ध-घेरे में नृत्य करती हैं।  <br> <strong>Information Booster:</strong> <br> · <strong>धनगर</strong> एक अर्ध-खानाबदोश देहाती समुदाय है जो मुख्य रूप से महाराष्ट्र, गोवा और कर्नाटक राज्यों में पाया जाता है।  <br> · उनके लोक नृत्य, जैसे कि <em>धनगरी गजा</em> और <em>जेम्माडो</em>, उनके भेड़ और बकरी पालन के व्यवसाय में गहराई से निहित हैं और अक्सर उनके लोक देवता, <strong>बिरूबा</strong> को प्रसन्न करने के लिए किए जाते हैं।  <br> · गोवा में, ये प्रदर्शन अक्सर <strong>शिग्मो उत्सव</strong> के दौरान होते हैं, जो वसंत के आगमन और फसल का जश्न मनाता है।  <br> </p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Who discovered the Maski Ashoka Inscription?<br></p></span><span class=\"hqt\"><p>मास्की अशोकन शिलालेख की खोज किसने की थी?<br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>James Prinsep<br></p></span><span class=\"hqt\"><p>जेम्स प्रिंसेप<br></p></span>",
+      "<span class=\"eqt\"><p>C Beadon<br></p></span><span class=\"hqt\"><p>सी बीडन<br></p></span>",
+      "<span class=\"eqt\"><p>Christian Lassen<br></p></span><span class=\"hqt\"><p>क्रिश्चियन लैसन<br></p></span>",
+      "<span class=\"eqt\"><p>Lord Canning<br></p></span><span class=\"hqt\"><p>लॉर्ड कैनिंग<br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(B) C Beadon</strong></p><p><strong>Explanation:</strong></p><p></p><ul type=\"disc\"><li>The <strong>Maski      Ashoka Inscription</strong> was discovered by <strong>C. Beadon</strong>, a British      officer, in the year <strong>1824</strong> in the village of <strong>Maski</strong> in      present-day <strong>Karnataka</strong>, India.</li><li>This      inscription is significant as it contains an edict of <strong>Emperor Ashoka</strong>      and provides valuable evidence about his role in spreading <strong>Buddhism</strong>      and his commitment to <strong>moral governance</strong>.</li><li>The      inscription is one of the early findings that helped scholars decipher <strong>Brahmi      script</strong> and understand <strong>Ashoka's reign</strong>.</li></ul><p> </p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li>The <strong>Maski      Inscription</strong> is part of a series of inscriptions that <strong>Ashoka</strong> had      inscribed on pillars and rocks throughout the Indian subcontinent.</li><li>This      particular inscription is particularly important as it mentions <strong>Ashoka's      Dhamma</strong> (moral code) and his efforts to spread Buddhism.</li></ul><p> </p><p><strong>Additional Knowledge:</strong></p><p> </p><p><strong>(A) James Prinsep</strong></p><p> </p><ul type=\"disc\"><li>James      Prinsep was a significant figure in the study of ancient Indian      inscriptions, particularly known for his work in deciphering <strong>Brahmi      script</strong>, but he did not discover the Maski Inscription.</li></ul><p> </p><p><strong>(C) Christian Lassen</strong></p><p> </p><ul type=\"disc\"><li>Christian      Lassen was a scholar of ancient Indian history and Sanskrit, but he was      not responsible for discovering the Maski Inscription.</li></ul><p> </p><p><strong>(D) Lord Canning</strong></p><p> </p><ul type=\"disc\"><li>Lord      Canning was the British Governor-General of India, but he did not play a      role in the discovery of the Maski Inscription.</li></ul></span><span class=\"hqt\"><p>सही उत्तर है <strong>(B) सी बीडन</strong></p><p><strong>व्याख्या:</strong></p><ul type=\"disc\"><li><strong>मास्की अशोकन शिलालेख</strong> की खोज एक ब्रिटिश अधिकारी <strong>सी. बीडन</strong> ने वर्ष <strong>1824</strong> में वर्तमान <strong>कर्नाटक</strong>, भारत के <strong>मास्की</strong> गाँव में की थी।</li><li>यह शिलालेख महत्वपूर्ण है क्योंकि इसमें <strong>सम्राट अशोक</strong> का एक अध्यादेश शामिल है और यह <strong>बौद्ध धर्म</strong> के प्रसार में उनकी भूमिका और <strong>नैतिक शासन</strong> के प्रति उनकी प्रतिबद्धता के बारे में बहुमूल्य प्रमाण प्रदान करता है।</li><li>यह शिलालेख शुरुआती खोजों में से एक है जिसने विद्वानों को <strong>ब्राह्मी लिपि</strong> को समझने और <strong>अशोक के शासनकाल</strong> को समझने में मदद की।</li></ul><p></p><p><strong>Information Booster:</strong></p><p> </p><ul type=\"disc\"><li><strong>मास्की शिलालेख</strong> उन शिलालेखों की श्रृंखला का एक हिस्सा है जिन्हें <strong>अशोक</strong> ने पूरे भारतीय उपमहाद्वीप में स्तंभों और चट्टानों पर उत्कीर्ण कराया था।</li><li>यह विशेष शिलालेख विशेष रूप से महत्वपूर्ण है क्योंकि इसमें <strong>अशोक के धम्म</strong> (नैतिक संहिता) और बौद्ध धर्म के प्रसार के उनके प्रयासों का उल्लेख है।</li></ul><p> </p><p><strong>Additional Knowledge:</strong></p><p> </p><p><strong>(A) जेम्स प्रिंसेप</strong></p><p> </p><ul type=\"disc\"><li>जेम्स प्रिंसेप प्राचीन भारतीय शिलालेखों के अध्ययन में एक महत्वपूर्ण व्यक्ति थे, विशेष रूप से <strong>ब्राह्मी लिपि</strong> को समझने के अपने काम के लिए जाने जाते हैं, लेकिन उन्होंने मास्की शिलालेख की खोज नहीं की थी।</li></ul><p> </p><p><strong>(C) क्रिश्चियन लैसन</strong></p><p> </p><ul type=\"disc\"><li>क्रिश्चियन लैसन प्राचीन भारतीय इतिहास और संस्कृत के एक विद्वान थे, लेकिन वे मास्की शिलालेख की खोज के लिए जिम्मेदार नहीं थे।</li></ul><p> </p><p><strong>(D) लॉर्ड कैनिंग</strong></p><p> </p><ul type=\"disc\"><li>लॉर्ड कैनिंग भारत के ब्रिटिश गवर्नर-जनरल थे, लेकिन उन्होंने मास्की शिलालेख की खोज में कोई भूमिका नहीं निभाई थी।</li></ul></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Regarding India’s climate and monsoon system:  <br> 1. The Southwest Monsoon brings rainfall mainly during June to September.  <br> 2. The Northeast Monsoon primarily affects the Coromandel Coast.  <br> Which of the above is/are correct?  <br></p></span><span class=\"hqt\"><p>भारत की जलवायु और मानसून प्रणाली के संबंध में: <br> 1. दक्षिण-पश्चिम मानसून मुख्य रूप से जून से सितंबर के दौरान वर्षा लाता है। <br> 2. उत्तर-पूर्वी मानसून मुख्य रूप से कोरोमंडल तट को प्रभावित करता है। <br> उपरोक्त में से कौन सा/से सही है/हैं? <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Statement 1 only  <br></p></span><span class=\"hqt\"><p>केवल कथन 1 <br></p></span>",
+      "<span class=\"eqt\"><p>Statement 2 only  <br></p></span><span class=\"hqt\"><p>केवल कथन 2 <br></p></span>",
+      "<span class=\"eqt\"><p>Both 1 and 2  <br></p></span><span class=\"hqt\"><p>1 और 2 दोनों <br></p></span>",
+      "<span class=\"eqt\"><p>Neither 1 nor 2  <br></p></span><span class=\"hqt\"><p>न तो 1 और न ही 2 <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(C) Both 1 and 2</strong><br><br><strong>Explanation:</strong><br>• Statement 1: The Southwest Monsoon is the primary rain-bearing season for most of India, occurring between June and September.<br>• Statement 2: The Northeast Monsoon (or retreating monsoon) picks up moisture from the Bay of Bengal and provides significant rainfall to Tamil Nadu and the Coromandel Coast during October to December.<br><br><strong>Information Booster:</strong><br>• India has a 'Tropical Monsoon' type of climate.<br>• The Western Ghats receive heavy rainfall from the Arabian Sea branch of the Southwest Monsoon.<br><br><strong>Additional Knowledge:</strong><br>• The onset of the monsoon usually starts in Kerala around June 1st.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(C) 1 and 2 दोनों</strong> है<br><br><strong>व्याख्या:</strong><br>• कथन 1: दक्षिण-पश्चिम मानसून भारत के अधिकांश हिस्सों के लिए प्राथमिक वर्षा का मौसम है, जो जून और सितंबर के बीच होता है।<br>• कथन 2: उत्तर-पूर्वी मानसून (या लौटता हुआ मानसून) बंगाल की खाड़ी से नमी ग्रहण करता है और अक्टूबर से दिसंबर के दौरान तमिलनाडु और कोरोमंडल तट पर महत्वपूर्ण वर्षा करता है।<br><br><strong>Information Booster:</strong><br>• भारत में 'उष्णकटिबंधीय मानसून' प्रकार की जलवायु है।<br>• पश्चिमी घाट दक्षिण-पश्चिम मानसून की अरब सागर शाखा से भारी वर्षा प्राप्त करते हैं।<br><br><strong>अतिरिक्त ज्ञान:</strong><br>• मानसून की शुरुआत आमतौर पर केरल में 1 जून के आसपास होती है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>In the event of a clash between a Central law and a State law on a subwect in the Concurrent List, the State law will prevail only when:  <br></p></span><span class=\"hqt\"><p>समवर्ती सूची के किसी विषय पर केंद्रीय कानून और राज्य कानून के बीच टकराव की स्थिति में, राज्य कानून केवल तभी प्रभावी होगा जब: <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>It is approved by a special mawority of the State Legislature  <br></p></span><span class=\"hqt\"><p>इसे राज्य विधानमंडल के विशेष बहुमत द्वारा अनुमोदित किया जाता है <br></p></span>",
+      "<span class=\"eqt\"><p>It has obtained the assent of the President of India  <br></p></span><span class=\"hqt\"><p>इसने भारत के राष्ट्रपति की सहमति प्राप्त कर ली हो <br></p></span>",
+      "<span class=\"eqt\"><p>It is upheld by the Supreme Court  <br></p></span><span class=\"hqt\"><p>इसे सर्वोच्च न्यायालय द्वारा बरकरार रखा जाता है <br></p></span>",
+      "<span class=\"eqt\"><p>It is passed unanimously by Parliament  <br></p></span><span class=\"hqt\"><p>इसे संसद द्वारा सर्वसम्मति से पारित किया जाता है <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct answer is <strong>(B) It has obtained the assent of the President of India</strong><br><br><strong>Explanation:</strong><br>• Under Article 254(2) of the Indian Constitution, if a State law on a Concurrent List subwect is inconsistent with an existing Central law, the State law can prevail in that State if it was reserved for the President's consideration and received his/her assent.<br>• However, Parliament can still override such a law by passing a new law on the same matter.<br><br><strong>Information Booster:</strong><br>• The Concurrent List (List III) contains 52 items (originally 47) over which both the Centre and States have wurisdiction.<br><br><strong>Additional Knowledge:</strong><br>• In normal circumstances (Article 254-1), the Central law prevails over the State law in case of a conflict.</p></span><span class=\"hqt\"><p>सही उत्तर <strong>(B) इसने भारत के राष्ट्रपति की सहमति प्राप्त कर ली हो</strong> है<br><br><strong>व्याख्या:</strong><br>• भारतीय संविधान के अनुच्छेद 254(2) के तहत, यदि समवर्ती सूची के विषय पर कोई राज्य कानून मौजूदा केंद्रीय कानून के साथ असंगत है, तो वह राज्य कानून उस राज्य में प्रभावी हो सकता है यदि उसे राष्ट्रपति के विचार के लिए आरक्षित किया गया था और उनकी सहमति प्राप्त हुई थी।<br>• हालाँकि, संसद अभी भी उसी मामले पर नया कानून पारित करके ऐसे कानून को निरस्त कर सकती है।<br><br><strong>Information Booster:</strong><br>• समवर्ती सूची (सूची III) में 52 मदें (मूल रूप से 47) शामिल हैं जिन पर केंद्र और राज्यों दोनों का अधिकार क्षेत्र है।<br><br><strong>अतिरिक्त ज्ञान:</strong><br>• सामान्य परिस्थितियों में (अनुच्छेद 254-1), टकराव की स्थिति में केंद्रीय कानून राज्य कानून पर हावी होता है।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Consider the following statements regarding the fiscal roadmap recommended by the 16th Finance Commission:<br>1. The 16th Finance Commission has recommended that the Centre reduce its fiscal deficit to 3% of GDP by 2030–31.<br>2. The annual fiscal deficit limit for States has been recommended at 3% of GSDP.<br>3. The Commission recommended continuing the practice of off-budget borrowings by States to provide flexibility in financing.<br>4. The definition of fiscal deficit and debt should be expanded to include all off-budget borrowings.</p><p>Which of the above statements are correct?</p></span><span class=\"hqt\"><p>16वें वित्त आयोग द्वारा अनुशंसित राजकोषीय रोडमैप के संबंध में निम्नलिखित कथनों पर विचार करें:<br>1. 16वें वित्त आयोग ने सिफारिश की है कि केंद्र 2030-31 तक अपने राजकोषीय घाटे को जीडीपी के 3% तक कम करे।<br>2. राज्यों के लिए वार्षिक राजकोषीय घाटा सीमा जीएसडीपी के 3% पर अनुशंसित की गई है।<br>3. आयोग ने वित्तपोषण में लचीलापन प्रदान करने के लिए राज्यों द्वारा ऑफ-बजट उधारी की प्रथा को जारी रखने की सिफारिश की।<br>4. राजकोषीय घाटे और ऋण की परिभाषा का विस्तार सभी ऑफ-बजट उधारी को शामिल करने के लिए किया जाना चाहिए।</p><p>उपरोक्त में से कौन से कथन सही हैं?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>2 and 4 only</p></span><span class=\"hqt\"><p>केवल 2 और 4</p></span>",
+      "<span class=\"eqt\"><p>1 and 3 only</p></span><span class=\"hqt\"><p>केवल 1 और 3</p></span>",
+      "<span class=\"eqt\"><p>1 and 4 only</p></span><span class=\"hqt\"><p>केवल 1 और 4</p></span>",
+      "<span class=\"eqt\"><p>1, 2 and 4 only</p></span><span class=\"hqt\"><p>केवल 1, 2 और 4</p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>​<strong>Statement 1 is incorrect:</strong> The Commission recommended reducing the Centre’s fiscal deficit to <strong>3.5% of GDP</strong> by 2030–31, not 3%.</p><p><strong>Statement 2 is correct:</strong> The annual fiscal deficit limit for States is recommended at <strong>3% of GSDP</strong>.</p><p><strong>Statement 3 is incorrect:</strong> The Commission recommended <strong>strictly discontinuing</strong> off-budget borrowings by States and bringing them onto the budget.</p><p><strong>Statement 4 is correct:</strong> It recommended expanding the definition of fiscal deficit and debt to <strong>uniformly include all off-budget borrowings</strong>.</p></span><span class=\"hqt\"><p><strong>कथन 1 गलत है:</strong> आयोग ने 2030-31 तक केंद्र के राजकोषीय घाटे को <strong>जीडीपी के 3.5%</strong> तक कम करने की सिफारिश की है, न कि 3%।</p><p><strong>कथन 2 सही है:</strong> राज्यों के लिए वार्षिक राजकोषीय घाटा सीमा <strong>जीएसडीपी के 3%</strong> पर अनुशंसित है।</p><p><strong>कथन 3 गलत है:</strong> आयोग ने राज्यों द्वारा ऑफ-बजट उधारी को <strong>कड़ाई से बंद करने</strong> और उन्हें बजट पर लाने की सिफारिश की।</p><p><strong>कथन 4 सही है:</strong> इसने राजकोषीय घाटे और ऋण की परिभाषा का विस्तार करने की सिफारिश की ताकि <strong>समान रूप से सभी ऑफ-बजट उधारी को शामिल किया जा सके</strong>।</p></span>",
+    "marks": 2.0,
+    "section": "General Awareness",
+    "series_name": ""
+  }
+];
+        const sectionsData = null;
+        const marksPerQ = 2.0;
+        const negMarks = 0.5;
+        const totalDuration = 15;
+        
+        class CBTExam {
+            constructor() {
+                this.questions = questions;
+                this.sections = sectionsData;
+                this.currentQuestion = 0;
+                this.answers = new Array(this.questions.length).fill(null);
+                this.markedForReview = new Array(this.questions.length).fill(false);
+                this.timeSpent = new Array(this.questions.length).fill(0);
+                this.isEnglish = true;
+                this.isSubmitted = false;
+                this.startTime = null;
+                this.lastQuestionTime = null;
+                this.mainTimer = null;
+                this.sectionTimer = null;
+                this.currentSection = this.sections ? 0 : null;
+                this.totalTimeLeft = totalDuration * 60;
+                
+                this.initElements();
+                this.setupWelcomeScreen();
+                this.setupBeforeUnload();
+            }
+            
+            initElements() {
+                this.els = {
+                    fullscreenBtn: document.getElementById('fullscreenBtn'),
+                    welcomeScreen: document.getElementById('welcomeScreen'),
+                    examContainer: document.getElementById('examContainer'),
+                    mainTimer: document.getElementById('mainTimer'),
+                    sectionBadge: document.getElementById('sectionBadge'),
+                    sectionName: document.getElementById('sectionName'),
+                    sectionTimer: document.getElementById('sectionTimer'),
+                    questionNum: document.getElementById('questionNum'),
+                    questionMarks: document.getElementById('questionMarks'),
+                    questionText: document.getElementById('questionText'),
+                    comprehension: document.getElementById('comprehension'),
+                    comprehensionText: document.getElementById('comprehensionText'),
+                    optionsList: document.getElementById('optionsList'),
+                    solutionBox: document.getElementById('solutionBox'),
+                    solutionStats: document.getElementById('solutionStats'),
+                    solutionText: document.getElementById('solutionText'),
+                    progressText: document.getElementById('progressText'),
+                    answeredCount: document.getElementById('answeredCount'),
+                    desktopNav: document.getElementById('desktopNav'),
+                    mobileNav: document.getElementById('mobileNav'),
+                    mobileNavGrid: document.getElementById('mobileNavGrid'),
+                    resultModal: document.getElementById('resultModal'),
+                    resultScore: document.getElementById('resultScore'),
+                    correctCount: document.getElementById('correctCount'),
+                    incorrectCount: document.getElementById('incorrectCount'),
+                    unattemptedCount: document.getElementById('unattemptedCount'),
+                    timeTaken: document.getElementById('timeTaken'),
+                    sectionResults: document.getElementById('sectionResults'),
+                    sectionResultsBody: document.getElementById('sectionResultsBody')
+                };
+            }
+            
+            setupWelcomeScreen() {
+                if (this.els.fullscreenBtn) {
+                    this.els.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+                document.addEventListener('fullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('webkitfullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('msfullscreenchange', () => this.updateFullscreenIcon());
+
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.els.welcomeScreen.classList.add('hidden');
+                    this.els.examContainer.classList.add('active');
+                    setTimeout(() => this.startExam(), 100);
+                });
+            }
+            
+            setupBeforeUnload() {
+                window.addEventListener('beforeunload', (e) => {
+                    if (!this.isSubmitted) {
+                        e.preventDefault();
+                        e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
+                        return e.returnValue;
+                    }
+                });
+            }
+            
+            startExam() {
+                this.startTime = Date.now();
+                this.lastQuestionTime = this.startTime;
+                this.createNavigator();
+                this.startMainTimer();
+                if (this.sections) {
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                }
+                this.loadQuestion(0);
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('engBtn').onclick = () => this.setLanguage(true);
+                document.getElementById('hinBtn').onclick = () => this.setLanguage(false);
+                document.getElementById('prevBtn').onclick = () => this.navigate(-1);
+                document.getElementById('nextBtn').onclick = () => this.navigate(1);
+                document.getElementById('reviewBtn').onclick = () => this.toggleReview();
+                document.getElementById('submitBtn').onclick = () => this.confirmSubmit();
+                document.getElementById('submitBtnDesktop').onclick = () => this.confirmSubmit();
+                document.getElementById('navigatorBtn').onclick = () => this.openMobileNav();
+                document.getElementById('closeNav').onclick = () => this.closeMobileNav();
+                document.getElementById('closeResult').onclick = () => this.closeResultModal();
+                document.getElementById('reviewAnswers').onclick = () => this.reviewAnswers();
+            }
+            
+            createNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    container.innerHTML = '';
+                    this.questions.forEach((_, i) => {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-question';
+                        btn.textContent = i + 1;
+                        btn.onclick = () => this.goToQuestion(i);
+                        container.appendChild(btn);
+                    });
+                });
+            }
+            
+            extractText(html, isEng) {
+                if (!html) return '';
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                
+                const langSpans = temp.querySelectorAll('span.eqt, span.hqt');
+                langSpans.forEach(span => {
+                    if ((isEng && span.classList.contains('hqt')) || 
+                        (!isEng && span.classList.contains('eqt'))) {
+                        span.style.display = 'none';
+                    } else {
+                        span.style.display = '';
+                    }
+                });
+                
+                return temp.innerHTML;
+            }
+            
+            getQuestionMarks(qIdx) {
+                if (!this.sections) return marksPerQ;
+                
+                for (const section of this.sections) {
+                    if (qIdx >= section.start && qIdx <= section.end) {
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                if (qIdx >= subsec.start && qIdx <= subsec.end) {
+                                    return subsec.marks_per_q;
+                                }
+                            }
+                        }
+                        return marksPerQ;
+                    }
+                }
+                return marksPerQ;
+            }
+            
+            loadQuestion(idx) {
+                if (this.currentQuestion !== idx) {
+                    const now = Date.now();
+                    this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                    this.lastQuestionTime = now;
+                }
+                
+                this.currentQuestion = idx;
+                const q = this.questions[idx];
+                const qMarks = this.getQuestionMarks(idx);
+                
+                this.els.questionNum.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.els.questionMarks.textContent = `Marks: ${qMarks}`;
+                this.els.progressText.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.updateAnsweredCount();
+                this.updateNavigator();
+                this.updateNavigationButtons();
+                this.updateReviewButton();
+                
+                if (q.comp) {
+                    this.els.comprehension.style.display = 'block';
+                    this.els.comprehensionText.innerHTML = this.extractText(q.comp, this.isEnglish);
+                } else {
+                    this.els.comprehension.style.display = 'none';
+                }
+                
+                this.els.questionText.innerHTML = this.extractText(q.question, this.isEnglish);
+                this.loadOptions(q, idx);
+                
+                if (this.isSubmitted && q.solution) {
+                    const timeSpent = Math.round(this.timeSpent[idx]);
+                    const mins = Math.floor(timeSpent / 60);
+                    const secs = timeSpent % 60;
+                    const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                    
+                    this.els.solutionStats.innerHTML = `
+                        <span><i class="fas fa-clock"></i> Time: ${timeStr}</span>
+                        <span><i class="fas fa-check-circle"></i> Correct: ${String.fromCharCode(65 + q.correct_option_id)}</span>
+                    `;
+                    this.els.solutionText.innerHTML = this.extractText(q.solution, this.isEnglish);
+                    this.els.solutionBox.classList.add('show');
+                } else {
+                    this.els.solutionBox.classList.remove('show');
+                }
+                
+                // Render LaTeX in all updated elements
+                renderMath(this.els.questionText);
+                renderMath(this.els.comprehensionText);
+                renderMath(this.els.solutionText);
+            }
+            
+            loadOptions(q, qIdx) {
+                this.els.optionsList.innerHTML = '';
+                const userAnswer = this.answers[qIdx];
+                const correctAnswer = q.correct_option_id;
+                
+                if (!q.options || !Array.isArray(q.options)) return;
+                
+                q.options.forEach((opt, i) => {
+                    const div = document.createElement('div');
+                    let className = 'option';
+                    
+                    if (this.isSubmitted) className += ' submitted';
+                    if (userAnswer === i) className += ' selected';
+                    
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            className += ' correct';
+                        } else if (userAnswer === i && userAnswer !== correctAnswer) {
+                            className += ' wrong';
+                        }
+                    }
+                    
+                    div.className = className;
+                    
+                    let indicator = '';
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            indicator = '✓';
+                        } else if (userAnswer === i) {
+                            indicator = '✗';
+                        }
+                    } else if (userAnswer === i) {
+                        indicator = '✓';
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="option-indicator">${indicator}</div>
+                        <div class="option-text">${this.extractText(opt, this.isEnglish)}</div>
+                    `;
+                    
+                    if (!this.isSubmitted) {
+                        div.onclick = () => this.selectOption(i, qIdx);
+                    }
+                    
+                    this.els.optionsList.appendChild(div);
+                });
+                // Render LaTeX in options
+                renderMath(this.els.optionsList);
+            }
+            
+            selectOption(optIdx, qIdx) {
+                if (this.isSubmitted) return;
+                this.answers[qIdx] = this.answers[qIdx] === optIdx ? null : optIdx;
+                this.loadOptions(this.questions[qIdx], qIdx);
+                this.updateAnsweredCount();
+                this.updateNavigator();
+            }
+            
+            toggleReview() {
+                if (this.isSubmitted) return;
+                this.markedForReview[this.currentQuestion] = !this.markedForReview[this.currentQuestion];
+                this.updateNavigator();
+                this.updateReviewButton();
+            }
+            
+            updateReviewButton() {
+                const btn = document.getElementById('reviewBtn');
+                if (this.markedForReview[this.currentQuestion]) {
+                    btn.classList.add('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Marked';
+                } else {
+                    btn.classList.remove('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Mark for Review';
+                }
+            }
+            
+            navigate(dir) {
+                const newIdx = this.currentQuestion + dir;
+                
+                if (this.isSubmitted) {
+                    if (newIdx >= 0 && newIdx < this.questions.length) {
+                        this.loadQuestion(newIdx);
+                    }
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (newIdx < currentSection.start || newIdx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                if (newIdx >= 0 && newIdx < this.questions.length) {
+                    this.loadQuestion(newIdx);
+                }
+            }
+            
+            goToQuestion(idx) {
+                if (this.isSubmitted) {
+                    this.loadQuestion(idx);
+                    this.closeMobileNav();
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (idx < currentSection.start || idx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                this.loadQuestion(idx);
+                this.closeMobileNav();
+            }
+            
+            updateNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    const btns = container.querySelectorAll('.nav-question');
+                    btns.forEach((btn, i) => {
+                        btn.className = 'nav-question';
+                        
+                        if (i === this.currentQuestion) {
+                            btn.classList.add('current');
+                        } else if (this.isSubmitted) {
+                            if (this.answers[i] !== null && this.questions[i].correct_option_id !== undefined) {
+                                if (this.answers[i] === this.questions[i].correct_option_id) {
+                                    btn.classList.add('answered');
+                                } else {
+                                    btn.classList.add('wrong');
+                                }
+                            }
+                        } else {
+                            if (this.markedForReview[i]) {
+                                btn.classList.add('review');
+                            } else if (this.answers[i] !== null) {
+                                btn.classList.add('answered');
+                            }
+                            
+                            if (this.sections) {
+                                const currentSection = this.sections[this.currentSection];
+                                if (i < currentSection.start || i > currentSection.end) {
+                                    btn.classList.add('disabled');
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const reviewBtn = document.getElementById('reviewBtn');
+                
+                prevBtn.disabled = this.currentQuestion === 0;
+                nextBtn.disabled = this.currentQuestion === this.questions.length - 1;
+                
+                if (this.isSubmitted) {
+                    reviewBtn.style.display = 'none';
+                } else {
+                    reviewBtn.style.display = 'inline-flex';
+                }
+                
+                if (this.sections && !this.isSubmitted) {
+                    const currentSection = this.sections[this.currentSection];
+                    prevBtn.disabled = prevBtn.disabled || (this.currentQuestion === currentSection.start);
+                    nextBtn.disabled = nextBtn.disabled || (this.currentQuestion === currentSection.end);
+                }
+            }
+            
+            updateAnsweredCount() {
+                const count = this.answers.filter(a => a !== null).length;
+                this.els.answeredCount.textContent = count;
+            }
+            
+            setLanguage(isEng) {
+                this.isEnglish = isEng;
+                document.getElementById('engBtn').classList.toggle('active', isEng);
+                document.getElementById('hinBtn').classList.toggle('active', !isEng);
+                this.loadQuestion(this.currentQuestion);
+            }
+            
+            startMainTimer() {
+                this.mainTimer = setInterval(() => {
+                    this.totalTimeLeft--;
+                    if (this.totalTimeLeft <= 0) {
+                        clearInterval(this.mainTimer);
+                        this.submitTest();
+                        return;
+                    }
+                    const mins = Math.floor(this.totalTimeLeft / 60);
+                    const secs = this.totalTimeLeft % 60;
+                    this.els.mainTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+            
+            startSectionTimer() {
+                if (!this.sections) return;
+                
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                const section = this.sections[this.currentSection];
+                section.time_left = section.timer;
+                
+                this.sectionTimer = setInterval(() => {
+                    section.time_left--;
+                    const mins = Math.floor(section.time_left / 60);
+                    const secs = section.time_left % 60;
+                    this.els.sectionTimer.textContent = ` | ${mins}:${secs.toString().padStart(2, '0')}`;
+                    
+                    if (section.time_left <= 0) {
+                        clearInterval(this.sectionTimer);
+                        this.submitSection();
+                    }
+                }, 1000);
+            }
+            
+            updateSectionInfo() {
+                if (!this.sections) return;
+                const section = this.sections[this.currentSection];
+                this.els.sectionName.textContent = section.name;
+                this.els.sectionBadge.style.display = 'block';
+            }
+            
+            submitSection() {
+                if (!this.sections) return;
+                
+                const section = this.sections[this.currentSection];
+                section.submitted = true;
+                clearInterval(this.sectionTimer);
+                
+                const nextSectionIdx = this.currentSection + 1;
+                if (nextSectionIdx < this.sections.length) {
+                    this.currentSection = nextSectionIdx;
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                    this.loadQuestion(this.sections[nextSectionIdx].start);
+                } else {
+                    this.submitTest();
+                }
+                
+                this.updateNavigator();
+            }
+            
+            confirmSubmit() {
+                if (this.sections) {
+                    const section = this.sections[this.currentSection];
+                    const unanswered = this.answers.slice(section.start, section.end + 1)
+                        .filter(a => a === null).length;
+                    
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions in this section. Submit anyway?`
+                        : 'Submit this section?';
+                    
+                    if (confirm(msg)) this.submitSection();
+                } else {
+                    const unanswered = this.answers.filter(a => a === null).length;
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions. Submit test?`
+                        : 'Submit test?';
+                    
+                    if (confirm(msg)) this.submitTest();
+                }
+            }
+            
+            submitTest() {
+                if (this.isSubmitted) return;
+                
+                const now = Date.now();
+                this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                
+                this.isSubmitted = true;
+                clearInterval(this.mainTimer);
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('submitBtnDesktop').style.display = 'none';
+                document.getElementById('reviewBtn').style.display = 'none';
+                
+                if (this.sections) {
+                    this.els.sectionBadge.style.display = 'none';
+                }
+                
+                const results = this.calculateResults();
+                this.showResults(results);
+                this.loadQuestion(this.currentQuestion);
+                this.updateNavigator();
+            }
+            
+            calculateResults() {
+                const timeTaken = Math.round((Date.now() - this.startTime) / 60000);
+                let correct = 0, incorrect = 0, unattempted = 0, score = 0;
+                
+                const sectionResults = [];
+                
+                if (this.sections) {
+                    for (const section of this.sections) {
+                        let secCorrect = 0, secIncorrect = 0, secUnattempted = 0, secScore = 0;
+                        const subsecResults = [];
+                        
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                let subCorrect = 0, subIncorrect = 0, subUnattempted = 0, subScore = 0;
+                                
+                                for (let i = subsec.start; i <= subsec.end; i++) {
+                                    const userAns = this.answers[i];
+                                    const correctAns = this.questions[i].correct_option_id;
+                                    
+                                    if (userAns === null) {
+                                        subUnattempted++;
+                                    } else if (correctAns !== undefined && userAns === correctAns) {
+                                        subCorrect++;
+                                        subScore += subsec.marks_per_q;
+                                    } else {
+                                        subIncorrect++;
+                                        subScore -= negMarks;
+                                    }
+                                }
+                                
+                                subsecResults.push({
+                                    name: subsec.name,
+                                    attempted: subCorrect + subIncorrect,
+                                    correct: subCorrect,
+                                    incorrect: subIncorrect,
+                                    unattempted: subUnattempted,
+                                    score: Math.max(0, subScore)
+                                });
+                                
+                                secCorrect += subCorrect;
+                                secIncorrect += subIncorrect;
+                                secUnattempted += subUnattempted;
+                                secScore += subScore;
+                            }
+                        } else {
+                            for (let i = section.start; i <= section.end; i++) {
+                                const userAns = this.answers[i];
+                                const correctAns = this.questions[i].correct_option_id;
+                                
+                                if (userAns === null) {
+                                    secUnattempted++;
+                                } else if (correctAns !== undefined && userAns === correctAns) {
+                                    secCorrect++;
+                                    secScore += marksPerQ;
+                                } else {
+                                    secIncorrect++;
+                                    secScore -= negMarks;
+                                }
+                            }
+                        }
+                        
+                        sectionResults.push({
+                            name: section.name,
+                            attempted: secCorrect + secIncorrect,
+                            correct: secCorrect,
+                            incorrect: secIncorrect,
+                            unattempted: secUnattempted,
+                            score: Math.max(0, secScore),
+                            subsections: subsecResults.length > 0 ? subsecResults : null
+                        });
+                        
+                        correct += secCorrect;
+                        incorrect += secIncorrect;
+                        unattempted += secUnattempted;
+                        score += secScore;
+                    }
+                } else {
+                    this.questions.forEach((q, i) => {
+                        const userAns = this.answers[i];
+                        const correctAns = q.correct_option_id;
+                        
+                        if (userAns === null) {
+                            unattempted++;
+                        } else if (correctAns !== undefined && userAns === correctAns) {
+                            correct++;
+                            score += marksPerQ;
+                        } else {
+                            incorrect++;
+                            score -= negMarks;
+                        }
+                    });
+                }
+                
+                return {
+                    score: Math.max(0, score),
+                    correct,
+                    incorrect,
+                    unattempted,
+                    timeTaken,
+                    sectionResults: sectionResults.length > 0 ? sectionResults : null
+                };
+            }
+            
+            showResults(results) {
+                this.els.resultScore.textContent = `${results.score.toFixed(2)}/${this.questions.length * marksPerQ}`;
+                this.els.correctCount.textContent = results.correct;
+                this.els.incorrectCount.textContent = results.incorrect;
+                this.els.unattemptedCount.textContent = results.unattempted;
+                this.els.timeTaken.textContent = results.timeTaken;
+                
+                if (results.sectionResults) {
+                    this.els.sectionResults.style.display = 'block';
+                    this.els.sectionResultsBody.innerHTML = '';
+                    
+                    results.sectionResults.forEach(section => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${section.name}</strong></td>
+                            <td>${section.attempted}</td>
+                            <td>${section.correct}</td>
+                            <td>${section.incorrect}</td>
+                            <td><strong>${section.score.toFixed(2)}</strong></td>
+                        `;
+                        this.els.sectionResultsBody.appendChild(row);
+                        
+                        if (section.subsections) {
+                            section.subsections.forEach(subsec => {
+                                const subRow = document.createElement('tr');
+                                subRow.className = 'subsection-row';
+                                subRow.innerHTML = `
+                                    <td>${subsec.name}</td>
+                                    <td>${subsec.attempted}</td>
+                                    <td>${subsec.correct}</td>
+                                    <td>${subsec.incorrect}</td>
+                                    <td>${subsec.score.toFixed(2)}</td>
+                                `;
+                                this.els.sectionResultsBody.appendChild(subRow);
+                            });
+                        }
+                    });
+                } else {
+                    this.els.sectionResults.style.display = 'none';
+                }
+                
+                this.els.resultModal.classList.add('show');
+            }
+            
+            closeResultModal() {
+                this.els.resultModal.classList.remove('show');
+            }
+            
+            reviewAnswers() {
+                this.closeResultModal();
+                this.loadQuestion(0);
+            }
+            
+            openMobileNav() {
+                this.els.mobileNav.classList.add('open');
+            }
+            
+            closeMobileNav() {
+                this.els.mobileNav.classList.remove('open');
+            }
+        
+            toggleFullscreen() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) docEl.requestFullscreen();
+                    else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                    else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    else if (document.msExitFullscreen) document.msExitFullscreen();
+                }
+            }
+            
+            updateFullscreenIcon() {
+                const icon = document.querySelector('#fullscreenBtn i');
+                if (icon) {
+                    const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                    if (isFS) {
+                        icon.className = 'fas fa-compress';
+                    } else {
+                        icon.className = 'fas fa-expand';
+                    }
+                }
+            }
+}
+        
+        // ── KaTeX auto-render helper ──────────────────────────────────────
+        // Renders any LaTeX found in an element after innerHTML is set.
+        // Handles: \(...\)  \[...\]  $...$  $$...$$
+        function renderMath(el) {
+            if (!el || typeof renderMathInElement === 'undefined') return;
+            try {
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$',  right: '$$',  display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$',   right: '$',   display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                    ],
+                    throwOnError: false,
+                    strict: false,
+                });
+            } catch(e) {}
+        }
+
+        // Initialize the exam
+        document.addEventListener('DOMContentLoaded', () => {
+            new CBTExam();
+        });
+    </script>
+</body>
+</html>

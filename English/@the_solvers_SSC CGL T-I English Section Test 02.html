@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Exam - adda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+@charset "UTF-8";
+:root {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --header-bg: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+/* Welcome Screen Styles */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.05) 0%, rgb(248, 250, 252) 100%);
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+.welcome-screen.hidden {
+  display: none;
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  margin: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome-header {
+  text-align: center;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+.welcome-header h1 {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.025em;
+}
+.welcome-header h1 i {
+  font-size: 28px;
+}
+.welcome-header p {
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.test-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.test-details .detail-item {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.test-details .detail-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+.test-details .detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.test-details .detail-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-info {
+  margin-bottom: 30px;
+}
+.section-info h3 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-table th, .section-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-table tr:last-child td {
+  border-bottom: none;
+}
+
+.subsec-container {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.subsec-row {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.subsec-row::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.welcome-instructions {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05);
+}
+.welcome-instructions h3 {
+  color: #b45309;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.welcome-instructions ul {
+  padding-left: 20px;
+}
+.welcome-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.start-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 16px 44px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.start-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+.start-btn:active {
+  transform: translateY(0);
+}
+
+.channel-link {
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.channel-link:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+/* CBT Exam Interface */
+.exam-container {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  background: #f1f5f9;
+}
+.exam-container.active {
+  display: flex;
+}
+
+/* Top Header */
+.exam-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.exam-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-timer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fullscreen-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+.fullscreen-btn:active {
+  transform: translateY(0);
+}
+
+/* Candidate Info Bar */
+.candidate-bar {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.candidate-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-light);
+  border: 2px solid var(--border);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.candidate-details {
+  display: flex;
+  flex-direction: column;
+}
+.candidate-details .candidate-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+.candidate-details .candidate-id {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.section-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.exam-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Question Area */
+.question-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.question-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-number {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.question-marks {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.lang-btn {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.comprehension {
+  background: #f0fdf4;
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+.comprehension h4 {
+  color: var(--success-hover);
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.question-text {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 18px 24px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+  font-weight: 500;
+}
+.option:hover:not(.submitted) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.option.correct {
+  border-color: var(--success);
+  background: var(--success-light);
+  color: var(--success-hover);
+  font-weight: 600;
+}
+.option.wrong {
+  border-color: var(--danger);
+  background: var(--danger-light);
+  color: var(--danger-hover);
+  font-weight: 600;
+}
+
+.option-indicator {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option.selected .option-indicator {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.option.correct .option-indicator {
+  border-color: var(--success);
+  background: var(--success);
+  color: white;
+}
+
+.option.wrong .option-indicator {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+.solution-box {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: 12px;
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.solution-box.show {
+  display: block;
+}
+
+.solution-header {
+  color: var(--success-hover);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.solution-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 10px;
+}
+
+/* Navigation Controls - Bottom Bar */
+.navigation-bar {
+  background: white;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-prev {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-prev:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-next {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+.btn-next:hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-review {
+  background: var(--warning);
+  color: white;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+}
+.btn-review:hover:not(:disabled) {
+  background: var(--warning-hover);
+}
+.btn-review.marked {
+  background: var(--warning-dark);
+}
+
+.btn-submit {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--success-hover);
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Question Navigator Sidebar */
+.navigator-sidebar {
+  width: 320px;
+  background: white;
+  border-left: 1px solid var(--border);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navigator-header {
+  padding: 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.navigator-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-question {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-question:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.nav-question.current {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+.nav-question.answered {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.nav-question.review {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+.nav-question.wrong {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+.nav-question.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navigator-legend {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  flex-shrink: 0;
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Mobile Navigator Panel */
+.mobile-navigator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+.mobile-navigator.open {
+  transform: translateY(0);
+}
+
+.mobile-nav-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.close-nav {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Result Modal */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-out;
+}
+.result-modal.show {
+  display: flex;
+}
+
+.result-container {
+  background: white;
+  border-radius: 18px;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+.result-header h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.result-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  background: var(--success-light);
+  display: inline-block;
+  padding: 8px 30px;
+  border-radius: 40px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.result-stat {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.result-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.result-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-stat.correct .result-stat-value {
+  color: var(--success);
+}
+
+.result-stat.incorrect .result-stat-value {
+  color: var(--danger);
+}
+
+.section-results {
+  margin-bottom: 35px;
+}
+.section-results h3 {
+  color: var(--text);
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.section-results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-results-table th, .section-results-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-results-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-results-table tr:last-child td {
+  border-bottom: none;
+}
+.section-results-table .subsection-row {
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-results-table .subsection-row td:first-child {
+  padding-left: 36px;
+  position: relative;
+}
+.section-results-table .subsection-row td:first-child::before {
+  content: "└";
+  position: absolute;
+  left: 20px;
+  color: var(--text-light);
+}
+
+.result-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-btn {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-close {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-close:hover {
+  background: #e2e8f0;
+}
+
+.btn-review-ans {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+.btn-review-ans:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .navigator-sidebar {
+    display: flex;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none;
+  }
+  .navigation-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .question-scroll {
+    padding: 16px;
+  }
+  .question-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 640px) {
+  .welcome-container {
+    padding: 24px;
+  }
+  .exam-header {
+    padding: 12px 16px;
+  }
+  .exam-title {
+    font-size: 15px;
+  }
+  .timer-box {
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+  .candidate-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+  .nav-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .navigator-grid {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 16px;
+    gap: 10px;
+  }
+  .result-container {
+    padding: 24px 16px;
+  }
+  .result-score {
+    font-size: 36px;
+  }
+  .result-grid {
+    gap: 12px;
+  }
+  .section-results-table {
+    font-size: 12px;
+  }
+  .section-results-table th, .section-results-table td {
+    padding: 10px;
+  }
+  .result-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .result-actions .result-btn {
+    width: 100%;
+  }
+}
+/* Print Styles */
+@media print {
+  .exam-header,
+  .candidate-bar,
+  .navigation-bar,
+  .navigator-sidebar,
+  .mobile-navigator,
+  .result-modal {
+    display: none !important;
+  }
+  .question-scroll {
+    padding: 0;
+  }
+  .question-card {
+    page-break-inside: avoid;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    box-shadow: none !important;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table, th, td {
+  border: 1px solid var(--border);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+</style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1><i class="fas fa-graduation-cap"></i> adda</h1>
+                <p>Computer Based Test</p>
+            </div>
+            
+            <div class="test-details">
+                <div class="detail-item">
+                    <div class="detail-label">Test ID</div>
+                    <div class="detail-value">0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Questions</div>
+                    <div class="detail-value">25</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Marks</div>
+                    <div class="detail-value">50.0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Duration</div>
+                    <div class="detail-value">15 mins</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Marking Scheme</div>
+                    <div class="detail-value">+2.0 / -0.5</div>
+                </div>
+            </div>
+            
+            
+        <div class="welcome-instructions">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Read each question carefully before answering</li>
+                <li>You can mark questions for review and come back later</li>
+                <li>The timer will automatically submit the test when time is up</li>
+                <li>Negative marking applies for wrong answers</li>
+            </ul>
+        </div>
+        
+            
+            <div class="welcome-actions">
+                <button class="start-btn" id="startBtn">
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+                <a href="https://t.me/mocks_wallah_again" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> Join Channel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Exam Interface -->
+    <div class="exam-container" id="examContainer">
+        <!-- Top Header -->
+        <div class="exam-header">
+            <div class="exam-title">adda</div>
+            <div class="exam-timer">
+                <button class="fullscreen-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="timer-box" id="mainTimer">15:00</div>
+                <button class="nav-btn btn-submit mobile-only" id="submitBtn">Submit</button>
+            </div>
+        </div>
+        
+        <!-- Candidate Info Bar -->
+        <div class="candidate-bar">
+            <div class="candidate-info">
+                <div class="candidate-photo">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="candidate-details">
+                    <div class="candidate-name">Candidate</div>
+                    <div class="candidate-id">Test ID: 0</div>
+                </div>
+            </div>
+            <div class="section-badge" id="sectionBadge">
+                <span id="sectionName"></span>
+                <span id="sectionTimer"></span>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="exam-main">
+            <!-- Question Area -->
+            <div class="question-area">
+                <div class="question-scroll">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div>
+                                <div class="question-number" id="questionNum">Question 1 of 25</div>
+                                <div class="question-marks" id="questionMarks">Marks: 2.0</div>
+                            </div>
+                            <div class="lang-toggle">
+                                <button class="lang-btn active" id="engBtn">English</button>
+                                <button class="lang-btn" id="hinBtn">हिंदी</button>
+                            </div>
+                        </div>
+                        
+                        <div class="comprehension" id="comprehension" style="display:none;">
+                            <h4><i class="fas fa-book-open"></i> Comprehension</h4>
+                            <div id="comprehensionText"></div>
+                        </div>
+                        
+                        <div class="question-text" id="questionText"></div>
+                        
+                        <div class="options-list" id="optionsList"></div>
+                        
+                        <div class="solution-box" id="solutionBox">
+                            <div class="solution-header">
+                                <i class="fas fa-lightbulb"></i> Solution
+                            </div>
+                            <div class="solution-stats" id="solutionStats"></div>
+                            <div id="solutionText"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Bar inside Question Area -->
+                <div class="navigation-bar">
+                    <button class="nav-btn btn-prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <div class="progress-info">
+                        <div id="progressText">Question 1 of 25</div>
+                        <div style="font-size:11px;margin-top:4px">
+                            Answered: <span id="answeredCount">0</span> | 
+                            <a href="https://t.me/mocks_wallah_again" style="color:var(--primary)">Mocks Wallah</a>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn btn-review" id="reviewBtn">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    
+                    <button class="nav-btn mobile-only" id="navigatorBtn">
+                        <i class="fas fa-th"></i> Questions
+                    </button>
+                    
+                    <button class="nav-btn btn-submit desktop-only" id="submitBtnDesktop">Submit</button>
+                    
+                    <button class="nav-btn btn-next" id="nextBtn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigator Sidebar -->
+            <div class="navigator-sidebar desktop-only">
+                <div class="navigator-header">Question Navigator</div>
+                <div class="navigator-grid" id="desktopNav"></div>
+                <div class="navigator-legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--success)"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--warning)"></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--danger)"></div>
+                        <span>Incorrect</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigator Panel -->
+    <div class="mobile-navigator" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h3>Question Navigator</h3>
+            <button class="close-nav" id="closeNav">&times;</button>
+        </div>
+        <div class="navigator-grid" id="mobileNavGrid"></div>
+        <div class="navigator-legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--success)"></div>
+                <span>Answered</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--warning)"></div>
+                <span>Marked for Review</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--danger)"></div>
+                <span>Incorrect</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                <span>Not Visited</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-container">
+            <div class="result-header">
+                <h2>Test Completed!</h2>
+                <div class="result-score" id="resultScore">0/50.0</div>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-stat correct">
+                    <div class="result-stat-value" id="correctCount">0</div>
+                    <div class="result-stat-label">Correct</div>
+                </div>
+                <div class="result-stat incorrect">
+                    <div class="result-stat-value" id="incorrectCount">0</div>
+                    <div class="result-stat-label">Incorrect</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="unattemptedCount">0</div>
+                    <div class="result-stat-label">Unattempted</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="timeTaken">0</div>
+                    <div class="result-stat-label">Minutes</div>
+                </div>
+            </div>
+            
+            <div class="section-results" id="sectionResults" style="display:none;">
+                <h3>Section-wise Performance</h3>
+                <table class="section-results-table" id="sectionResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Attempted</th>
+                            <th>Correct</th>
+                            <th>Wrong</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectionResultsBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="result-actions">
+                <button class="result-btn btn-close" id="closeResult">Close</button>
+                <button class="result-btn btn-review-ans" id="reviewAnswers">Review Answers</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "<span class=\"eqt\">Rearrange the following sentences to form a coherent paragraph:\n  <br> 1. The fast-growing spread of misleading and false content on social media poses a serious threat to healthy public discussion.\n  <br> 2. This approach involves carefully checking claims, evidence, and sources to wudge how accurate a statement really is.\n  <br> 3. This trend can weaken people’s trust in wournalism and damage informed choices in a democratic setup.\n  <br> 4. Therefore, professional fact-checking bodies have become an important shield against the rise of fabricated narratives.\n  <br></span><span class=\"hqt\">Rearrange the following sentences to form a coherent paragraph:\n  <br> 1. The fast-growing spread of misleading and false content on social media poses a serious threat to healthy public discussion.\n  <br> 2. This approach involves carefully checking claims, evidence, and sources to wudge how accurate a statement really is.\n  <br> 3. This trend can weaken people’s trust in wournalism and damage informed choices in a democratic setup.\n  <br> 4. Therefore, professional fact-checking bodies have become an important shield against the rise of fabricated narratives.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">2, 1, 4, 3\n  <br></span><span class=\"hqt\">2, 1, 4, 3\n  <br></span>",
+      "<span class=\"eqt\">3, 1, 2, 4\n  <br></span><span class=\"hqt\">3, 1, 2, 4\n  <br></span>",
+      "<span class=\"eqt\">1, 3, 4, 2\n  <br></span><span class=\"hqt\">1, 3, 4, 2\n  <br></span>",
+      "<span class=\"eqt\">1, 4, 2, 3\n  <br></span><span class=\"hqt\">1, 4, 2, 3\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p><p>The most coherent paragraph begins by introducing the main issue, then explains its effect, then presents the response/solution, and finally explains what that solution/approach involves.</p><ul><li><b>Sentence 1</b> introduces the topic: the spread of misleading content on social media and its threat.</li><li><b>Sentence 3</b> logically follows because 'This trend' refers to the spread mentioned in sentence 1 and explains the negative consequences (loss of trust, damage to democratic choices).</li><li><b>Sentence 4</b> begins with 'Therefore', which clearly indicates a conclusion/response to the problem described in 1 and 3; it introduces fact-checking bodies as a shield.</li><li><b>Sentence 2</b> explains 'This approach', referring to the fact-checking approach mentioned in sentence 4, and describes how it works.</li></ul><p>Hence, the correct order is <b>1, 3, 4, 2</b>.</p><p><b>How to identify correct order (exam method):</b> Look for linkage words like 'This trend' (needs a previous idea) and 'Therefore' (needs a cause before it). Also, 'This approach' must follow a sentence that introduces an approach.</p><p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p><p>The most coherent paragraph begins by introducing the main issue, then explains its effect, then presents the response/solution, and finally explains what that solution/approach involves.</p><ul><li><b>Sentence 1</b> introduces the topic: the spread of misleading content on social media and its threat.</li><li><b>Sentence 3</b> logically follows because 'This trend' refers to the spread mentioned in sentence 1 and explains the negative consequences (loss of trust, damage to democratic choices).</li><li><b>Sentence 4</b> begins with 'Therefore', which clearly indicates a conclusion/response to the problem described in 1 and 3; it introduces fact-checking bodies as a shield.</li><li><b>Sentence 2</b> explains 'This approach', referring to the fact-checking approach mentioned in sentence 4, and describes how it works.</li></ul><p>Hence, the correct order is <b>1, 3, 4, 2</b>.</p><p><b>How to identify correct order (exam method):</b> Look for linkage words like 'This trend' (needs a previous idea) and 'Therefore' (needs a cause before it). Also, 'This approach' must follow a sentence that introduces an approach.</p><p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate antonym of the word: Subterfuge\n  <br></span><span class=\"hqt\">Select the most appropriate antonym of the word: Subterfuge\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Deceit\n  <br></span><span class=\"hqt\">Deceit\n  <br></span>",
+      "<span class=\"eqt\">Openness\n  <br></span><span class=\"hqt\">Openness\n  <br></span>",
+      "<span class=\"eqt\">Trickery\n  <br></span><span class=\"hqt\">Trickery\n  <br></span>",
+      "<span class=\"eqt\">Subterfuge\n  <br></span><span class=\"hqt\">Subterfuge\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b).</p>\n<p><b>Subterfuge</b> means a deceitful or dishonest plan or action used to hide the truth or escape something; it involves trickery and concealment (Hindi meaning: <b>छल / कपट / चालबाज़ी</b>).</p>\n<p><b>Example:</b> He used <b>subterfuge</b> to avoid answering the difficult question.</p>\n<p><b>Openness</b> means honesty, transparency, and willingness to share information without hiding anything (Hindi meaning: <b>खुलापन / पारदर्शिता</b>). This is the direct opposite of secrecy and deception, so it is the best antonym.</p>\n<p><b>Example:</b> The leader’s <b>openness</b> built trust among the team members.</p>\n<p><b>Synonyms:</b> deception, trickery, ruse, deceit.</p>\n<p><b>Antonyms:</b> openness, honesty, transparency, straightforwardness.</p>\n<p><b>Meanings of all the other given options:</b></p>\n<ul>\n  <li><b>A: Deceit</b> – dishonest behaviour; the act of deceiving (Hindi meaning: <b>धोखा</b>).</li>\n  <li><b>C: Trickery</b> – the use of tricks to deceive someone (Hindi meaning: <b>चालबाज़ी</b>).</li>\n  <li><b>D: Subterfuge</b> – same word; not an antonym (Hindi meaning: <b>कपट</b>).</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (b).</p>\n<p><b>Subterfuge</b> means a deceitful or dishonest plan or action used to hide the truth or escape something; it involves trickery and concealment (Hindi meaning: <b>छल / कपट / चालबाज़ी</b>).</p>\n<p><b>Example:</b> He used <b>subterfuge</b> to avoid answering the difficult question.</p>\n<p><b>Openness</b> means honesty, transparency, and willingness to share information without hiding anything (Hindi meaning: <b>खुलापन / पारदर्शिता</b>). This is the direct opposite of secrecy and deception, so it is the best antonym.</p>\n<p><b>Example:</b> The leader’s <b>openness</b> built trust among the team members.</p>\n<p><b>Synonyms:</b> deception, trickery, ruse, deceit.</p>\n<p><b>Antonyms:</b> openness, honesty, transparency, straightforwardness.</p>\n<p><b>Meanings of all the other given options:</b></p>\n<ul>\n  <li><b>A: Deceit</b> – dishonest behaviour; the act of deceiving (Hindi meaning: <b>धोखा</b>).</li>\n  <li><b>C: Trickery</b> – the use of tricks to deceive someone (Hindi meaning: <b>चालबाज़ी</b>).</li>\n  <li><b>D: Subterfuge</b> – same word; not an antonym (Hindi meaning: <b>कपट</b>).</li>\n</ul>\n<p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Read the sentence below and choose the meaning of the idiom that best fits the context:  <br> \"Neha was on cloud nine after hearing that she had cleared the SSC exam in her first attempt.\"  <br> What does the idiom \"on cloud nine\" mean in this context?  <br></p></span><span class=\"hqt\"><p>Read the sentence below and choose the meaning of the idiom that best fits the context:  <br> \"Neha was on cloud nine after hearing that she had cleared the SSC exam in her first attempt.\"  <br> What does the idiom \"on cloud nine\" mean in this context?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Feeling extremely happy and excited  <br></p></span><span class=\"hqt\"><p>Feeling extremely happy and excited  <br></p></span>",
+      "<span class=\"eqt\"><p>Feeling confused and uncertain  <br></p></span><span class=\"hqt\"><p>Feeling confused and uncertain  <br></p></span>",
+      "<span class=\"eqt\"><p>Feeling sleepy and tired  <br></p></span><span class=\"hqt\"><p>Feeling sleepy and tired  <br></p></span>",
+      "<span class=\"eqt\"><p>Feeling angry and upset  <br></p></span><span class=\"hqt\"><p>Feeling angry and upset  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>Option (a) is the correct meaning of the given idiom.  <br> Given Idiom — on cloud nine: It means to be extremely happy, delighted, or overwoyed. (Hindi: बहुत खुश होना/सातवें आसमान पर होना)  <br> Example: He was on cloud nine when he got the wob offer letter.  <br> Other related idioms and their meanings:  <br> • Over the moon: very happy and excited.  <br> • In high spirits: cheerful and full of energy.  <br> • Walking on air: feeling woyful as if floating.  <br> </p></span><span class=\"hqt\"><p>Option (a) is the correct meaning of the given idiom.  <br> Given Idiom — on cloud nine: It means to be extremely happy, delighted, or overwoyed. (Hindi: बहुत खुश होना/सातवें आसमान पर होना)  <br> Example: He was on cloud nine when he got the wob offer letter.  <br> Other related idioms and their meanings:  <br> • Over the moon: very happy and excited.  <br> • In high spirits: cheerful and full of energy.  <br> • Walking on air: feeling woyful as if floating.  <br> </p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct one-word substitute for:\n  <br> A person who treats diseases by using natural remedies \n  <br></span><span class=\"hqt\">Choose the correct one-word substitute for:\n  <br> A person who treats diseases by using natural remedies \n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Sailor\n  <br></span><span class=\"hqt\">Sailor\n  <br></span>",
+      "<span class=\"eqt\">Herbalist\n  <br></span><span class=\"hqt\">Herbalist\n  <br></span>",
+      "<span class=\"eqt\">Officer\n  <br></span><span class=\"hqt\">Officer\n  <br></span>",
+      "<span class=\"eqt\">Pilot\n  <br></span><span class=\"hqt\">Pilot\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b).</p>\n<p><b>Explanation:</b></p>\n<ul>\n  <li>An <b>herbalist</b> is a person who treats illnesses using <b>herbs and natural plant-based remedies</b>. (Hindi meaning: <b>जड़ी-बूटी विशेषज्ञ / हर्बल चिकित्सक</b>)</li>\n  <li>Such a person focuses on natural healing methods rather than synthetic medicines, so the word fits the given description precisely.</li>\n</ul>\n<p><b>Example:</b> The herbalist recommended a mixture of tulsi and ginger to relieve the cough.</p>\n<p><b>Meanings of the other options:</b></p>\n<ul>\n  <li><b>Option (A) Sailor:</b> a person who works on a ship or travels by sea. (Hindi meaning: <b>नाविक</b>)</li>\n  <li><b>Option (C) Officer:</b> a person holding a position of authority in an organisation or government. (Hindi meaning: <b>अधिकारी</b>)</li>\n  <li><b>Option (D) Pilot:</b> a person who flies an aircraft. (Hindi meaning: <b>विमान चालक</b>)</li>\n</ul>\n<p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (b).</p>\n<p><b>Explanation:</b></p>\n<ul>\n  <li>An <b>herbalist</b> is a person who treats illnesses using <b>herbs and natural plant-based remedies</b>. (Hindi meaning: <b>जड़ी-बूटी विशेषज्ञ / हर्बल चिकित्सक</b>)</li>\n  <li>Such a person focuses on natural healing methods rather than synthetic medicines, so the word fits the given description precisely.</li>\n</ul>\n<p><b>Example:</b> The herbalist recommended a mixture of tulsi and ginger to relieve the cough.</p>\n<p><b>Meanings of the other options:</b></p>\n<ul>\n  <li><b>Option (A) Sailor:</b> a person who works on a ship or travels by sea. (Hindi meaning: <b>नाविक</b>)</li>\n  <li><b>Option (C) Officer:</b> a person holding a position of authority in an organisation or government. (Hindi meaning: <b>अधिकारी</b>)</li>\n  <li><b>Option (D) Pilot:</b> a person who flies an aircraft. (Hindi meaning: <b>विमान चालक</b>)</li>\n</ul>\n<p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Select the option that expresses the given sentence in direct voice.  <br> The wudge said that the defendant’s plea of not guilty had been a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime.  <br></p></span><span class=\"hqt\"><p>Select the option that expresses the given sentence in direct voice.  <br> The wudge said that the defendant’s plea of not guilty had been a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime.  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>“The defendant’s plea of not guilty has been a waste of the court’s time, as the documents submitted by the prosecution have conclusively established his involvement in the crime,” the wudge said.  <br></p></span><span class=\"hqt\"><p>“The defendant’s plea of not guilty has been a waste of the court’s time, as the documents submitted by the prosecution have conclusively established his involvement in the crime,” the wudge said.  <br></p></span>",
+      "<span class=\"eqt\"><p>“The defendant’s plea of not guilty has been a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime,” the wudge said.  <br></p></span><span class=\"hqt\"><p>“The defendant’s plea of not guilty has been a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime,” the wudge said.  <br></p></span>",
+      "<span class=\"eqt\"><p>“The defendant’s plea of not guilty had been a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime,” the wudge said.  <br></p></span><span class=\"hqt\"><p>“The defendant’s plea of not guilty had been a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime,” the wudge said.  <br></p></span>",
+      "<span class=\"eqt\"><p>“The defendant’s plea of not guilty was a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime,” the wudge said.  <br></p></span><span class=\"hqt\"><p>“The defendant’s plea of not guilty was a waste of the court’s time, as the documents submitted by the prosecution had conclusively established his involvement in the crime,” the wudge said.  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>he correct option is (a).</p><p><strong>Step-by-step explanation:</strong></p><ul><li>The given sentence is in reported form (indirect). The reporting verb is <strong>said</strong>.</li><li>In reported speech, we often backshift the tense (for example, <strong>is → was</strong>, <strong>have established → had established</strong>) when the reporting verb is in the past.</li><li>To convert back to direct speech, we restore the most natural original tenses based on meaning. Here, the wudge is making a strong present wudgement: the plea <strong>has been</strong> a waste, and the documents <strong>have conclusively established</strong> involvement (a present perfect idea with current relevance).</li><li>Option (A) correctly uses<strong> <strong>has been</strong></strong> and <strong>have conclusively established</strong>, which matches a direct statement delivered by the wudge.</li></ul><p><strong>Key rules applied:</strong></p><ul><li>Remove “that” and use quotation marks for the exact words spoken.</li><li>Restore appropriate tense in the quoted statement as per the intended meaning.</li><li>Keep the reporting clause at the end: <strong>the wudge said</strong>.</li></ul><p><strong>Why other options are incorrect:</strong></p><ul><li><strong>Option (B)</strong> mixes tenses improperly: “has been” with “had established” creates inconsistency in a direct statement.</li><li><strong>Option (C)</strong> keeps the backshifted past perfect form “had been / had established”, which is typical of indirect speech and sounds unnatural as direct speech here.</li><li><strong>Option (D)</strong> uses “was” and keeps “had established”, again reflecting reported tense rather than the natural direct statement.</li></ul><p>So the correct answer is (a)</p></span><span class=\"hqt\"><p>he correct option is (a).</p><p><strong>Step-by-step explanation:</strong></p><ul><li>The given sentence is in reported form (indirect). The reporting verb is <strong>said</strong>.</li><li>In reported speech, we often backshift the tense (for example, <strong>is → was</strong>, <strong>have established → had established</strong>) when the reporting verb is in the past.</li><li>To convert back to direct speech, we restore the most natural original tenses based on meaning. Here, the wudge is making a strong present wudgement: the plea <strong>has been</strong> a waste, and the documents <strong>have conclusively established</strong> involvement (a present perfect idea with current relevance).</li><li>Option (A) correctly uses<strong> <strong>has been</strong></strong> and <strong>have conclusively established</strong>, which matches a direct statement delivered by the wudge.</li></ul><p><strong>Key rules applied:</strong></p><ul><li>Remove “that” and use quotation marks for the exact words spoken.</li><li>Restore appropriate tense in the quoted statement as per the intended meaning.</li><li>Keep the reporting clause at the end: <strong>the wudge said</strong>.</li></ul><p><strong>Why other options are incorrect:</strong></p><ul><li><strong>Option (B)</strong> mixes tenses improperly: “has been” with “had established” creates inconsistency in a direct statement.</li><li><strong>Option (C)</strong> keeps the backshifted past perfect form “had been / had established”, which is typical of indirect speech and sounds unnatural as direct speech here.</li><li><strong>Option (D)</strong> uses “was” and keeps “had established”, again reflecting reported tense rather than the natural direct statement.</li></ul><p>So the correct answer is (a)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct passive voice transformation of the sentence:\n  <br> The new intern had forgotten to switch off the office lights before leaving.\n  <br></span><span class=\"hqt\">Choose the correct passive voice transformation of the sentence:\n  <br> The new intern had forgotten to switch off the office lights before leaving.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">The office lights were forgotten to be switched off by the new intern before leaving.\n  <br></span><span class=\"hqt\">The office lights were forgotten to be switched off by the new intern before leaving.\n  <br></span>",
+      "<span class=\"eqt\">The office lights had been forgotten to be switched off by the new intern before leaving.\n  <br></span><span class=\"hqt\">The office lights had been forgotten to be switched off by the new intern before leaving.\n  <br></span>",
+      "<span class=\"eqt\">The office lights has been forgotten to be switched off by the new intern before leaving.\n  <br></span><span class=\"hqt\">The office lights has been forgotten to be switched off by the new intern before leaving.\n  <br></span>",
+      "<span class=\"eqt\">The office lights had forgotten to switch off by the new intern before leaving.\n  <br></span><span class=\"hqt\">The office lights had forgotten to switch off by the new intern before leaving.\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b).</p>\n  <p>The given sentence is in <b>past perfect</b> tense: <b>had forgotten</b>. While changing active voice to passive voice, we keep the tense the same.</p>\n  <p><b>Step-by-step conversion:</b></p>\n  <ul>\n    <li><b>Active subwect:</b> The new intern</li>\n    <li><b>Active obwect:</b> the office lights</li>\n    <li><b>Past perfect passive structure:</b> Obwect + <b>had been</b> + past participle + by + subwect</li>\n  </ul>\n  <p><b>Correct passive:</b> The office lights <b>had been forgotten</b> to be switched off by the new intern before leaving.</p>\n  <p><b>Why other options are incorrect:</b></p>\n  <ul>\n    <li><b>A</b> uses <b>were forgotten</b> (simple past passive), which changes the tense incorrectly.</li>\n    <li><b>C</b> is grammatically incorrect because it uses <b>has</b> with plural subwect <b>lights</b> and also does not match past perfect tense.</li>\n    <li><b>D</b> is incorrect because <b>lights</b> cannot be the doer of <b>had forgotten</b> here, and the passive structure is wrong.</li>\n  </ul>\n  <p><b>Structure reminder:</b></p>\n  <p><b>Active voice:</b> Subwect + had + V3 + Obwect</p>\n  <p><b>Passive voice:</b> Obwect + had been + V3 + by + Subwect</p>\n  <p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (b).</p>\n  <p>The given sentence is in <b>past perfect</b> tense: <b>had forgotten</b>. While changing active voice to passive voice, we keep the tense the same.</p>\n  <p><b>Step-by-step conversion:</b></p>\n  <ul>\n    <li><b>Active subwect:</b> The new intern</li>\n    <li><b>Active obwect:</b> the office lights</li>\n    <li><b>Past perfect passive structure:</b> Obwect + <b>had been</b> + past participle + by + subwect</li>\n  </ul>\n  <p><b>Correct passive:</b> The office lights <b>had been forgotten</b> to be switched off by the new intern before leaving.</p>\n  <p><b>Why other options are incorrect:</b></p>\n  <ul>\n    <li><b>A</b> uses <b>were forgotten</b> (simple past passive), which changes the tense incorrectly.</li>\n    <li><b>C</b> is grammatically incorrect because it uses <b>has</b> with plural subwect <b>lights</b> and also does not match past perfect tense.</li>\n    <li><b>D</b> is incorrect because <b>lights</b> cannot be the doer of <b>had forgotten</b> here, and the passive structure is wrong.</li>\n  </ul>\n  <p><b>Structure reminder:</b></p>\n  <p><b>Active voice:</b> Subwect + had + V3 + Obwect</p>\n  <p><b>Passive voice:</b> Obwect + had been + V3 + by + Subwect</p>\n  <p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate option to substitute the highlighted segment in the given sentence. If no substitution is required, select ‘No improvement’ as your answer.\n  <br>  \n  <b>Soon after the meeting commences then</b> the board called for the chairman’s resignation.\n  <br></span><span class=\"hqt\">Select the most appropriate option to substitute the highlighted segment in the given sentence. If no substitution is required, select ‘No improvement’ as your answer.\n  <br>  \n  <b>Soon after the meeting commences then</b> the board called for the chairman’s resignation.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">No sooner had the meeting commenced than\n  <br></span><span class=\"hqt\">No sooner had the meeting commenced than\n  <br></span>",
+      "<span class=\"eqt\">No improvement\n  <br></span><span class=\"hqt\">No improvement\n  <br></span>",
+      "<span class=\"eqt\">Soon after the meeting commences when\n  <br></span><span class=\"hqt\">Soon after the meeting commences when\n  <br></span>",
+      "<span class=\"eqt\">As soon as the meeting commenced when\n  <br></span><span class=\"hqt\">As soon as the meeting commenced when\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\">\n  <br> The correct substitution is \n  <b>(a) No sooner had the meeting commenced than</b>.\n  <br>  \n  <b>Corrected sentence:</b> \n  <i>No sooner had the meeting commenced than the board called for the chairman’s resignation.</i> \n  <br>  \n  <b>Explanation:</b> The phrase \n  <b>“No sooner... than”</b> is a correlative conwunction pair used to show that one event quickly follows another. It requires an \n  <b>inverted structure</b> (auxiliary verb + subwect + main verb).\n  <br>  \n  <b>Grammatical rule used:</b> \n  <br> When \n  <i>No sooner</i> is placed at the beginning of a sentence, the auxiliary verb comes before the subwect.\n  <br> Rule in Hindi: जब वाक्य की शुरुआत \n  <i>No sooner</i> से होती है, तो सहायक क्रिया (had) विषय से पहले आती है।\n  <br>  \n  <b>Example:</b> \n  <br> · \n  <b>No sooner had</b> I reached home \n  <b>than</b> it started raining.\n  <br>  \n  <b>Meanings of the other options:</b> \n  <br> · (b) \n  <b>No improvement</b> – incorrect; structure needs inversion.\n  <br> · (c) \n  <b>Soon after the meeting commences when</b> – grammatically incorrect combination.\n  <br> · (d) \n  <b>As soon as the meeting commenced when</b> – redundant “when” makes it incorrect.\n  <br>  </span><span class=\"hqt\">\n  <br> The correct substitution is \n  <b>(a) No sooner had the meeting commenced than</b>.\n  <br>  \n  <b>Corrected sentence:</b> \n  <i>No sooner had the meeting commenced than the board called for the chairman’s resignation.</i> \n  <br>  \n  <b>Explanation:</b> The phrase \n  <b>“No sooner... than”</b> is a correlative conwunction pair used to show that one event quickly follows another. It requires an \n  <b>inverted structure</b> (auxiliary verb + subwect + main verb).\n  <br>  \n  <b>Grammatical rule used:</b> \n  <br> When \n  <i>No sooner</i> is placed at the beginning of a sentence, the auxiliary verb comes before the subwect.\n  <br> Rule in Hindi: जब वाक्य की शुरुआत \n  <i>No sooner</i> से होती है, तो सहायक क्रिया (had) विषय से पहले आती है।\n  <br>  \n  <b>Example:</b> \n  <br> · \n  <b>No sooner had</b> I reached home \n  <b>than</b> it started raining.\n  <br>  \n  <b>Meanings of the other options:</b> \n  <br> · (b) \n  <b>No improvement</b> – incorrect; structure needs inversion.\n  <br> · (c) \n  <b>Soon after the meeting commences when</b> – grammatically incorrect combination.\n  <br> · (d) \n  <b>As soon as the meeting commenced when</b> – redundant “when” makes it incorrect.\n  <br>  </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct meaning of idiom: \n  <b>Has a second string to his bow</b> \n  <br></span><span class=\"hqt\">Choose the correct meaning of idiom: \n  <b>Has a second string to his bow</b> \n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">He changes his decisions repeatedly.\n  <br></span><span class=\"hqt\">He changes his decisions repeatedly.\n  <br></span>",
+      "<span class=\"eqt\">He maintains two relationships at the same time.\n  <br></span><span class=\"hqt\">He maintains two relationships at the same time.\n  <br></span>",
+      "<span class=\"eqt\">He has an extra skill/backup option to depend on.\n  <br></span><span class=\"hqt\">He has an extra skill/backup option to depend on.\n  <br></span>",
+      "<span class=\"eqt\">He tricks people to reach his aim.\n  <br></span><span class=\"hqt\">He tricks people to reach his aim.\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p><p>The idiom <b>'to have a second string to one’s bow'</b> means to have an alternative plan, an additional skill, or another method to rely upon if the first attempt fails. It suggests preparedness and having a backup. (Hindi idiom meaning: दूसरा विकल्प होना / वैकल्पिक व्यवस्था होना)</p><p><b>Example:</b> He is a trained accountant, but he also knows coding, so he has a second string to his bow.</p><p><b>Why option (c) is correct:</b> It directly conveys the idea of an extra skill or backup option, which is the central meaning of the idiom.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>Option A:</b> Talks about indecision, which is not related to having a backup plan.</li><li><b>Option B:</b> Refers to two relationships, which is an incorrect and misleading interpretation.</li><li><b>Option D:</b> Refers to deception, which is not the meaning of this idiom.</li></ul><p><b>Other related idioms and meanings:</b></p><ul><li><b>Have something to fall back on</b> – to have a backup support/option (सहारा/विकल्प होना)</li><li><b>Keep a plan B</b> – to maintain an alternative plan (वैकल्पिक योजना रखना)</li><li><b>Not put all eggs in one basket</b> – not to depend on only one option (एक ही विकल्प पर निर्भर न रहना)</li></ul><p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p><p>The idiom <b>'to have a second string to one’s bow'</b> means to have an alternative plan, an additional skill, or another method to rely upon if the first attempt fails. It suggests preparedness and having a backup. (Hindi idiom meaning: दूसरा विकल्प होना / वैकल्पिक व्यवस्था होना)</p><p><b>Example:</b> He is a trained accountant, but he also knows coding, so he has a second string to his bow.</p><p><b>Why option (c) is correct:</b> It directly conveys the idea of an extra skill or backup option, which is the central meaning of the idiom.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>Option A:</b> Talks about indecision, which is not related to having a backup plan.</li><li><b>Option B:</b> Refers to two relationships, which is an incorrect and misleading interpretation.</li><li><b>Option D:</b> Refers to deception, which is not the meaning of this idiom.</li></ul><p><b>Other related idioms and meanings:</b></p><ul><li><b>Have something to fall back on</b> – to have a backup support/option (सहारा/विकल्प होना)</li><li><b>Keep a plan B</b> – to maintain an alternative plan (वैकल्पिक योजना रखना)</li><li><b>Not put all eggs in one basket</b> – not to depend on only one option (एक ही विकल्प पर निर्भर न रहना)</li></ul><p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Spot the correct spelling of an electron-transport protein.\n  <br></span><span class=\"hqt\">Spot the correct spelling of an electron-transport protein.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Cytocrhome\n  <br></span><span class=\"hqt\">Cytocrhome\n  <br></span>",
+      "<span class=\"eqt\">Cytocrom\n  <br></span><span class=\"hqt\">Cytocrom\n  <br></span>",
+      "<span class=\"eqt\">Cytochrome\n  <br></span><span class=\"hqt\">Cytochrome\n  <br></span>",
+      "<span class=\"eqt\">Cytohrom\n  <br></span><span class=\"hqt\">Cytohrom\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p><p>The correctly spelt electron-transport protein is <b>'Cytochrome'</b>. Cytochromes are proteins containing a heme group and they play an important role in electron transport (especially in cellular respiration and photosynthesis). (Hindi meaning: साइटोक्रोम / इलेक्ट्रॉन परिवहन प्रोटीन)</p><p><b>Example:</b> Cytochrome c transfers electrons in the mitochondrial electron transport chain.</p><p><b>Why other options are incorrect:</b> They are misspellings of the same scientific term and do not match the standard accepted spelling used in biology.</p><ul><li><b>Option A:</b> 'Cytocrhome' is incorrectly spelt (letters are misplaced).</li><li><b>Option B:</b> 'Cytocrom' is incorrectly spelt (incomplete/incorrect ending).</li><li><b>Option D:</b> 'Cytohrom' is incorrectly spelt (missing letters and wrong arrangement).</li></ul><p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p><p>The correctly spelt electron-transport protein is <b>'Cytochrome'</b>. Cytochromes are proteins containing a heme group and they play an important role in electron transport (especially in cellular respiration and photosynthesis). (Hindi meaning: साइटोक्रोम / इलेक्ट्रॉन परिवहन प्रोटीन)</p><p><b>Example:</b> Cytochrome c transfers electrons in the mitochondrial electron transport chain.</p><p><b>Why other options are incorrect:</b> They are misspellings of the same scientific term and do not match the standard accepted spelling used in biology.</p><ul><li><b>Option A:</b> 'Cytocrhome' is incorrectly spelt (letters are misplaced).</li><li><b>Option B:</b> 'Cytocrom' is incorrectly spelt (incomplete/incorrect ending).</li><li><b>Option D:</b> 'Cytohrom' is incorrectly spelt (missing letters and wrong arrangement).</li></ul><p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the sentence containing the homonym of the highlighted word:\n  <br> The guards stood in \n  <b>pike</b> formation along the causeway.\n  <br></span><span class=\"hqt\">Select the sentence containing the homonym of the highlighted word:\n  <br> The guards stood in \n  <b>pike</b> formation along the causeway.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">The angler pulled a large pike from the icy lake.\n  <br></span><span class=\"hqt\">The angler pulled a large pike from the icy lake.\n  <br></span>",
+      "<span class=\"eqt\">The rebel was punished by being placed on the pike.\n  <br></span><span class=\"hqt\">The rebel was punished by being placed on the pike.\n  <br></span>",
+      "<span class=\"eqt\">The infantry pike split the enemy’s front line.\n  <br></span><span class=\"hqt\">The infantry pike split the enemy’s front line.\n  <br></span>",
+      "<span class=\"eqt\">The pike gleamed beside the veteran’s armor.\n  <br></span><span class=\"hqt\">The pike gleamed beside the veteran’s armor.\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"> The correct answer is option \n  <b>(a)</b>.\n  <br>  \n  <b>Explain the right answer in detailed form:</b> In the given sentence, \n  <b>pike</b> refers to a \n  <b>weapon/spear</b> used in military formation. A \n  <b>homonym</b> is a word that has the \n  <b>same spelling/pronunciation</b> but a \n  <b>different meaning</b>. In option (a), \n  <b>pike</b> means a \n  <b>fish</b> (a freshwater predatory fish), which is a completely different meaning of the same word—hence it is the homonym used correctly.\n  <br>  \n  <b>Explanation of context of question:</b> “pike formation” indicates a spear-formation, while “pike from the lake” indicates the fish.\n  <br>  \n  <b>Other options are incorrect because (Explanation of all options in detail):</b> \n  <br> · \n  <b>(b)</b> “placed on the pike” still refers to a sharp stake/spear—weapon sense, not a different meaning category like fish.\n  <br> · \n  <b>(c)</b> “infantry pike” clearly means the weapon; same meaning as in the question.\n  <br> · \n  <b>(d)</b> “pike gleamed” again suggests the weapon (metal), not the fish.\n  <br>  </span><span class=\"hqt\"> The correct answer is option \n  <b>(a)</b>.\n  <br>  \n  <b>Explain the right answer in detailed form:</b> In the given sentence, \n  <b>pike</b> refers to a \n  <b>weapon/spear</b> used in military formation. A \n  <b>homonym</b> is a word that has the \n  <b>same spelling/pronunciation</b> but a \n  <b>different meaning</b>. In option (a), \n  <b>pike</b> means a \n  <b>fish</b> (a freshwater predatory fish), which is a completely different meaning of the same word—hence it is the homonym used correctly.\n  <br>  \n  <b>Explanation of context of question:</b> “pike formation” indicates a spear-formation, while “pike from the lake” indicates the fish.\n  <br>  \n  <b>Other options are incorrect because (Explanation of all options in detail):</b> \n  <br> · \n  <b>(b)</b> “placed on the pike” still refers to a sharp stake/spear—weapon sense, not a different meaning category like fish.\n  <br> · \n  <b>(c)</b> “infantry pike” clearly means the weapon; same meaning as in the question.\n  <br> · \n  <b>(d)</b> “pike gleamed” again suggests the weapon (metal), not the fish.\n  <br>  </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate option to fill in the blank.\n  <br> His condition was so critical that a senior doctor ______ performed the operation.\n  <br></span><span class=\"hqt\">Select the most appropriate option to fill in the blank.\n  <br> His condition was so critical that a senior doctor ______ performed the operation.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">yourself\n  <br></span><span class=\"hqt\">yourself\n  <br></span>",
+      "<span class=\"eqt\">myself\n  <br></span><span class=\"hqt\">myself\n  <br></span>",
+      "<span class=\"eqt\">itself\n  <br></span><span class=\"hqt\">itself\n  <br></span>",
+      "<span class=\"eqt\">himself\n  <br></span><span class=\"hqt\">himself\n  <br></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"> The correct option to fill in the blank is (d) \n  <b>himself</b>.\n  <br> The sentence requires a \n  <b>reflexive pronoun</b> to emphasize that a senior doctor \n  <b>personally</b> performed the operation due to the seriousness of the case. \"Himself\" refers back to the subwect \"a senior doctor.\"\n  <br>  \n  <b>Grammatical Rule Used:</b> \n  <br>  \n  <b>Reflexive pronouns</b> (myself, himself, herself, etc.) are used for \n  <b>emphasis</b> or when the subwect and obwect are the same.\n  <br>  \n  <b>Example:</b> \n  <br> The CEO himself approved the new policy.\n  <br>  \n  <b>Information Booster:</b> \n  <br> We use \n  <b>reflexive pronouns</b> for emphasis after nouns to highlight importance or unexpected personal involvement.\n  <br>  </span><span class=\"hqt\"> The correct option to fill in the blank is (d) \n  <b>himself</b>.\n  <br> The sentence requires a \n  <b>reflexive pronoun</b> to emphasize that a senior doctor \n  <b>personally</b> performed the operation due to the seriousness of the case. \"Himself\" refers back to the subwect \"a senior doctor.\"\n  <br>  \n  <b>Grammatical Rule Used:</b> \n  <br>  \n  <b>Reflexive pronouns</b> (myself, himself, herself, etc.) are used for \n  <b>emphasis</b> or when the subwect and obwect are the same.\n  <br>  \n  <b>Example:</b> \n  <br> The CEO himself approved the new policy.\n  <br>  \n  <b>Information Booster:</b> \n  <br> We use \n  <b>reflexive pronouns</b> for emphasis after nouns to highlight importance or unexpected personal involvement.\n  <br>  </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Rearrange the following sentences to form a coherent paragraph:\n  <br> 1. It is an organised and unbiased inquiry carried out to uncover new information or verify what is already known.\n  <br> 2. Research forms the backbone of progress in academics as well as science.\n  <br> 3. This may be theoretical in nature to expand understanding, or applied to address a real-world issue.\n  <br> 4. The outcomes are then recorded and evaluated through peer review to ensure reliability and authenticity.\n  <br></span><span class=\"hqt\">Rearrange the following sentences to form a coherent paragraph:\n  <br> 1. It is an organised and unbiased inquiry carried out to uncover new information or verify what is already known.\n  <br> 2. Research forms the backbone of progress in academics as well as science.\n  <br> 3. This may be theoretical in nature to expand understanding, or applied to address a real-world issue.\n  <br> 4. The outcomes are then recorded and evaluated through peer review to ensure reliability and authenticity.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">2, 1, 3, 4\n  <br></span><span class=\"hqt\">2, 1, 3, 4\n  <br></span>",
+      "<span class=\"eqt\">1, 2, 4, 3\n  <br></span><span class=\"hqt\">1, 2, 4, 3\n  <br></span>",
+      "<span class=\"eqt\">4, 3, 2, 1\n  <br></span><span class=\"hqt\">4, 3, 2, 1\n  <br></span>",
+      "<span class=\"eqt\">3, 4, 1, 2\n  <br></span><span class=\"hqt\">3, 4, 1, 2\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct option is (a).</p><p>The paragraph should start with a general statement introducing the main topic 'Research', then define it, then explain its types, and finally describe what happens to outcomes.</p><ul><li><b>Sentence 2</b> is the best opening because it introduces the importance of research as the backbone of progress.</li><li><b>Sentence 1</b> naturally follows by defining what research is ('It is an organised and unbiased inquiry...'). Here, 'It' clearly refers back to 'Research' in sentence 2.</li><li><b>Sentence 3</b> comes next because 'This' refers to 'research' as defined and explains that research can be theoretical or applied.</li><li><b>Sentence 4</b> logically concludes by describing what is done with research outcomes (recorded and peer reviewed), which is a final stage.</li></ul><p>Hence, the correct order is <b>2, 1, 3, 4</b>.</p><p><b>Exam method:</b> Identify the opening sentence by checking which one can stand independently. Also locate pronouns like 'It' and 'This' and attach them to the correct previous noun.</p><p>So the correct answer is (a)</p></span><span class=\"hqt\"><p>The correct option is (a).</p><p>The paragraph should start with a general statement introducing the main topic 'Research', then define it, then explain its types, and finally describe what happens to outcomes.</p><ul><li><b>Sentence 2</b> is the best opening because it introduces the importance of research as the backbone of progress.</li><li><b>Sentence 1</b> naturally follows by defining what research is ('It is an organised and unbiased inquiry...'). Here, 'It' clearly refers back to 'Research' in sentence 2.</li><li><b>Sentence 3</b> comes next because 'This' refers to 'research' as defined and explains that research can be theoretical or applied.</li><li><b>Sentence 4</b> logically concludes by describing what is done with research outcomes (recorded and peer reviewed), which is a final stage.</li></ul><p>Hence, the correct order is <b>2, 1, 3, 4</b>.</p><p><b>Exam method:</b> Identify the opening sentence by checking which one can stand independently. Also locate pronouns like 'It' and 'This' and attach them to the correct previous noun.</p><p>So the correct answer is (a)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Choose the most suitable option to replace the highlighted part of the sentence:  <br> <strong>One should do ones’ duty </strong>even when no one is watching.  <br></p></span><span class=\"hqt\"><p>Choose the most suitable option to replace the highlighted part of the sentence:  <br> <strong>One should do ones’ duty </strong>even when no one is watching.  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>One should do one’s duty  <br></p></span><span class=\"hqt\"><p>One should do one’s duty  <br></p></span>",
+      "<span class=\"eqt\"><p>One should do ones duties  <br></p></span><span class=\"hqt\"><p>One should do ones duties  <br></p></span>",
+      "<span class=\"eqt\"><p>One should do once duties  <br></p></span><span class=\"hqt\"><p>One should do once duties  <br></p></span>",
+      "<span class=\"eqt\"><p>One should do their duty  <br></p></span><span class=\"hqt\"><p>One should do their duty  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct option is (a).</p><p></p><p>The highlighted part <strong>\"ones’ duty\"</strong> is incorrect because the possessive form of <strong>one</strong> is <strong>one’s</strong> (with an apostrophe before s). The form <strong>ones’</strong> would suggest a plural possessive of <strong>ones</strong>, which is not intended here.</p><p> </p><p><strong>Correct substitution:</strong> One should do <strong>one’s duty</strong> even when no one is watching.</p><p> </p><p><strong>Grammatical rule used:</strong> The pronoun <strong>one</strong> takes the possessive form <strong>one’s</strong>. When we start a sentence with <strong>one</strong>, we should maintain consistency (one, one’s) throughout the sentence.</p><p> </p><p><strong>Example:</strong> One should always keep <strong>one’s</strong> promises.</p><p> </p><p><strong>Information booster:</strong> In formal English, <strong>one</strong> is used as an indefinite pronoun, and consistency is important. In informal usage, <strong>their</strong> is common, but exam-based formal grammar prefers <strong>one’s</strong>.</p><p> </p><p>So the correct answer is (a)</p></span><span class=\"hqt\"><p>The correct option is (a).</p><p></p><p>The highlighted part <strong>\"ones’ duty\"</strong> is incorrect because the possessive form of <strong>one</strong> is <strong>one’s</strong> (with an apostrophe before s). The form <strong>ones’</strong> would suggest a plural possessive of <strong>ones</strong>, which is not intended here.</p><p> </p><p><strong>Correct substitution:</strong> One should do <strong>one’s duty</strong> even when no one is watching.</p><p> </p><p><strong>Grammatical rule used:</strong> The pronoun <strong>one</strong> takes the possessive form <strong>one’s</strong>. When we start a sentence with <strong>one</strong>, we should maintain consistency (one, one’s) throughout the sentence.</p><p> </p><p><strong>Example:</strong> One should always keep <strong>one’s</strong> promises.</p><p> </p><p><strong>Information booster:</strong> In formal English, <strong>one</strong> is used as an indefinite pronoun, and consistency is important. In informal usage, <strong>their</strong> is common, but exam-based formal grammar prefers <strong>one’s</strong>.</p><p> </p><p>So the correct answer is (a)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Identify the correct function of the phrase “learning to interpret outputs, supervise automated systems, and apply critical wudgment” in the sentence: \n  <br> “Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable.” \n  <br></span><span class=\"hqt\">Based on the passage, which of the following best captures the author’s main concern? \n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">Noun phrase acting as the subwect \n  <br></span><span class=\"hqt\">AI should be banned because it always destroys wobs. \n  <br></span>",
+      "<span class=\"eqt\">Adwective phrase modifying “employees” directly \n  <br></span><span class=\"hqt\">AI is useful, but societies must manage its impact through reskilling and responsible policies. \n  <br></span>",
+      "<span class=\"eqt\">Participial phrase explaining how digital fluency is developed \n  <br></span><span class=\"hqt\">AI only benefits employees who already have high salaries. \n  <br></span>",
+      "<span class=\"eqt\">Prepositional phrase showing contrast\n  <br></span><span class=\"hqt\">Employers should replace all routine workers immediately to increase profits.\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"> The correct answer is option (c). \n  <br> • The phrase begins with “learning” (a present participle), and it is used to explain \n  <b>the manner/means</b> by which employees develop “digital fluency.” \n  <br> • Here, the dash marks introduce an explanatory non-finite construction: digital fluency is developed by \n  <b>learning</b> these skills (interpret outputs, supervise systems, apply wudgment). \n  <br> • Therefore, it functions as a \n  <b>participial phrase explaining how</b> the preceding idea (developing digital fluency) happens.\n  <br> Other options are incorrect because: \n  <br> • (a) Noun phrase acting as the subwect — The subwect is “Employees,” not this phrase. \n  <br> • (b) Adwective phrase modifying “employees” directly — It does not describe employees as a quality; it explains the method of developing fluency. \n  <br> • (d) Prepositional phrase showing contrast — It is not a prepositional structure and does not show contrast.\n  <br> </span><span class=\"hqt\"> The correct answer is option (b). \n  <br> • The passage presents a balanced view: AI brings productivity gains, but it also creates risks like wob displacement and inequality. \n  <br> • The author repeatedly stresses solutions such as \n  <b>reskilling, continuous learning, ethical deployment, and accountability</b>. \n  <br> • Hence, the central concern is not rewecting AI, but \n  <b>managing the transition responsibly</b> so humans can adapt and benefit.\n  <br> Other options are incorrect because: \n  <br> • (a) AI should be banned — The author does not demand a ban; they propose regulation and training. \n  <br> • (c) Only benefits high-salary employees — The passage says those who build AI-related fluency gain value, not only the already-rich. \n  <br> • (d) Replace routine workers immediately — The passage warns this could worsen inequality and calls for support systems instead.\n  <br> </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct grammatical label for the sentence: \n  <br> “Employees who develop digital fluency often become more valuable.” \n  <br></span><span class=\"hqt\">Based on the passage, which of the following best captures the author’s main concern? \n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">Simple Sentence \n  <br></span><span class=\"hqt\">AI should be banned because it always destroys wobs. \n  <br></span>",
+      "<span class=\"eqt\">Compound Sentence \n  <br></span><span class=\"hqt\">AI is useful, but societies must manage its impact through reskilling and responsible policies. \n  <br></span>",
+      "<span class=\"eqt\">Complex Sentence \n  <br></span><span class=\"hqt\">AI only benefits employees who already have high salaries. \n  <br></span>",
+      "<span class=\"eqt\">Compound-Complex Sentence\n  <br></span><span class=\"hqt\">Employers should replace all routine workers immediately to increase profits.\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"> The correct answer is option (c). \n  <br> • The sentence has one main (independent) clause: “Employees … often become more valuable.” \n  <br> • It also contains a dependent relative clause: “who develop digital fluency,” which modifies the noun “Employees.” \n  <br> • A sentence with \n  <b>one independent clause + at least one dependent clause</b> is a \n  <b>Complex Sentence</b>.\n  <br> Other options are incorrect because: \n  <br> • (a) Simple Sentence — Not simple because it includes a dependent clause (“who develop…”). \n  <br> • (b) Compound Sentence — Needs two independent clauses woined by a coordinator; not present. \n  <br> • (d) Compound-Complex Sentence — Needs two independent clauses plus a dependent clause; only one independent clause exists here.\n  <br> </span><span class=\"hqt\"> The correct answer is option (b). \n  <br> • The passage presents a balanced view: AI brings productivity gains, but it also creates risks like wob displacement and inequality. \n  <br> • The author repeatedly stresses solutions such as \n  <b>reskilling, continuous learning, ethical deployment, and accountability</b>. \n  <br> • Hence, the central concern is not rewecting AI, but \n  <b>managing the transition responsibly</b> so humans can adapt and benefit.\n  <br> Other options are incorrect because: \n  <br> • (a) AI should be banned — The author does not demand a ban; they propose regulation and training. \n  <br> • (c) Only benefits high-salary employees — The passage says those who build AI-related fluency gain value, not only the already-rich. \n  <br> • (d) Replace routine workers immediately — The passage warns this could worsen inequality and calls for support systems instead.\n  <br> </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">What is the closest meaning of “displacement” as used in the passage? \n  <br> “In contrast, workers trapped in routine roles may face displacement…” \n  <br></span><span class=\"hqt\">Based on the passage, which of the following best captures the author’s main concern? \n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">Celebration \n  <br></span><span class=\"hqt\">AI should be banned because it always destroys wobs. \n  <br></span>",
+      "<span class=\"eqt\">Replacement or loss of wobs \n  <br></span><span class=\"hqt\">AI is useful, but societies must manage its impact through reskilling and responsible policies. \n  <br></span>",
+      "<span class=\"eqt\">Improvement in salary \n  <br></span><span class=\"hqt\">AI only benefits employees who already have high salaries. \n  <br></span>",
+      "<span class=\"eqt\">Cooperation\n  <br></span><span class=\"hqt\">Employers should replace all routine workers immediately to increase profits.\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"> The correct answer is option (b). \n  <br> • In the passage, “displacement” is linked to routine roles being automated, meaning workers may be pushed out of their wobs. \n  <br> • So, “displacement” here means \n  <b>removal from employment / replacement due to automation</b>.\n  <br> Other options are incorrect because: \n  <br> • (a) Celebration — Opposite tone; displacement is presented as a problem. \n  <br> • (c) Improvement in salary — Not suggested anywhere; the idea is wob insecurity. \n  <br> • (d) Cooperation — Unrelated to the context of wob loss.\n  <br> </span><span class=\"hqt\"> The correct answer is option (b). \n  <br> • The passage presents a balanced view: AI brings productivity gains, but it also creates risks like wob displacement and inequality. \n  <br> • The author repeatedly stresses solutions such as \n  <b>reskilling, continuous learning, ethical deployment, and accountability</b>. \n  <br> • Hence, the central concern is not rewecting AI, but \n  <b>managing the transition responsibly</b> so humans can adapt and benefit.\n  <br> Other options are incorrect because: \n  <br> • (a) AI should be banned — The author does not demand a ban; they propose regulation and training. \n  <br> • (c) Only benefits high-salary employees — The passage says those who build AI-related fluency gain value, not only the already-rich. \n  <br> • (d) Replace routine workers immediately — The passage warns this could worsen inequality and calls for support systems instead.\n  <br> </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">What does “transparent accountability” most likely mean in the passage? \n  <br> “Policies that encourage continuous learning, ethical deployment, and transparent accountability…” \n  <br></span><span class=\"hqt\">Based on the passage, which of the following best captures the author’s main concern? \n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">Hiding responsibility to avoid criticism \n  <br></span><span class=\"hqt\">AI should be banned because it always destroys wobs. \n  <br></span>",
+      "<span class=\"eqt\">Clearly assigning responsibility and being answerable for outcomes \n  <br></span><span class=\"hqt\">AI is useful, but societies must manage its impact through reskilling and responsible policies. \n  <br></span>",
+      "<span class=\"eqt\">Allowing AI to operate without human supervision \n  <br></span><span class=\"hqt\">AI only benefits employees who already have high salaries. \n  <br></span>",
+      "<span class=\"eqt\">Making policies confusing to prevent public debate\n  <br></span><span class=\"hqt\">Employers should replace all routine workers immediately to increase profits.\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"> The correct answer is option (b). \n  <br> • “Accountability” means being \n  <b>answerable/responsible</b> for decisions and results. \n  <br> • “Transparent” adds the sense of being \n  <b>open, clear, and visible</b> (not hidden). \n  <br> • In AI use, it implies rules where organizations must openly explain decisions and accept responsibility for harms/errors caused by automated systems.\n  <br> Other options are incorrect because: \n  <br> • (a) Hiding responsibility — Opposite of transparent accountability. \n  <br> • (c) Without human supervision — The passage suggests supervision and ethical control, not removal of humans. \n  <br> • (d) Making policies confusing — “Transparent” means clear, not confusing.\n  <br> </span><span class=\"hqt\"> The correct answer is option (b). \n  <br> • The passage presents a balanced view: AI brings productivity gains, but it also creates risks like wob displacement and inequality. \n  <br> • The author repeatedly stresses solutions such as \n  <b>reskilling, continuous learning, ethical deployment, and accountability</b>. \n  <br> • Hence, the central concern is not rewecting AI, but \n  <b>managing the transition responsibly</b> so humans can adapt and benefit.\n  <br> Other options are incorrect because: \n  <br> • (a) AI should be banned — The author does not demand a ban; they propose regulation and training. \n  <br> • (c) Only benefits high-salary employees — The passage says those who build AI-related fluency gain value, not only the already-rich. \n  <br> • (d) Replace routine workers immediately — The passage warns this could worsen inequality and calls for support systems instead.\n  <br> </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Based on the passage, which of the following best captures the author’s main concern? \n  <br></span><span class=\"hqt\">Based on the passage, which of the following best captures the author’s main concern? \n  <br></span>",
+    "comp": "<span class=\"eqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span><span class=\"hqt\"><b></b> Read the passage and answer the questions: \n  <br> In recent years, the rapid spread of artificial intelligence in the workplace has triggered both enthusiasm and unease. Many organizations celebrate AI as a tool that boosts productivity, reduces repetitive labour, and enhances decision-making through faster data processing. However, the same technology also raises pressing questions about employment stability, skill relevance, and the ethical boundaries of automation. When AI systems begin to perform tasks once reserved for trained professionals, the real challenge is not merely technological adoption but human adaptation.\n  <br> A mawor concern is the widening gap between those who can work with AI and those whose roles are most vulnerable to replacement. Employees who develop digital fluency—learning to interpret outputs, supervise automated systems, and apply critical wudgment—often become more valuable. In contrast, workers trapped in routine roles may face displacement, not because they lack intelligence, but because their tasks are easiest to automate. This transformation can deepen inequality unless supported by deliberate training and reskilling initiatives.\n  <br> To navigate this shift responsibly, governments and employers must treat workforce development as a long-term investment rather than a short-term expense. Policies that encourage continuous learning, ethical deployment, and transparent accountability can reduce fear and increase trust. Ultimately, the future of work will not be shaped solely by machines, but by the choices societies make about how humans and technology should coexist.\n  <br> \n</span>",
+    "options": [
+      "<span class=\"eqt\">AI should be banned because it always destroys wobs. \n  <br></span><span class=\"hqt\">AI should be banned because it always destroys wobs. \n  <br></span>",
+      "<span class=\"eqt\">AI is useful, but societies must manage its impact through reskilling and responsible policies. \n  <br></span><span class=\"hqt\">AI is useful, but societies must manage its impact through reskilling and responsible policies. \n  <br></span>",
+      "<span class=\"eqt\">AI only benefits employees who already have high salaries. \n  <br></span><span class=\"hqt\">AI only benefits employees who already have high salaries. \n  <br></span>",
+      "<span class=\"eqt\">Employers should replace all routine workers immediately to increase profits.\n  <br></span><span class=\"hqt\">Employers should replace all routine workers immediately to increase profits.\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"> The correct answer is option (b). \n  <br> • The passage presents a balanced view: AI brings productivity gains, but it also creates risks like wob displacement and inequality. \n  <br> • The author repeatedly stresses solutions such as \n  <b>reskilling, continuous learning, ethical deployment, and accountability</b>. \n  <br> • Hence, the central concern is not rewecting AI, but \n  <b>managing the transition responsibly</b> so humans can adapt and benefit.\n  <br> Other options are incorrect because: \n  <br> • (a) AI should be banned — The author does not demand a ban; they propose regulation and training. \n  <br> • (c) Only benefits high-salary employees — The passage says those who build AI-related fluency gain value, not only the already-rich. \n  <br> • (d) Replace routine workers immediately — The passage warns this could worsen inequality and calls for support systems instead.\n  <br> </span><span class=\"hqt\"> The correct answer is option (b). \n  <br> • The passage presents a balanced view: AI brings productivity gains, but it also creates risks like wob displacement and inequality. \n  <br> • The author repeatedly stresses solutions such as \n  <b>reskilling, continuous learning, ethical deployment, and accountability</b>. \n  <br> • Hence, the central concern is not rewecting AI, but \n  <b>managing the transition responsibly</b> so humans can adapt and benefit.\n  <br> Other options are incorrect because: \n  <br> • (a) AI should be banned — The author does not demand a ban; they propose regulation and training. \n  <br> • (c) Only benefits high-salary employees — The passage says those who build AI-related fluency gain value, not only the already-rich. \n  <br> • (d) Replace routine workers immediately — The passage warns this could worsen inequality and calls for support systems instead.\n  <br> </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the word that is similar in meaning (SYNONYM) to the word given below:\n  <br> Endowment\n  <br></span><span class=\"hqt\">Select the word that is similar in meaning (SYNONYM) to the word given below:\n  <br> Endowment\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">dissonance\n  <br></span><span class=\"hqt\">dissonance\n  <br></span>",
+      "<span class=\"eqt\">incongruity\n  <br></span><span class=\"hqt\">incongruity\n  <br></span>",
+      "<span class=\"eqt\">impropriety\n  <br></span><span class=\"hqt\">impropriety\n  <br></span>",
+      "<span class=\"eqt\">bequest\n  <br></span><span class=\"hqt\">bequest\n  <br></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><p>The correct synonym of the given word is (d) bequest.</p><p>Given word – Endowment:</p><ul><li>Endowment means a gift of money/property given to support an institution, or a permanent fund provided for a purpose. It can also mean a natural talent (gift).</li><li>(Hindi meaning: दान / निधि / संपत्ति का अनुदान)</li></ul><p>Example: The university received a large endowment from an alumnus.</p><p>Correct answer word – Bequest:</p><ul><li>Bequest means money or property left to someone in a will; a gift given after death.</li><li>It matches “endowment” in the sense of a gifted fund/property.</li><li>(Hindi meaning: वसीयत द्वारा दी गई संपत्ति)</li></ul><p>Example: She donated the bequest to a charitable trust.</p><p>Synonyms of Endowment: gift, grant, donation, legacy.</p><p>Antonyms of Endowment: deprivation, loss, withholding, confiscation.</p><p>Meanings of all the other given options:</p><ul><li>Dissonance – lack of harmony; disagreement (Hindi meaning: असंगति)</li><li>Incongruity – lack of agreement or suitability (Hindi meaning: असंगति / बेमेलपन)</li><li>Impropriety – inappropriate behaviour; indecency (Hindi meaning: अनुचितता)</li></ul><p>So the correct answer is (d)</p></span><span class=\"hqt\"><p>The correct synonym of the given word is (d) bequest.</p><p>Given word – Endowment:</p><ul><li>Endowment means a gift of money/property given to support an institution, or a permanent fund provided for a purpose. It can also mean a natural talent (gift).</li><li>(Hindi meaning: दान / निधि / संपत्ति का अनुदान)</li></ul><p>Example: The university received a large endowment from an alumnus.</p><p>Correct answer word – Bequest:</p><ul><li>Bequest means money or property left to someone in a will; a gift given after death.</li><li>It matches “endowment” in the sense of a gifted fund/property.</li><li>(Hindi meaning: वसीयत द्वारा दी गई संपत्ति)</li></ul><p>Example: She donated the bequest to a charitable trust.</p><p>Synonyms of Endowment: gift, grant, donation, legacy.</p><p>Antonyms of Endowment: deprivation, loss, withholding, confiscation.</p><p>Meanings of all the other given options:</p><ul><li>Dissonance – lack of harmony; disagreement (Hindi meaning: असंगति)</li><li>Incongruity – lack of agreement or suitability (Hindi meaning: असंगति / बेमेलपन)</li><li>Impropriety – inappropriate behaviour; indecency (Hindi meaning: अनुचितता)</li></ul><p>So the correct answer is (d)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct one-word substitute for: “A condition of temporary suspension or being kept on hold.”\n  <br></span><span class=\"hqt\">Choose the correct one-word substitute for: “A condition of temporary suspension or being kept on hold.”\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Interval\n  <br></span><span class=\"hqt\">Interval\n  <br></span>",
+      "<span class=\"eqt\">Break\n  <br></span><span class=\"hqt\">Break\n  <br></span>",
+      "<span class=\"eqt\">Abeyance\n  <br></span><span class=\"hqt\">Abeyance\n  <br></span>",
+      "<span class=\"eqt\">Sleep\n  <br></span><span class=\"hqt\">Sleep\n  <br></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><p>The correct option is (c).</p><p>The one-word substitute for a condition of temporary suspension or being kept on hold is <b>abeyance</b>. It means a state of inactivity or temporary stopping of a process, decision, or law, often until further notice. (Hindi meaning: स्थगन / अस्थायी रूप से रोक)</p><p><b>Example:</b> The new policy was kept in abeyance until the committee submitted its report.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>Option A: Interval</b> – a period between two events; a gap of time (Hindi meaning: अंतराल)</li><li><b>Option B: Break</b> – a short rest or pause; also can mean damage (Hindi meaning: विराम / अवकाश)</li><li><b>Option D: Sleep</b> – the natural state of rest; not used for official suspension (Hindi meaning: नींद)</li></ul><p>So the correct answer is (c)</p></span><span class=\"hqt\"><p>The correct option is (c).</p><p>The one-word substitute for a condition of temporary suspension or being kept on hold is <b>abeyance</b>. It means a state of inactivity or temporary stopping of a process, decision, or law, often until further notice. (Hindi meaning: स्थगन / अस्थायी रूप से रोक)</p><p><b>Example:</b> The new policy was kept in abeyance until the committee submitted its report.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>Option A: Interval</b> – a period between two events; a gap of time (Hindi meaning: अंतराल)</li><li><b>Option B: Break</b> – a short rest or pause; also can mean damage (Hindi meaning: विराम / अवकाश)</li><li><b>Option D: Sleep</b> – the natural state of rest; not used for official suspension (Hindi meaning: नींद)</li></ul><p>So the correct answer is (c)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">A sentence is provided in indirect speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding direct speech. The magistrate declared that wustice must be upheld regardless of the consequences.\n  <br></span><span class=\"hqt\">A sentence is provided in indirect speech. From the four given options, choose the one that most accurately conveys the sentence in its corresponding direct speech. The magistrate declared that wustice must be upheld regardless of the consequences.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">“Justice should be upheld regardless of the consequences,” declared the magistrate.</span><span class=\"hqt\">“Justice should be upheld regardless of the consequences,” declared the magistrate.</span>",
+      "<span class=\"eqt\">“Justice must be upheld regardless of the consequences,” the magistrate declared.</span><span class=\"hqt\">“Justice must be upheld regardless of the consequences,” the magistrate declared.</span>",
+      "<span class=\"eqt\">“We uphold wustice regardless of the consequences,” declared the magistrate.</span><span class=\"hqt\">“We uphold wustice regardless of the consequences,” declared the magistrate.</span>",
+      "<span class=\"eqt\">“One must uphold wustice,” the magistrate declared.\n  <br></span><span class=\"hqt\">“One must uphold wustice,” the magistrate declared.\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><p>The correct option is (b).</p><p>To convert indirect speech into direct speech, we restore the original quoted sentence and keep the reporting clause appropriately placed. The key points are:</p><ul><li><b>Modal 'must':</b> In indirect speech, 'must' often remains 'must' in direct speech because it expresses obligation/necessity that is still valid. Therefore, 'must be upheld' should remain unchanged.</li><li><b>Maintain exact statement:</b> The indirect statement says 'wustice must be upheld regardless of the consequences', so the direct speech should reproduce this meaning exactly.</li><li><b>Reporting clause placement:</b> Both placements are acceptable in English, but the option must match the given meaning precisely without changing the modal or the person.</li></ul><p>Option (b) exactly keeps <b>'must be upheld regardless of the consequences'</b> and correctly attributes it to the magistrate.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>Option A:</b> Changes 'must' to 'should', weakening the force of obligation.</li><li><b>Option C:</b> Changes the subwect to 'we', altering the statement.</li><li><b>Option D:</b> Shortens and changes the structure, and does not keep the complete original idea.</li></ul><p>So the correct answer is (b)</p></span><span class=\"hqt\"><p>The correct option is (b).</p><p>To convert indirect speech into direct speech, we restore the original quoted sentence and keep the reporting clause appropriately placed. The key points are:</p><ul><li><b>Modal 'must':</b> In indirect speech, 'must' often remains 'must' in direct speech because it expresses obligation/necessity that is still valid. Therefore, 'must be upheld' should remain unchanged.</li><li><b>Maintain exact statement:</b> The indirect statement says 'wustice must be upheld regardless of the consequences', so the direct speech should reproduce this meaning exactly.</li><li><b>Reporting clause placement:</b> Both placements are acceptable in English, but the option must match the given meaning precisely without changing the modal or the person.</li></ul><p>Option (b) exactly keeps <b>'must be upheld regardless of the consequences'</b> and correctly attributes it to the magistrate.</p><p><b>Why other options are incorrect:</b></p><ul><li><b>Option A:</b> Changes 'must' to 'should', weakening the force of obligation.</li><li><b>Option C:</b> Changes the subwect to 'we', altering the statement.</li><li><b>Option D:</b> Shortens and changes the structure, and does not keep the complete original idea.</li></ul><p>So the correct answer is (b)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Select the most appropriate option to fill in the blank.\n  <br> Permanent tissues are derived from meristematic tissues once they lose their ______ to divide.\n  <br></span><span class=\"hqt\">Select the most appropriate option to fill in the blank.\n  <br> Permanent tissues are derived from meristematic tissues once they lose their ______ to divide.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">ability\n  <br></span><span class=\"hqt\">ability\n  <br></span>",
+      "<span class=\"eqt\">confidentially\n  <br></span><span class=\"hqt\">confidentially\n  <br></span>",
+      "<span class=\"eqt\">intellectuality\n  <br></span><span class=\"hqt\">intellectuality\n  <br></span>",
+      "<span class=\"eqt\">sentimentality\n  <br></span><span class=\"hqt\">sentimentality\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"> The correct option to fill in the blank is (a) \n  <b>ability</b>.\n  <br>  \n  <b>Explanation</b>: The word “ability” means the capacity or skill to do something. In biological context, tissues “lose their ability to divide” when they mature. (क्षमता)\n  <br>  \n  <b>Example</b>: Stem cells have the ability to develop into any type of cell.\n  <br> Other options and why they are incorrect:\n  <br> · \n  <b>Confidentially</b> – In a secret manner (गोपनीयता से) – irrelevant here.\n  <br> · \n  <b>Intellectuality</b> – Quality of being intellectual (बौद्धिकता) – unrelated to division.\n  <br> · \n  <b>Sentimentality</b> – Excessive tenderness or emotion (भावुकता) – not appropriate here.\n  <br>  </span><span class=\"hqt\"> The correct option to fill in the blank is (a) \n  <b>ability</b>.\n  <br>  \n  <b>Explanation</b>: The word “ability” means the capacity or skill to do something. In biological context, tissues “lose their ability to divide” when they mature. (क्षमता)\n  <br>  \n  <b>Example</b>: Stem cells have the ability to develop into any type of cell.\n  <br> Other options and why they are incorrect:\n  <br> · \n  <b>Confidentially</b> – In a secret manner (गोपनीयता से) – irrelevant here.\n  <br> · \n  <b>Intellectuality</b> – Quality of being intellectual (बौद्धिकता) – unrelated to division.\n  <br> · \n  <b>Sentimentality</b> – Excessive tenderness or emotion (भावुकता) – not appropriate here.\n  <br>  </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Find the part of the sentence that contains an error:\n  <br> Neither the prowection of growth nor the estimation of deficit trends (1)/ appear to have accounted for the liquidity constraints (2)/ that small-scale enterprises face (3)/ during cyclical downturns in demand. (4)\n  <br></span><span class=\"hqt\">Find the part of the sentence that contains an error:\n  <br> Neither the prowection of growth nor the estimation of deficit trends (1)/ appear to have accounted for the liquidity constraints (2)/ that small-scale enterprises face (3)/ during cyclical downturns in demand. (4)\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">(1)\n  <br></span><span class=\"hqt\">(1)\n  <br></span>",
+      "<span class=\"eqt\">(2)\n  <br></span><span class=\"hqt\">(2)\n  <br></span>",
+      "<span class=\"eqt\">(3)\n  <br></span><span class=\"hqt\">(3)\n  <br></span>",
+      "<span class=\"eqt\">(4)\n  <br></span><span class=\"hqt\">(4)\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"> Option \n  <b>(2)</b> contains an error.\n  <br>  \n  <b>Detailed explanation of error:</b> The subwect begins with \n  <b>“Neither … nor …”</b> and both noun phrases—\n  <b>the prowection</b> and \n  <b>the estimation</b>—are \n  <b>singular</b>. When \n  <b>neither…nor</b> woins two singular subwects, the verb should also be \n  <b>singular</b>. इसलिए “appear” गलत है; सही verb \n  <b>appears</b> होगा.\n  <br>  Correct sentence: \n  <i>Neither the prowection of growth nor the estimation of deficit trends </i> \n  <b> <i>appears</i> </b> \n  <i> to have accounted for…</i> \n  <br>  \n  <b>Grammatical rule used:</b> \n  <b>Agreement with “neither…nor”</b> \n  <br> · If both subwects are singular → \n  <b>singular verb</b> \n  <br> · If one singular + one plural → verb agrees with the \n  <b>nearest subwect</b> \n  <br> · \n  <b>Example:</b> Neither the teacher nor the student \n  <b>is</b> ready. / Neither the students nor the teacher \n  <b>is</b> ready.\n  <br> · \n  <b>Information booster / exceptions:</b> \n  <br> · With “neither…nor,” always check the \n  <b>nearest noun</b> to decide the verb when number differs (proximity rule).\n  <br>  </span><span class=\"hqt\"> Option \n  <b>(2)</b> contains an error.\n  <br>  \n  <b>Detailed explanation of error:</b> The subwect begins with \n  <b>“Neither … nor …”</b> and both noun phrases—\n  <b>the prowection</b> and \n  <b>the estimation</b>—are \n  <b>singular</b>. When \n  <b>neither…nor</b> woins two singular subwects, the verb should also be \n  <b>singular</b>. इसलिए “appear” गलत है; सही verb \n  <b>appears</b> होगा.\n  <br>  Correct sentence: \n  <i>Neither the prowection of growth nor the estimation of deficit trends </i> \n  <b> <i>appears</i> </b> \n  <i> to have accounted for…</i> \n  <br>  \n  <b>Grammatical rule used:</b> \n  <b>Agreement with “neither…nor”</b> \n  <br> · If both subwects are singular → \n  <b>singular verb</b> \n  <br> · If one singular + one plural → verb agrees with the \n  <b>nearest subwect</b> \n  <br> · \n  <b>Example:</b> Neither the teacher nor the student \n  <b>is</b> ready. / Neither the students nor the teacher \n  <b>is</b> ready.\n  <br> · \n  <b>Information booster / exceptions:</b> \n  <br> · With “neither…nor,” always check the \n  <b>nearest noun</b> to decide the verb when number differs (proximity rule).\n  <br>  </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Identify the error in tense and choose the correct form of the verbs in present tense from the following options.\n  <br> Sachin is passing the ball to Vivek. Vivek is moving inside, but Tom won it back for the club.\n  <br></span><span class=\"hqt\">Identify the error in tense and choose the correct form of the verbs in present tense from the following options.\n  <br> Sachin is passing the ball to Vivek. Vivek is moving inside, but Tom won it back for the club.\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">pass the ball, move inside, win it back\n  <br></span><span class=\"hqt\">pass the ball, move inside, win it back\n  <br></span>",
+      "<span class=\"eqt\">passes the ball, moves inside, wins it back\n  <br></span><span class=\"hqt\">passes the ball, moves inside, wins it back\n  <br></span>",
+      "<span class=\"eqt\">was passing the ball, was moving inside, was winning it back\n  <br></span><span class=\"hqt\">was passing the ball, was moving inside, was winning it back\n  <br></span>",
+      "<span class=\"eqt\">has been passing the ball, has been moving inside, has been winning it back\n  <br></span><span class=\"hqt\">has been passing the ball, has been moving inside, has been winning it back\n  <br></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"> The correct option to fill in the blank is (b) \n  <b>passes the ball, moves inside, wins it back</b>.\n  <br> · The sentence is a \n  <b>football commentary</b>, where actions are described in the \n  <b>simple prese11nt tense</b> (also called the “commentary present” or “historic present”) to make them feel immediate and vivid.\n  <br> · Also, the question clearly asks for \n  <b>present tense</b>, so using \n  <b>simple past “won”</b> is incorrect; all verbs must agree in tense and remain in the present.\n  <br>  \n  <b>Explanation (with Hindi help):</b> \n  <br> · \n  <b>passes / moves / wins</b> – These are \n  <b>simple present tense</b> forms used with third person singular subwects (\n  <b>Sachin, Vivek, Tom</b>).\n  <br> · Simple Present (for commentary): किसी क्रिया को अभी घटित होते हुए दिखाने के लिए हम साधारण वर्तमान काल का प्रयोग करते हैं, जैसे कमेंट्री में।\n  <br>  \n  <b>Correct sentence:</b> \n  <br> · \n  <i>Sachin passes the ball to Vivek. Vivek moves inside, but Tom wins it back for the club.</i> \n  <br>  \n  <b>Example (similar rule):</b> \n  <br> · \n  <i>Rohit hits the ball hard, it flies over the boundary, and the crowd erupts in woy.</i> \n  <br> · (All verbs – \n  <b>hits, flies, erupts</b> – are in \n  <b>simple present</b> for live commentary.)\n  <br>  \n  <b>Why other options are incorrect:</b> \n  <br> · \n  <b>(a) pass the ball, move inside, win it back</b> \n  <br> · These are \n  <b>base forms</b>, not correctly inflected for 3rd person singular subwects.\n  <br> · With \n  <b>he/she/it/name</b>, we must use \n  <b>verb + s/es</b> in simple present.\n  <br> · \n  <i>Sachin pass the ball</i> – grammatically wrong.\n  <br> · \n  <b>(c) was passing the ball, was moving inside, was winning it back</b> \n  <br> · This is \n  <b>past continuous tense</b>, not present tense.\n  <br> · It would describe an action happening at a specific time in the past, not present commentary.\n  <br> · Also, in commentary we usually avoid continuous tense for the whole chain of actions.\n  <br> · \n  <b>(d) has been passing the ball, has been moving inside, has been winning it back</b> \n  <br> · This is \n  <b>present perfect continuous tense</b>, showing an action that started in the past and is still continuing.\n  <br> · It sounds unnatural for a single sequence of quick match actions.\n  <br>  \n  <b>Grammatical rule used:</b> \n  <br> · \n  <b>Subwect–Verb Agreement in Simple Present</b> \n  <br> · For \n  <b>he, she, it, singular nouns</b> → \n  <b>Verb + s/es</b> \n  <br> · For \n  <b>I, you, we, they, plural nouns</b> → \n  <b>base verb</b> \n  <br> · Example:\n  <br> · \n  <i>He plays cricket.</i> \n  <br> · \n  <i>They play cricket.</i> \n  <br>  \n  <b>Information booster (sports commentary tense):</b> \n  <br> · In sports commentary, we often describe current actions in \n  <b>simple present</b> instead of present continuous to create excitement and immediacy:\n  <br> · \n  <i>He shoots… he scores!</i> \n  <br> · This is a common exam point in tense questions.\n  <br>  </span><span class=\"hqt\"> The correct option to fill in the blank is (b) \n  <b>passes the ball, moves inside, wins it back</b>.\n  <br> · The sentence is a \n  <b>football commentary</b>, where actions are described in the \n  <b>simple prese11nt tense</b> (also called the “commentary present” or “historic present”) to make them feel immediate and vivid.\n  <br> · Also, the question clearly asks for \n  <b>present tense</b>, so using \n  <b>simple past “won”</b> is incorrect; all verbs must agree in tense and remain in the present.\n  <br>  \n  <b>Explanation (with Hindi help):</b> \n  <br> · \n  <b>passes / moves / wins</b> – These are \n  <b>simple present tense</b> forms used with third person singular subwects (\n  <b>Sachin, Vivek, Tom</b>).\n  <br> · Simple Present (for commentary): किसी क्रिया को अभी घटित होते हुए दिखाने के लिए हम साधारण वर्तमान काल का प्रयोग करते हैं, जैसे कमेंट्री में।\n  <br>  \n  <b>Correct sentence:</b> \n  <br> · \n  <i>Sachin passes the ball to Vivek. Vivek moves inside, but Tom wins it back for the club.</i> \n  <br>  \n  <b>Example (similar rule):</b> \n  <br> · \n  <i>Rohit hits the ball hard, it flies over the boundary, and the crowd erupts in woy.</i> \n  <br> · (All verbs – \n  <b>hits, flies, erupts</b> – are in \n  <b>simple present</b> for live commentary.)\n  <br>  \n  <b>Why other options are incorrect:</b> \n  <br> · \n  <b>(a) pass the ball, move inside, win it back</b> \n  <br> · These are \n  <b>base forms</b>, not correctly inflected for 3rd person singular subwects.\n  <br> · With \n  <b>he/she/it/name</b>, we must use \n  <b>verb + s/es</b> in simple present.\n  <br> · \n  <i>Sachin pass the ball</i> – grammatically wrong.\n  <br> · \n  <b>(c) was passing the ball, was moving inside, was winning it back</b> \n  <br> · This is \n  <b>past continuous tense</b>, not present tense.\n  <br> · It would describe an action happening at a specific time in the past, not present commentary.\n  <br> · Also, in commentary we usually avoid continuous tense for the whole chain of actions.\n  <br> · \n  <b>(d) has been passing the ball, has been moving inside, has been winning it back</b> \n  <br> · This is \n  <b>present perfect continuous tense</b>, showing an action that started in the past and is still continuing.\n  <br> · It sounds unnatural for a single sequence of quick match actions.\n  <br>  \n  <b>Grammatical rule used:</b> \n  <br> · \n  <b>Subwect–Verb Agreement in Simple Present</b> \n  <br> · For \n  <b>he, she, it, singular nouns</b> → \n  <b>Verb + s/es</b> \n  <br> · For \n  <b>I, you, we, they, plural nouns</b> → \n  <b>base verb</b> \n  <br> · Example:\n  <br> · \n  <i>He plays cricket.</i> \n  <br> · \n  <i>They play cricket.</i> \n  <br>  \n  <b>Information booster (sports commentary tense):</b> \n  <br> · In sports commentary, we often describe current actions in \n  <b>simple present</b> instead of present continuous to create excitement and immediacy:\n  <br> · \n  <i>He shoots… he scores!</i> \n  <br> · This is a common exam point in tense questions.\n  <br>  </span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\">Choose the correct passive voice transformation of the sentence:\n  <br> Why do they always make unnecessary complaints over such minor issues?\n  <br></span><span class=\"hqt\">Choose the correct passive voice transformation of the sentence:\n  <br> Why do they always make unnecessary complaints over such minor issues?\n  <br></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\">Why are unnecessary complaints always made over such minor issues by them?\n  <br></span><span class=\"hqt\">Why are unnecessary complaints always made over such minor issues by them?\n  <br></span>",
+      "<span class=\"eqt\">Why were unnecessary complaints always made over such minor issues by them?\n  <br></span><span class=\"hqt\">Why were unnecessary complaints always made over such minor issues by them?\n  <br></span>",
+      "<span class=\"eqt\">Why have unnecessary complaints always been made over such minor issues by them?\n  <br></span><span class=\"hqt\">Why have unnecessary complaints always been made over such minor issues by them?\n  <br></span>",
+      "<span class=\"eqt\">Why do unnecessary complaints always make over such minor issues by them?\n  <br></span><span class=\"hqt\">Why do unnecessary complaints always make over such minor issues by them?\n  <br></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><p>The correct option is (a).</p>\n<p><b>Step-by-step explanation:</b></p>\n<ul>\n  <li>The given sentence is in <b>Simple Present</b> and is interrogative: <b>Why do they make...?</b></li>\n  <li>To form passive in Simple Present, we use: <b>am/is/are + V3</b>.</li>\n  <li>The obwect in the active sentence is <b>unnecessary complaints</b>, which is plural, so the passive auxiliary must be <b>are</b>.</li>\n  <li>The verb <b>make</b> changes to its past participle <b>made</b>.</li>\n  <li>The interrogative word <b>Why</b> remains at the beginning, followed by the passive auxiliary: <b>Why are...</b></li>\n</ul>\n<p><b>Structure:</b></p>\n<ul>\n  <li><b>Active:</b> Why + do/does + Subwect + V1 + Obwect?</li>\n  <li><b>Passive:</b> Why + am/is/are + Obwect + V3 + (by + Subwect)?</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>Option (B)</b> uses <b>were</b> (Simple Past), which changes the tense.</li>\n  <li><b>Option (C)</b> uses <b>have been made</b> (Present Perfect Passive), which is not the tense of the given sentence.</li>\n  <li><b>Option (D)</b> is grammatically incorrect because after passive conversion we need <b>made</b>, and the structure “do ... make over” is wrong.</li>\n</ul>\n<p>So the correct answer is (a)</p></span><span class=\"hqt\"><p>The correct option is (a).</p>\n<p><b>Step-by-step explanation:</b></p>\n<ul>\n  <li>The given sentence is in <b>Simple Present</b> and is interrogative: <b>Why do they make...?</b></li>\n  <li>To form passive in Simple Present, we use: <b>am/is/are + V3</b>.</li>\n  <li>The obwect in the active sentence is <b>unnecessary complaints</b>, which is plural, so the passive auxiliary must be <b>are</b>.</li>\n  <li>The verb <b>make</b> changes to its past participle <b>made</b>.</li>\n  <li>The interrogative word <b>Why</b> remains at the beginning, followed by the passive auxiliary: <b>Why are...</b></li>\n</ul>\n<p><b>Structure:</b></p>\n<ul>\n  <li><b>Active:</b> Why + do/does + Subwect + V1 + Obwect?</li>\n  <li><b>Passive:</b> Why + am/is/are + Obwect + V3 + (by + Subwect)?</li>\n</ul>\n<p><b>Why other options are incorrect:</b></p>\n<ul>\n  <li><b>Option (B)</b> uses <b>were</b> (Simple Past), which changes the tense.</li>\n  <li><b>Option (C)</b> uses <b>have been made</b> (Present Perfect Passive), which is not the tense of the given sentence.</li>\n  <li><b>Option (D)</b> is grammatically incorrect because after passive conversion we need <b>made</b>, and the structure “do ... make over” is wrong.</li>\n</ul>\n<p>So the correct answer is (a)</p></span>",
+    "marks": 2.0,
+    "section": "English ",
+    "series_name": ""
+  }
+];
+        const sectionsData = null;
+        const marksPerQ = 2.0;
+        const negMarks = 0.5;
+        const totalDuration = 15;
+        
+        class CBTExam {
+            constructor() {
+                this.questions = questions;
+                this.sections = sectionsData;
+                this.currentQuestion = 0;
+                this.answers = new Array(this.questions.length).fill(null);
+                this.markedForReview = new Array(this.questions.length).fill(false);
+                this.timeSpent = new Array(this.questions.length).fill(0);
+                this.isEnglish = true;
+                this.isSubmitted = false;
+                this.startTime = null;
+                this.lastQuestionTime = null;
+                this.mainTimer = null;
+                this.sectionTimer = null;
+                this.currentSection = this.sections ? 0 : null;
+                this.totalTimeLeft = totalDuration * 60;
+                
+                this.initElements();
+                this.setupWelcomeScreen();
+                this.setupBeforeUnload();
+            }
+            
+            initElements() {
+                this.els = {
+                    fullscreenBtn: document.getElementById('fullscreenBtn'),
+                    welcomeScreen: document.getElementById('welcomeScreen'),
+                    examContainer: document.getElementById('examContainer'),
+                    mainTimer: document.getElementById('mainTimer'),
+                    sectionBadge: document.getElementById('sectionBadge'),
+                    sectionName: document.getElementById('sectionName'),
+                    sectionTimer: document.getElementById('sectionTimer'),
+                    questionNum: document.getElementById('questionNum'),
+                    questionMarks: document.getElementById('questionMarks'),
+                    questionText: document.getElementById('questionText'),
+                    comprehension: document.getElementById('comprehension'),
+                    comprehensionText: document.getElementById('comprehensionText'),
+                    optionsList: document.getElementById('optionsList'),
+                    solutionBox: document.getElementById('solutionBox'),
+                    solutionStats: document.getElementById('solutionStats'),
+                    solutionText: document.getElementById('solutionText'),
+                    progressText: document.getElementById('progressText'),
+                    answeredCount: document.getElementById('answeredCount'),
+                    desktopNav: document.getElementById('desktopNav'),
+                    mobileNav: document.getElementById('mobileNav'),
+                    mobileNavGrid: document.getElementById('mobileNavGrid'),
+                    resultModal: document.getElementById('resultModal'),
+                    resultScore: document.getElementById('resultScore'),
+                    correctCount: document.getElementById('correctCount'),
+                    incorrectCount: document.getElementById('incorrectCount'),
+                    unattemptedCount: document.getElementById('unattemptedCount'),
+                    timeTaken: document.getElementById('timeTaken'),
+                    sectionResults: document.getElementById('sectionResults'),
+                    sectionResultsBody: document.getElementById('sectionResultsBody')
+                };
+            }
+            
+            setupWelcomeScreen() {
+                if (this.els.fullscreenBtn) {
+                    this.els.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+                document.addEventListener('fullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('webkitfullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('msfullscreenchange', () => this.updateFullscreenIcon());
+
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.els.welcomeScreen.classList.add('hidden');
+                    this.els.examContainer.classList.add('active');
+                    setTimeout(() => this.startExam(), 100);
+                });
+            }
+            
+            setupBeforeUnload() {
+                window.addEventListener('beforeunload', (e) => {
+                    if (!this.isSubmitted) {
+                        e.preventDefault();
+                        e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
+                        return e.returnValue;
+                    }
+                });
+            }
+            
+            startExam() {
+                this.startTime = Date.now();
+                this.lastQuestionTime = this.startTime;
+                this.createNavigator();
+                this.startMainTimer();
+                if (this.sections) {
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                }
+                this.loadQuestion(0);
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('engBtn').onclick = () => this.setLanguage(true);
+                document.getElementById('hinBtn').onclick = () => this.setLanguage(false);
+                document.getElementById('prevBtn').onclick = () => this.navigate(-1);
+                document.getElementById('nextBtn').onclick = () => this.navigate(1);
+                document.getElementById('reviewBtn').onclick = () => this.toggleReview();
+                document.getElementById('submitBtn').onclick = () => this.confirmSubmit();
+                document.getElementById('submitBtnDesktop').onclick = () => this.confirmSubmit();
+                document.getElementById('navigatorBtn').onclick = () => this.openMobileNav();
+                document.getElementById('closeNav').onclick = () => this.closeMobileNav();
+                document.getElementById('closeResult').onclick = () => this.closeResultModal();
+                document.getElementById('reviewAnswers').onclick = () => this.reviewAnswers();
+            }
+            
+            createNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    container.innerHTML = '';
+                    this.questions.forEach((_, i) => {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-question';
+                        btn.textContent = i + 1;
+                        btn.onclick = () => this.goToQuestion(i);
+                        container.appendChild(btn);
+                    });
+                });
+            }
+            
+            extractText(html, isEng) {
+                if (!html) return '';
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                
+                const langSpans = temp.querySelectorAll('span.eqt, span.hqt');
+                langSpans.forEach(span => {
+                    if ((isEng && span.classList.contains('hqt')) || 
+                        (!isEng && span.classList.contains('eqt'))) {
+                        span.style.display = 'none';
+                    } else {
+                        span.style.display = '';
+                    }
+                });
+                
+                return temp.innerHTML;
+            }
+            
+            getQuestionMarks(qIdx) {
+                if (!this.sections) return marksPerQ;
+                
+                for (const section of this.sections) {
+                    if (qIdx >= section.start && qIdx <= section.end) {
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                if (qIdx >= subsec.start && qIdx <= subsec.end) {
+                                    return subsec.marks_per_q;
+                                }
+                            }
+                        }
+                        return marksPerQ;
+                    }
+                }
+                return marksPerQ;
+            }
+            
+            loadQuestion(idx) {
+                if (this.currentQuestion !== idx) {
+                    const now = Date.now();
+                    this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                    this.lastQuestionTime = now;
+                }
+                
+                this.currentQuestion = idx;
+                const q = this.questions[idx];
+                const qMarks = this.getQuestionMarks(idx);
+                
+                this.els.questionNum.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.els.questionMarks.textContent = `Marks: ${qMarks}`;
+                this.els.progressText.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.updateAnsweredCount();
+                this.updateNavigator();
+                this.updateNavigationButtons();
+                this.updateReviewButton();
+                
+                if (q.comp) {
+                    this.els.comprehension.style.display = 'block';
+                    this.els.comprehensionText.innerHTML = this.extractText(q.comp, this.isEnglish);
+                } else {
+                    this.els.comprehension.style.display = 'none';
+                }
+                
+                this.els.questionText.innerHTML = this.extractText(q.question, this.isEnglish);
+                this.loadOptions(q, idx);
+                
+                if (this.isSubmitted && q.solution) {
+                    const timeSpent = Math.round(this.timeSpent[idx]);
+                    const mins = Math.floor(timeSpent / 60);
+                    const secs = timeSpent % 60;
+                    const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                    
+                    this.els.solutionStats.innerHTML = `
+                        <span><i class="fas fa-clock"></i> Time: ${timeStr}</span>
+                        <span><i class="fas fa-check-circle"></i> Correct: ${String.fromCharCode(65 + q.correct_option_id)}</span>
+                    `;
+                    this.els.solutionText.innerHTML = this.extractText(q.solution, this.isEnglish);
+                    this.els.solutionBox.classList.add('show');
+                } else {
+                    this.els.solutionBox.classList.remove('show');
+                }
+                
+                // Render LaTeX in all updated elements
+                renderMath(this.els.questionText);
+                renderMath(this.els.comprehensionText);
+                renderMath(this.els.solutionText);
+            }
+            
+            loadOptions(q, qIdx) {
+                this.els.optionsList.innerHTML = '';
+                const userAnswer = this.answers[qIdx];
+                const correctAnswer = q.correct_option_id;
+                
+                if (!q.options || !Array.isArray(q.options)) return;
+                
+                q.options.forEach((opt, i) => {
+                    const div = document.createElement('div');
+                    let className = 'option';
+                    
+                    if (this.isSubmitted) className += ' submitted';
+                    if (userAnswer === i) className += ' selected';
+                    
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            className += ' correct';
+                        } else if (userAnswer === i && userAnswer !== correctAnswer) {
+                            className += ' wrong';
+                        }
+                    }
+                    
+                    div.className = className;
+                    
+                    let indicator = '';
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            indicator = '✓';
+                        } else if (userAnswer === i) {
+                            indicator = '✗';
+                        }
+                    } else if (userAnswer === i) {
+                        indicator = '✓';
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="option-indicator">${indicator}</div>
+                        <div class="option-text">${this.extractText(opt, this.isEnglish)}</div>
+                    `;
+                    
+                    if (!this.isSubmitted) {
+                        div.onclick = () => this.selectOption(i, qIdx);
+                    }
+                    
+                    this.els.optionsList.appendChild(div);
+                });
+                // Render LaTeX in options
+                renderMath(this.els.optionsList);
+            }
+            
+            selectOption(optIdx, qIdx) {
+                if (this.isSubmitted) return;
+                this.answers[qIdx] = this.answers[qIdx] === optIdx ? null : optIdx;
+                this.loadOptions(this.questions[qIdx], qIdx);
+                this.updateAnsweredCount();
+                this.updateNavigator();
+            }
+            
+            toggleReview() {
+                if (this.isSubmitted) return;
+                this.markedForReview[this.currentQuestion] = !this.markedForReview[this.currentQuestion];
+                this.updateNavigator();
+                this.updateReviewButton();
+            }
+            
+            updateReviewButton() {
+                const btn = document.getElementById('reviewBtn');
+                if (this.markedForReview[this.currentQuestion]) {
+                    btn.classList.add('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Marked';
+                } else {
+                    btn.classList.remove('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Mark for Review';
+                }
+            }
+            
+            navigate(dir) {
+                const newIdx = this.currentQuestion + dir;
+                
+                if (this.isSubmitted) {
+                    if (newIdx >= 0 && newIdx < this.questions.length) {
+                        this.loadQuestion(newIdx);
+                    }
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (newIdx < currentSection.start || newIdx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                if (newIdx >= 0 && newIdx < this.questions.length) {
+                    this.loadQuestion(newIdx);
+                }
+            }
+            
+            goToQuestion(idx) {
+                if (this.isSubmitted) {
+                    this.loadQuestion(idx);
+                    this.closeMobileNav();
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (idx < currentSection.start || idx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                this.loadQuestion(idx);
+                this.closeMobileNav();
+            }
+            
+            updateNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    const btns = container.querySelectorAll('.nav-question');
+                    btns.forEach((btn, i) => {
+                        btn.className = 'nav-question';
+                        
+                        if (i === this.currentQuestion) {
+                            btn.classList.add('current');
+                        } else if (this.isSubmitted) {
+                            if (this.answers[i] !== null && this.questions[i].correct_option_id !== undefined) {
+                                if (this.answers[i] === this.questions[i].correct_option_id) {
+                                    btn.classList.add('answered');
+                                } else {
+                                    btn.classList.add('wrong');
+                                }
+                            }
+                        } else {
+                            if (this.markedForReview[i]) {
+                                btn.classList.add('review');
+                            } else if (this.answers[i] !== null) {
+                                btn.classList.add('answered');
+                            }
+                            
+                            if (this.sections) {
+                                const currentSection = this.sections[this.currentSection];
+                                if (i < currentSection.start || i > currentSection.end) {
+                                    btn.classList.add('disabled');
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const reviewBtn = document.getElementById('reviewBtn');
+                
+                prevBtn.disabled = this.currentQuestion === 0;
+                nextBtn.disabled = this.currentQuestion === this.questions.length - 1;
+                
+                if (this.isSubmitted) {
+                    reviewBtn.style.display = 'none';
+                } else {
+                    reviewBtn.style.display = 'inline-flex';
+                }
+                
+                if (this.sections && !this.isSubmitted) {
+                    const currentSection = this.sections[this.currentSection];
+                    prevBtn.disabled = prevBtn.disabled || (this.currentQuestion === currentSection.start);
+                    nextBtn.disabled = nextBtn.disabled || (this.currentQuestion === currentSection.end);
+                }
+            }
+            
+            updateAnsweredCount() {
+                const count = this.answers.filter(a => a !== null).length;
+                this.els.answeredCount.textContent = count;
+            }
+            
+            setLanguage(isEng) {
+                this.isEnglish = isEng;
+                document.getElementById('engBtn').classList.toggle('active', isEng);
+                document.getElementById('hinBtn').classList.toggle('active', !isEng);
+                this.loadQuestion(this.currentQuestion);
+            }
+            
+            startMainTimer() {
+                this.mainTimer = setInterval(() => {
+                    this.totalTimeLeft--;
+                    if (this.totalTimeLeft <= 0) {
+                        clearInterval(this.mainTimer);
+                        this.submitTest();
+                        return;
+                    }
+                    const mins = Math.floor(this.totalTimeLeft / 60);
+                    const secs = this.totalTimeLeft % 60;
+                    this.els.mainTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+            
+            startSectionTimer() {
+                if (!this.sections) return;
+                
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                const section = this.sections[this.currentSection];
+                section.time_left = section.timer;
+                
+                this.sectionTimer = setInterval(() => {
+                    section.time_left--;
+                    const mins = Math.floor(section.time_left / 60);
+                    const secs = section.time_left % 60;
+                    this.els.sectionTimer.textContent = ` | ${mins}:${secs.toString().padStart(2, '0')}`;
+                    
+                    if (section.time_left <= 0) {
+                        clearInterval(this.sectionTimer);
+                        this.submitSection();
+                    }
+                }, 1000);
+            }
+            
+            updateSectionInfo() {
+                if (!this.sections) return;
+                const section = this.sections[this.currentSection];
+                this.els.sectionName.textContent = section.name;
+                this.els.sectionBadge.style.display = 'block';
+            }
+            
+            submitSection() {
+                if (!this.sections) return;
+                
+                const section = this.sections[this.currentSection];
+                section.submitted = true;
+                clearInterval(this.sectionTimer);
+                
+                const nextSectionIdx = this.currentSection + 1;
+                if (nextSectionIdx < this.sections.length) {
+                    this.currentSection = nextSectionIdx;
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                    this.loadQuestion(this.sections[nextSectionIdx].start);
+                } else {
+                    this.submitTest();
+                }
+                
+                this.updateNavigator();
+            }
+            
+            confirmSubmit() {
+                if (this.sections) {
+                    const section = this.sections[this.currentSection];
+                    const unanswered = this.answers.slice(section.start, section.end + 1)
+                        .filter(a => a === null).length;
+                    
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions in this section. Submit anyway?`
+                        : 'Submit this section?';
+                    
+                    if (confirm(msg)) this.submitSection();
+                } else {
+                    const unanswered = this.answers.filter(a => a === null).length;
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions. Submit test?`
+                        : 'Submit test?';
+                    
+                    if (confirm(msg)) this.submitTest();
+                }
+            }
+            
+            submitTest() {
+                if (this.isSubmitted) return;
+                
+                const now = Date.now();
+                this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                
+                this.isSubmitted = true;
+                clearInterval(this.mainTimer);
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('submitBtnDesktop').style.display = 'none';
+                document.getElementById('reviewBtn').style.display = 'none';
+                
+                if (this.sections) {
+                    this.els.sectionBadge.style.display = 'none';
+                }
+                
+                const results = this.calculateResults();
+                this.showResults(results);
+                this.loadQuestion(this.currentQuestion);
+                this.updateNavigator();
+            }
+            
+            calculateResults() {
+                const timeTaken = Math.round((Date.now() - this.startTime) / 60000);
+                let correct = 0, incorrect = 0, unattempted = 0, score = 0;
+                
+                const sectionResults = [];
+                
+                if (this.sections) {
+                    for (const section of this.sections) {
+                        let secCorrect = 0, secIncorrect = 0, secUnattempted = 0, secScore = 0;
+                        const subsecResults = [];
+                        
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                let subCorrect = 0, subIncorrect = 0, subUnattempted = 0, subScore = 0;
+                                
+                                for (let i = subsec.start; i <= subsec.end; i++) {
+                                    const userAns = this.answers[i];
+                                    const correctAns = this.questions[i].correct_option_id;
+                                    
+                                    if (userAns === null) {
+                                        subUnattempted++;
+                                    } else if (correctAns !== undefined && userAns === correctAns) {
+                                        subCorrect++;
+                                        subScore += subsec.marks_per_q;
+                                    } else {
+                                        subIncorrect++;
+                                        subScore -= negMarks;
+                                    }
+                                }
+                                
+                                subsecResults.push({
+                                    name: subsec.name,
+                                    attempted: subCorrect + subIncorrect,
+                                    correct: subCorrect,
+                                    incorrect: subIncorrect,
+                                    unattempted: subUnattempted,
+                                    score: Math.max(0, subScore)
+                                });
+                                
+                                secCorrect += subCorrect;
+                                secIncorrect += subIncorrect;
+                                secUnattempted += subUnattempted;
+                                secScore += subScore;
+                            }
+                        } else {
+                            for (let i = section.start; i <= section.end; i++) {
+                                const userAns = this.answers[i];
+                                const correctAns = this.questions[i].correct_option_id;
+                                
+                                if (userAns === null) {
+                                    secUnattempted++;
+                                } else if (correctAns !== undefined && userAns === correctAns) {
+                                    secCorrect++;
+                                    secScore += marksPerQ;
+                                } else {
+                                    secIncorrect++;
+                                    secScore -= negMarks;
+                                }
+                            }
+                        }
+                        
+                        sectionResults.push({
+                            name: section.name,
+                            attempted: secCorrect + secIncorrect,
+                            correct: secCorrect,
+                            incorrect: secIncorrect,
+                            unattempted: secUnattempted,
+                            score: Math.max(0, secScore),
+                            subsections: subsecResults.length > 0 ? subsecResults : null
+                        });
+                        
+                        correct += secCorrect;
+                        incorrect += secIncorrect;
+                        unattempted += secUnattempted;
+                        score += secScore;
+                    }
+                } else {
+                    this.questions.forEach((q, i) => {
+                        const userAns = this.answers[i];
+                        const correctAns = q.correct_option_id;
+                        
+                        if (userAns === null) {
+                            unattempted++;
+                        } else if (correctAns !== undefined && userAns === correctAns) {
+                            correct++;
+                            score += marksPerQ;
+                        } else {
+                            incorrect++;
+                            score -= negMarks;
+                        }
+                    });
+                }
+                
+                return {
+                    score: Math.max(0, score),
+                    correct,
+                    incorrect,
+                    unattempted,
+                    timeTaken,
+                    sectionResults: sectionResults.length > 0 ? sectionResults : null
+                };
+            }
+            
+            showResults(results) {
+                this.els.resultScore.textContent = `${results.score.toFixed(2)}/${this.questions.length * marksPerQ}`;
+                this.els.correctCount.textContent = results.correct;
+                this.els.incorrectCount.textContent = results.incorrect;
+                this.els.unattemptedCount.textContent = results.unattempted;
+                this.els.timeTaken.textContent = results.timeTaken;
+                
+                if (results.sectionResults) {
+                    this.els.sectionResults.style.display = 'block';
+                    this.els.sectionResultsBody.innerHTML = '';
+                    
+                    results.sectionResults.forEach(section => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${section.name}</strong></td>
+                            <td>${section.attempted}</td>
+                            <td>${section.correct}</td>
+                            <td>${section.incorrect}</td>
+                            <td><strong>${section.score.toFixed(2)}</strong></td>
+                        `;
+                        this.els.sectionResultsBody.appendChild(row);
+                        
+                        if (section.subsections) {
+                            section.subsections.forEach(subsec => {
+                                const subRow = document.createElement('tr');
+                                subRow.className = 'subsection-row';
+                                subRow.innerHTML = `
+                                    <td>${subsec.name}</td>
+                                    <td>${subsec.attempted}</td>
+                                    <td>${subsec.correct}</td>
+                                    <td>${subsec.incorrect}</td>
+                                    <td>${subsec.score.toFixed(2)}</td>
+                                `;
+                                this.els.sectionResultsBody.appendChild(subRow);
+                            });
+                        }
+                    });
+                } else {
+                    this.els.sectionResults.style.display = 'none';
+                }
+                
+                this.els.resultModal.classList.add('show');
+            }
+            
+            closeResultModal() {
+                this.els.resultModal.classList.remove('show');
+            }
+            
+            reviewAnswers() {
+                this.closeResultModal();
+                this.loadQuestion(0);
+            }
+            
+            openMobileNav() {
+                this.els.mobileNav.classList.add('open');
+            }
+            
+            closeMobileNav() {
+                this.els.mobileNav.classList.remove('open');
+            }
+        
+            toggleFullscreen() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) docEl.requestFullscreen();
+                    else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                    else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    else if (document.msExitFullscreen) document.msExitFullscreen();
+                }
+            }
+            
+            updateFullscreenIcon() {
+                const icon = document.querySelector('#fullscreenBtn i');
+                if (icon) {
+                    const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                    if (isFS) {
+                        icon.className = 'fas fa-compress';
+                    } else {
+                        icon.className = 'fas fa-expand';
+                    }
+                }
+            }
+}
+        
+        // ── KaTeX auto-render helper ──────────────────────────────────────
+        // Renders any LaTeX found in an element after innerHTML is set.
+        // Handles: \(...\)  \[...\]  $...$  $$...$$
+        function renderMath(el) {
+            if (!el || typeof renderMathInElement === 'undefined') return;
+            try {
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$',  right: '$$',  display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$',   right: '$',   display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                    ],
+                    throwOnError: false,
+                    strict: false,
+                });
+            } catch(e) {}
+        }
+
+        // Initialize the exam
+        document.addEventListener('DOMContentLoaded', () => {
+            new CBTExam();
+        });
+    </script>
+</body>
+</html>

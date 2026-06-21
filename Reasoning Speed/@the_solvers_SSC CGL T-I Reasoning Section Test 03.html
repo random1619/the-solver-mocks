@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Exam - adda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+@charset "UTF-8";
+:root {
+  --primary: #f59e0b;
+  --primary-hover: #d97706;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --header-bg: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+/* Welcome Screen Styles */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.05) 0%, rgb(248, 250, 252) 100%);
+  z-index: 1000;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+.welcome-screen.hidden {
+  display: none;
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  margin: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.welcome-header {
+  text-align: center;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border);
+}
+.welcome-header h1 {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.025em;
+}
+.welcome-header h1 i {
+  font-size: 28px;
+}
+.welcome-header p {
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.test-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.test-details .detail-item {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.test-details .detail-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+.test-details .detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.test-details .detail-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-info {
+  margin-bottom: 30px;
+}
+.section-info h3 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-table th, .section-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-table tr:last-child td {
+  border-bottom: none;
+}
+
+.subsec-container {
+  margin-top: 10px;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.subsec-row {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.subsec-row::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.welcome-instructions {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05);
+}
+.welcome-instructions h3 {
+  color: #b45309;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.welcome-instructions ul {
+  padding-left: 20px;
+}
+.welcome-instructions li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.start-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 16px 44px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.start-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+.start-btn:active {
+  transform: translateY(0);
+}
+
+.channel-link {
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.channel-link:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+/* CBT Exam Interface */
+.exam-container {
+  display: none;
+  height: 100vh;
+  flex-direction: column;
+  background: #f1f5f9;
+}
+.exam-container.active {
+  display: flex;
+}
+
+/* Top Header */
+.exam-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.exam-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exam-timer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fullscreen-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fullscreen-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+.fullscreen-btn:active {
+  transform: translateY(0);
+}
+
+/* Candidate Info Bar */
+.candidate-bar {
+  background: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.candidate-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.candidate-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-light);
+  border: 2px solid var(--border);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.candidate-details {
+  display: flex;
+  flex-direction: column;
+}
+.candidate-details .candidate-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+.candidate-details .candidate-id {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.section-badge {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Main Content Area */
+.exam-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Question Area */
+.question-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+.question-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.question-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-number {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.question-marks {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.lang-btn {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-btn.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.comprehension {
+  background: #f0fdf4;
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+.comprehension h4 {
+  color: var(--success-hover);
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.question-text {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 18px 24px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+  font-weight: 500;
+}
+.option:hover:not(.submitted) {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+.option.correct {
+  border-color: var(--success);
+  background: var(--success-light);
+  color: var(--success-hover);
+  font-weight: 600;
+}
+.option.wrong {
+  border-color: var(--danger);
+  background: var(--danger-light);
+  color: var(--danger-hover);
+  font-weight: 600;
+}
+
+.option-indicator {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  margin-right: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option.selected .option-indicator {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
+.option.correct .option-indicator {
+  border-color: var(--success);
+  background: var(--success);
+  color: white;
+}
+
+.option.wrong .option-indicator {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+.solution-box {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: 12px;
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.solution-box.show {
+  display: block;
+}
+
+.solution-header {
+  color: var(--success-hover);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.solution-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 10px;
+}
+
+/* Navigation Controls - Bottom Bar */
+.navigation-bar {
+  background: white;
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-prev {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-prev:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.btn-next {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+.btn-next:hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-review {
+  background: var(--warning);
+  color: white;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+}
+.btn-review:hover:not(:disabled) {
+  background: var(--warning-hover);
+}
+.btn-review.marked {
+  background: var(--warning-dark);
+}
+
+.btn-submit {
+  background: var(--success);
+  color: white;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--success-hover);
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Question Navigator Sidebar */
+.navigator-sidebar {
+  width: 320px;
+  background: white;
+  border-left: 1px solid var(--border);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.navigator-header {
+  padding: 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.navigator-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nav-question {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-question:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.nav-question.current {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+.nav-question.answered {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.nav-question.review {
+  background: var(--warning);
+  color: white;
+  border-color: var(--warning);
+}
+.nav-question.wrong {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+.nav-question.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navigator-legend {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  flex-shrink: 0;
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Mobile Navigator Panel */
+.mobile-navigator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+.mobile-navigator.open {
+  transform: translateY(0);
+}
+
+.mobile-nav-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.close-nav {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Result Modal */
+.result-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  overflow-y: auto;
+  animation: fadeIn 0.4s ease-out;
+}
+.result-modal.show {
+  display: flex;
+}
+
+.result-container {
+  background: white;
+  border-radius: 18px;
+  padding: 40px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+.result-header h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.result-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--success);
+  letter-spacing: -0.025em;
+  background: var(--success-light);
+  display: inline-block;
+  padding: 8px 30px;
+  border-radius: 40px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.result-stat {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.result-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
+}
+
+.result-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.result-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-stat.correct .result-stat-value {
+  color: var(--success);
+}
+
+.result-stat.incorrect .result-stat-value {
+  color: var(--danger);
+}
+
+.section-results {
+  margin-bottom: 35px;
+}
+.section-results h3 {
+  color: var(--text);
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.section-results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.section-results-table th, .section-results-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.section-results-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text);
+}
+.section-results-table tr:last-child td {
+  border-bottom: none;
+}
+.section-results-table .subsection-row {
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-results-table .subsection-row td:first-child {
+  padding-left: 36px;
+  position: relative;
+}
+.section-results-table .subsection-row td:first-child::before {
+  content: "└";
+  position: absolute;
+  left: 20px;
+  color: var(--text-light);
+}
+
+.result-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-btn {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-close {
+  background: #f1f5f9;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-close:hover {
+  background: #e2e8f0;
+}
+
+.btn-review-ans {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+.btn-review-ans:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) {
+  .navigator-sidebar {
+    display: flex;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none;
+  }
+  .navigation-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .question-scroll {
+    padding: 16px;
+  }
+  .question-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 640px) {
+  .welcome-container {
+    padding: 24px;
+  }
+  .exam-header {
+    padding: 12px 16px;
+  }
+  .exam-title {
+    font-size: 15px;
+  }
+  .timer-box {
+    padding: 8px 14px;
+    font-size: 15px;
+  }
+  .candidate-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+  .nav-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  .navigator-grid {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 16px;
+    gap: 10px;
+  }
+  .result-container {
+    padding: 24px 16px;
+  }
+  .result-score {
+    font-size: 36px;
+  }
+  .result-grid {
+    gap: 12px;
+  }
+  .section-results-table {
+    font-size: 12px;
+  }
+  .section-results-table th, .section-results-table td {
+    padding: 10px;
+  }
+  .result-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .result-actions .result-btn {
+    width: 100%;
+  }
+}
+/* Print Styles */
+@media print {
+  .exam-header,
+  .candidate-bar,
+  .navigation-bar,
+  .navigator-sidebar,
+  .mobile-navigator,
+  .result-modal {
+    display: none !important;
+  }
+  .question-scroll {
+    padding: 0;
+  }
+  .question-card {
+    page-break-inside: avoid;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+    box-shadow: none !important;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table, th, td {
+  border: 1px solid var(--border);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+</style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <h1><i class="fas fa-graduation-cap"></i> adda</h1>
+                <p>Computer Based Test</p>
+            </div>
+            
+            <div class="test-details">
+                <div class="detail-item">
+                    <div class="detail-label">Test ID</div>
+                    <div class="detail-value">0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Questions</div>
+                    <div class="detail-value">25</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Total Marks</div>
+                    <div class="detail-value">50.0</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Duration</div>
+                    <div class="detail-value">15 mins</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Marking Scheme</div>
+                    <div class="detail-value">+2.0 / -0.5</div>
+                </div>
+            </div>
+            
+            
+        <div class="welcome-instructions">
+            <h3>Instructions</h3>
+            <ul>
+                <li>Read each question carefully before answering</li>
+                <li>You can mark questions for review and come back later</li>
+                <li>The timer will automatically submit the test when time is up</li>
+                <li>Negative marking applies for wrong answers</li>
+            </ul>
+        </div>
+        
+            
+            <div class="welcome-actions">
+                <button class="start-btn" id="startBtn">
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+                <a href="https://t.me/mocks_wallah_again" target="_blank" class="channel-link">
+                    <i class="fab fa-telegram"></i> Join Channel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Exam Interface -->
+    <div class="exam-container" id="examContainer">
+        <!-- Top Header -->
+        <div class="exam-header">
+            <div class="exam-title">adda</div>
+            <div class="exam-timer">
+                <button class="fullscreen-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="timer-box" id="mainTimer">15:00</div>
+                <button class="nav-btn btn-submit mobile-only" id="submitBtn">Submit</button>
+            </div>
+        </div>
+        
+        <!-- Candidate Info Bar -->
+        <div class="candidate-bar">
+            <div class="candidate-info">
+                <div class="candidate-photo">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="candidate-details">
+                    <div class="candidate-name">Candidate</div>
+                    <div class="candidate-id">Test ID: 0</div>
+                </div>
+            </div>
+            <div class="section-badge" id="sectionBadge">
+                <span id="sectionName"></span>
+                <span id="sectionTimer"></span>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="exam-main">
+            <!-- Question Area -->
+            <div class="question-area">
+                <div class="question-scroll">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div>
+                                <div class="question-number" id="questionNum">Question 1 of 25</div>
+                                <div class="question-marks" id="questionMarks">Marks: 2.0</div>
+                            </div>
+                            <div class="lang-toggle">
+                                <button class="lang-btn active" id="engBtn">English</button>
+                                <button class="lang-btn" id="hinBtn">हिंदी</button>
+                            </div>
+                        </div>
+                        
+                        <div class="comprehension" id="comprehension" style="display:none;">
+                            <h4><i class="fas fa-book-open"></i> Comprehension</h4>
+                            <div id="comprehensionText"></div>
+                        </div>
+                        
+                        <div class="question-text" id="questionText"></div>
+                        
+                        <div class="options-list" id="optionsList"></div>
+                        
+                        <div class="solution-box" id="solutionBox">
+                            <div class="solution-header">
+                                <i class="fas fa-lightbulb"></i> Solution
+                            </div>
+                            <div class="solution-stats" id="solutionStats"></div>
+                            <div id="solutionText"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Bar inside Question Area -->
+                <div class="navigation-bar">
+                    <button class="nav-btn btn-prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <div class="progress-info">
+                        <div id="progressText">Question 1 of 25</div>
+                        <div style="font-size:11px;margin-top:4px">
+                            Answered: <span id="answeredCount">0</span> | 
+                            <a href="https://t.me/mocks_wallah_again" style="color:var(--primary)">Mocks Wallah</a>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn btn-review" id="reviewBtn">
+                        <i class="fas fa-flag"></i>
+                    </button>
+                    
+                    <button class="nav-btn mobile-only" id="navigatorBtn">
+                        <i class="fas fa-th"></i> Questions
+                    </button>
+                    
+                    <button class="nav-btn btn-submit desktop-only" id="submitBtnDesktop">Submit</button>
+                    
+                    <button class="nav-btn btn-next" id="nextBtn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigator Sidebar -->
+            <div class="navigator-sidebar desktop-only">
+                <div class="navigator-header">Question Navigator</div>
+                <div class="navigator-grid" id="desktopNav"></div>
+                <div class="navigator-legend">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--success)"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--warning)"></div>
+                        <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:var(--danger)"></div>
+                        <span>Incorrect</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigator Panel -->
+    <div class="mobile-navigator" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h3>Question Navigator</h3>
+            <button class="close-nav" id="closeNav">&times;</button>
+        </div>
+        <div class="navigator-grid" id="mobileNavGrid"></div>
+        <div class="navigator-legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--success)"></div>
+                <span>Answered</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--warning)"></div>
+                <span>Marked for Review</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:var(--danger)"></div>
+                <span>Incorrect</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background:white;border:2px solid var(--border)"></div>
+                <span>Not Visited</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-container">
+            <div class="result-header">
+                <h2>Test Completed!</h2>
+                <div class="result-score" id="resultScore">0/50.0</div>
+            </div>
+            
+            <div class="result-grid">
+                <div class="result-stat correct">
+                    <div class="result-stat-value" id="correctCount">0</div>
+                    <div class="result-stat-label">Correct</div>
+                </div>
+                <div class="result-stat incorrect">
+                    <div class="result-stat-value" id="incorrectCount">0</div>
+                    <div class="result-stat-label">Incorrect</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="unattemptedCount">0</div>
+                    <div class="result-stat-label">Unattempted</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="timeTaken">0</div>
+                    <div class="result-stat-label">Minutes</div>
+                </div>
+            </div>
+            
+            <div class="section-results" id="sectionResults" style="display:none;">
+                <h3>Section-wise Performance</h3>
+                <table class="section-results-table" id="sectionResultsTable">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Attempted</th>
+                            <th>Correct</th>
+                            <th>Wrong</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectionResultsBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="result-actions">
+                <button class="result-btn btn-close" id="closeResult">Close</button>
+                <button class="result-btn btn-review-ans" id="reviewAnswers">Review Answers</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+  {
+    "question": "<span class=\"eqt\"><div>Apply the same pattern used in the following group and find the correct option.</div><div> </div><div>NUMBER : ERBMUN :: SCHOOL : ?</div></span><span class=\"hqt\"><div>निम्नलिखित समूह में प्रयुक्त समान पैटर्न को लागू करें और सही विकल्प ज्ञात करें।</div><div> </div><div>NUMBER : ERBMUN :: SCHOOL : ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>LHCOSO</p></span><span class=\"hqt\"><p>LHCOSO</p></span>",
+      "<span class=\"eqt\"><p>OLOHCS<br></p></span><span class=\"hqt\"><p>OLOHCS<br></p></span>",
+      "<span class=\"eqt\"><p>OLHOSC</p></span><span class=\"hqt\"><p>OLHOSC</p></span>",
+      "<span class=\"eqt\"><p>LOOCHS  <br></p></span><span class=\"hqt\"><p>LOOCHS  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: NUMBER : ERBMUN :: SCHOOL : ?</div><div><strong>Logic</strong>: Positions of letters are interchanged.</div><div><strong>For</strong>, NUMBER : ERBMUN</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/741b3634-5bcf-4339-847c-f636b35cd15e.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"149px,76px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"42008\" data-origin=\",\" style=\"width: 149px; height: 76px;\"></figure></div><div>Similarly,</div><div>SCHOOL : ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/0b12f052-6662-4d8f-a717-4ed1e78ae88b.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"150px,77px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"43380\" data-origin=\",\" style=\"width: 150px; height: 77px;\"></figure></div><div>So, SCHOOL : <strong>OLOHCS</strong></div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: NUMBER : ERBMUN :: SCHOOL : ?</div><div><strong>तर्क</strong>: अक्षरों के स्थान आपस में बदल दिए गए हैं।</div><div><strong>के लिए</strong>, NUMBER : ERBMUN</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/741b3634-5bcf-4339-847c-f636b35cd15e.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"149px,76px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"42008\" data-origin=\",\" origin-size=\"451,229\" style=\"width: 149px; height: 76px;\"></figure></div><div>इसी तरह,</div><div>SCHOOL : ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/0b12f052-6662-4d8f-a717-4ed1e78ae88b.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"150px,77px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"43380\" data-origin=\",\" origin-size=\"426,220\" style=\"width: 150px; height: 77px;\"></figure></div><div>तो, SCHOOL : <strong>OLOHCS</strong></div><div>अतः, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>Find the number that breaks the pattern:</div><div> 3, 7, 15, 31, 63, 120  ​​<br></div></span><span class=\"hqt\"><div>उस संख्या का पता लगाएं जो पैटर्न को तोड़ती है:</div><div> 3, 7, 15, 31, 63, 120  ​​<br></div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>7</p></span><span class=\"hqt\"><p>7</p></span>",
+      "<span class=\"eqt\"><p>15</p></span><span class=\"hqt\"><p>15</p></span>",
+      "<span class=\"eqt\"><p>31</p></span><span class=\"hqt\"><p>31</p></span>",
+      "<span class=\"eqt\"><p>120  <br></p></span><span class=\"hqt\"><p>120  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: 3, 7, 15, 31, 63, 120 ​​</div><div><strong>Logic</strong>: Numbers are multiply by 2 and + 1 place.</div><div>3 × 2 + 1 = 7</div><div>7 × 2 + 1 = 15</div><div>15 × 2 + 1 = 31</div><div>31 × 2 + 1 = 63</div><div>63 × 2 + 1 <span class=\"__se__katex katex\" data-exp=\"\\neq\" data-font-size=\"1em\" style=\"font-size: 16px\"><span class=\"katex-mathml\"><math xmlns=\"https://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mo mathvariant=\"normal\">≠</mo></mrow><annotation encoding=\"application/x-tex\">\\neq</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height:0.8889em;vertical-align:-0.1944em;\"></span><span class=\"mrel\"><span class=\"mrel\"><span class=\"mord vbox\"><span class=\"thinbox\"><span class=\"rlap\"><span class=\"strut\" style=\"height:0.8889em;vertical-align:-0.1944em;\"></span><span class=\"inner\"><span class=\"mord\"><span class=\"mrel\"></span></span></span><span class=\"fix\"></span></span></span></span></span><span class=\"mrel\">=</span></span></span></span></span> <strong>120</strong></div><div>So, <strong>120 </strong>is breaks the pattern.</div><div>Thus, correct option is (d).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: 3, 7, 15, 31, 63, 120 ​​</div><div><strong>तर्क</strong>: संख्याएं 2 से गुणा और + 1 स्थान हैं।</div><div>3 × 2 + 1 = 7</div><div>7 × 2 + 1 = 15</div><div>15 × 2 + 1 = 31</div><div>31 × 2 + 1 = 63</div><div>63 × 2 + 1 <span class=\"__se__katex katex\" data-exp=\"\\neq\" data-font-size=\"1em\" style=\"font-size: 16px\"><span class=\"katex-mathml\"><math xmlns=\"https://www.w3.org/1998/Math/MathML\" display=\"block\"><semantics><mrow><mo mathvariant=\"normal\">≠</mo></mrow><annotation encoding=\"application/x-tex\">\\neq</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height:0.8889em;vertical-align:-0.1944em;\"></span><span class=\"mrel\"><span class=\"mrel\"><span class=\"mord vbox\"><span class=\"thinbox\"><span class=\"rlap\"><span class=\"strut\" style=\"height:0.8889em;vertical-align:-0.1944em;\"></span><span class=\"inner\"><span class=\"mord\"><span class=\"mrel\"></span></span></span><span class=\"fix\"></span></span></span></span></span><span class=\"mspace nobreak\"></span><span class=\"mrel\">=</span></span></span></span></span> <strong>120</strong></div><div>तो, <strong>120 </strong>पैटर्न को तोड़ता है।</div><div>अतः, सही विकल्प (d) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div><strong>Statement</strong>: </div><div>Online education requires reliable internet access. </div><div><strong>Assumptions</strong>: </div><div>I. Students have access to the internet. </div><div>II. Traditional education is outdated.  ​​​​<br></div></span><span class=\"hqt\"><div><strong>कथन</strong>: </div><div>ऑनलाइन शिक्षा के लिए विश्वसनीय इंटरनेट एक्सेस की आवश्यकता होती है। </div><div><strong>धारणाएँ</strong>: </div><div>I. छात्रों के पास इंटरनेट की सुविधा है। </div><div>II. पारंपरिक शिक्षा पुरानी है।  ​​​​<br></div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Only I is implicit</p></span><span class=\"hqt\"><p>केवल I अंतर्निहित है</p></span>",
+      "<span class=\"eqt\"><p>Only II is implicit</p></span><span class=\"hqt\"><p>केवल II अंतर्निहित है</p></span>",
+      "<span class=\"eqt\"><p>Both I and II are implicit</p></span><span class=\"hqt\"><p>I और II दोनों अंतर्निहित हैं</p></span>",
+      "<span class=\"eqt\"><p>Neither I nor II is implicit  <br></p></span><span class=\"hqt\"><p>न तो I और न ही II अंतर्निहित है  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div><strong>Statement</strong>:</div><div>Online education requires reliable internet access.</div><div><strong>Assumptions</strong>:</div><div>I. Students have access to the internet.</div><div>This is <strong>implicit</strong>, because without internet access, online education cannot function.<br></div><div>II. Traditional education is outdated. ​​</div><div>This is <strong>not </strong>implicit, the statement says nothing about traditional education.</div><div>So, <strong>Only I is implicit</strong>.</div><div>Thus, correct option is (a).</div></span><span class=\"hqt\"><div><strong>कथन</strong>:</div><div>ऑनलाइन शिक्षा के लिए विश्वसनीय इंटरनेट एक्सेस की आवश्यकता होती है।</div><div><strong>धारणाएँ</strong>:</div><div>I. छात्रों के पास इंटरनेट की सुविधा है।</div><div>यह <strong>अंतर्निहित</strong> है, क्योंकि इंटरनेट एक्सेस के बिना, ऑनलाइन शिक्षा कार्य नहीं कर सकती है।<br></div><div>II. पारंपरिक शिक्षा पुरानी है। ​​</div><div>यह <strong>अंतर्निहित नहीं</strong> है, कथन पारंपरिक शिक्षा के बारे में कुछ नहीं कहता है।</div><div>इसलिए, <strong>केवल I अंतर्निहित है</strong>।</div><div>अतः, सही विकल्प (a) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div><strong>Statement:</strong> </div><div>Most students in the class passed the exam. </div><div><strong>Conclusions:</strong> </div><div>I. Some students failed the exam.</div><div> II. All students appeared for the exam.  <br></div></span><span class=\"hqt\"><div><strong>कथन</strong>: </div><div>कक्षा के अधिकांश छात्रों ने परीक्षा उत्तीर्ण की। </div><div><strong>निष्कर्ष</strong>: </div><div>I. कुछ छात्र परीक्षा में अनुत्तीर्ण हो गए।</div><div> II. सभी छात्र परीक्षा में उपस्थित हुए।  <br></div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Only I follows</p></span><span class=\"hqt\"><p>केवल I अनुसरण करता है</p></span>",
+      "<span class=\"eqt\"><p>Only II follows</p></span><span class=\"hqt\"><p>केवल II अनुसरण करता है</p></span>",
+      "<span class=\"eqt\"><p>Both I and II follow</p></span><span class=\"hqt\"><p>I और II दोनों अनुसरण करते हैं</p></span>",
+      "<span class=\"eqt\"><p>Neither I nor II follows  <br></p></span><span class=\"hqt\"><p>न तो I और न ही II अनुसरण करता है  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div><strong>Statement:</strong></div><div>Most students in the class passed the exam.</div><div><strong>Conclusions:</strong></div><div>I. Some students failed the exam.</div><div><strong>Follows</strong>, “most” means more than half, but not all so at least some students did not pass (i.e., failed).<br></div><div>II. All students appeared for the exam.</div><div><strong>Not follow</strong>, the statement does not say that all students appeared; it only talks about those who passed.</div><div>So, <strong>Only I follows</strong>.</div><div>Thus, correct option is (a).</div><div> </div></span><span class=\"hqt\"><div><strong>कथन:</strong></div><div>कक्षा के अधिकांश छात्रों ने परीक्षा उत्तीर्ण की।</div><div><strong>निष्कर्ष:</strong></div><div>I. कुछ छात्र परीक्षा में अनुत्तीर्ण हो गए।</div><div><strong>अनुसरण करता है</strong>, \"अधिकांश\" का अर्थ आधे से अधिक है, लेकिन सभी नहीं, इसलिए कम से कम कुछ छात्र उत्तीर्ण नहीं हुए (यानी, अनुत्तीर्ण हो गए)।<br></div><div>II. सभी छात्र परीक्षा में उपस्थित हुए।</div><div><strong>अनुसरण नहीं करता</strong>, कथन यह नहीं कहता है कि सभी छात्र उपस्थित हुए; यह केवल उन लोगों के बारे में बात करता है जो उत्तीर्ण हुए।</div><div>इसलिए, <strong>केवल I अनुसरण करता है</strong>।</div><div>अतः, सही विकल्प (a) है।</div><div> </div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>​Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.</div><div> </div><div>EHF, JKM, ONT, ?</div></span><span class=\"hqt\"><div>​दिए गए विकल्पों में से उस अक्षर-समूह का चयन करें जो निम्नलिखित श्रृंखला में प्रश्नवाचक चिह्न (?) को प्रतिस्थापित कर सकता है।</div><div> </div><div>EHF, JKM, ONT, ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>TUV</p></span><span class=\"hqt\"><p>TUV</p></span>",
+      "<span class=\"eqt\"><p>STU</p></span><span class=\"hqt\"><p>STU</p></span>",
+      "<span class=\"eqt\"><p>TQA</p></span><span class=\"hqt\"><p>TQA</p></span>",
+      "<span class=\"eqt\"><p>QAT<br></p></span><span class=\"hqt\"><p>QAT<br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: EHF, JKM, ONT, ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=https://cdn010.adda247.com/2f1a5919-eb68-4405-88ef-a84b46cbc034.png alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\",\" data-align=\"none\" data-percentage=\"auto,auto\" data-file-name=\"image.png\" data-file-size=\"26826\" data-origin=\",\" style=\"\"></figure></div><div><strong>Logic</strong>: 1st letter + 5, 2nd letter + 3 and 3rd letter + 7 place.</div><div><strong>For</strong>, 1st letter</div><div>E + 5 = J, J + 5 = O, O + 5 = T</div><div><strong>For</strong>, 2nd letter </div><div>H + 3 = K, K + 3 = N, N + 3 = Q</div><div><strong>For</strong>, 3rd letter</div><div>F + 7 = M, M + 7 = T, T + 7 = A</div><div>So, the missing term is <strong>TQA</strong>.</div><div>Thus, correct option is (c).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: EHF, JKM, ONT, ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/b659b03a-5df0-40e3-9bfc-52d3bae79e30.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"251px,78px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"27511\" data-origin=\",\" style=\"width: 251px; height: 78px;\"></figure></div><div><strong>तर्क</strong>: पहला अक्षर + 5, दूसरा अक्षर + 3 और तीसरा अक्षर + 7 स्थान।</div><div><strong>के लिए</strong>, पहला अक्षर</div><div>E + 5 = J, J + 5 = O, O + 5 = T</div><div><strong>के लिए</strong>, दूसरा अक्षर </div><div>H + 3 = K, K + 3 = N, N + 3 = Q</div><div><strong>के लिए</strong>, तीसरा अक्षर</div><div>F + 7 = M, M + 7 = T, T + 7 = A</div><div>तो, लुप्त पद <strong>TQA</strong> है।</div><div>अतः, सही विकल्प (c) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>If a + b = 20 and a - b = 6, then what is a × b?  <br></p></span><span class=\"hqt\"><p>यदि a + b = 20 और a - b = 6 है, तो a × b क्या है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>64</p></span><span class=\"hqt\"><p>64</p></span>",
+      "<span class=\"eqt\"><p>100</p></span><span class=\"hqt\"><p>100</p></span>",
+      "<span class=\"eqt\"><p>96</p></span><span class=\"hqt\"><p>96</p></span>",
+      "<span class=\"eqt\"><p>91<br></p></span><span class=\"hqt\"><p>91<br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: </div><div>If a + b = 20 and a - b = 6</div><div><strong>Solution</strong>:</div><div>Add both equations:</div><div>2a = 26 =&gt a = 13</div><div>Substitute a = 13 into a + b = 20:<br>b = 7</div><div>Now, a × b = 13 × 7 = 91</div><div>So, a × b = <strong>91</strong></div><div>Thus, correct option is (d).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: </div><div>यदि a + b = 20 और a - b = 6</div><div><strong>हल</strong>:</div><div>दोनों समीकरणों को जोड़ें:</div><div>2a = 26 =&gt; a = 13</div><div>a + b = 20 में a = 13 प्रतिस्थापित करें:<br>b = 7</div><div>अब, a × b = 13 × 7 = 91</div><div>तो, a × b = <strong>91</strong></div><div>अतः, सही विकल्प (d) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>A man says, “She is the wife of my father’s only son.” How is the woman related to the man?  <br></p></span><span class=\"hqt\"><p>एक आदमी कहता है, \"वह मेरे पिता के इकलौते बेटे की पत्नी है।\" महिला पुरुष से किस प्रकार संबंधित है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Sister</p></span><span class=\"hqt\"><p>बहन</p></span>",
+      "<span class=\"eqt\"><p>Mother</p></span><span class=\"hqt\"><p>माँ</p></span>",
+      "<span class=\"eqt\"><p>Wife</p></span><span class=\"hqt\"><p>पत्नी</p></span>",
+      "<span class=\"eqt\"><p>Sister-in-law  <br></p></span><span class=\"hqt\"><p>सिस्टर-इन-लॉ</p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: </div><div>A man says, “She is the wife of my father’s only son.” </div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=https://cdn010.adda247.com/a0a40e3c-032e-4ccb-8649-3fb17fcb0b92.png alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"150px,126px\" data-align=\"none\" data-file-name=\"{8A361880-8672-4C87-8E85-3056ED4B4191}.png\" data-file-size=\"13056\" data-origin=\",\" style=\"width: 150px; height: 126px;\"></figure></div><div><strong>From the given information blood relation diagram will be.</strong></div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=https://cdn010.adda247.com/ab1554f9-6737-4925-b4dd-80aceae97ea5.png alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"148px,91px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"8296\" data-origin=\",\" style=\"width: 148px; height: 91px;\"></figure></div><div>So, the woman is <strong>wife </strong>of the man.</div><div>Thus, correct option is (c).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: </div><div>एक आदमी कहता है, \"वह मेरे पिता के इकलौते बेटे की पत्नी है।\" </div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/a0a40e3c-032e-4ccb-8649-3fb17fcb0b92.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"150px,126px\" data-align=\"none\" data-file-name=\"{8A361880-8672-4C87-8E85-3056ED4B4191}.png\" data-file-size=\"13056\" data-origin=\",\" style=\"width: 150px; height: 126px;\"></figure></div><div><strong>दी गई जानकारी से रक्त संबंध आरेख इस प्रकार होगा।</strong></div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/ab1554f9-6737-4925-b4dd-80aceae97ea5.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"148px,91px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"8296\" data-origin=\",\" style=\"width: 148px; height: 91px;\"></figure></div><div>इसलिए, महिला पुरुष की <strong>पत्नी</strong> है।</div><div>अतः, सही विकल्प (c) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div> </div><div>​Select the letter-cluster from among the given options that can replace the question mark (?) in the following series.</div><div>BDH, EJM, IPR, ?<br></div><div> </div></span><span class=\"hqt\"><div> </div><div>​दिए गए विकल्पों में से उस अक्षर-समूह का चयन करें जो निम्नलिखित श्रृंखला में प्रश्नवाचक चिह्न (?) को प्रतिस्थापित कर सकता है।</div><div>BDH, EJM, IPR, ?<br></div><div> </div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>NVW</p></span><span class=\"hqt\"><p>NVW</p></span>",
+      "<span class=\"eqt\"><p>MUX</p></span><span class=\"hqt\"><p>MUX</p></span>",
+      "<span class=\"eqt\"><p>NVX</p></span><span class=\"hqt\"><p>NVX</p></span>",
+      "<span class=\"eqt\"><p>MVW<br></p></span><span class=\"hqt\"><p>MVW<br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: BDH, EJM, IPR, ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=https://cdn010.adda247.com/bbcca1ee-b983-4fdf-9129-a7bc056a2d0e.png alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\",\" data-align=\"none\" data-percentage=\"auto,auto\" data-file-name=\"image.png\" data-file-size=\"26826\" data-origin=\",\" style=\"\"></figure></div><div><strong>Logic</strong>: 1st letter increasing from 3, 2nd letter + 6 and 3rd letter + 5 place.</div><div><strong>For</strong>, 1st letter </div><div>B + 3 = E, E + 4 = I, I + 5 = N</div><div><strong>For</strong>, 2nd letter <br></div><div>D + 6 = J, J + 6 = P, P + 6 = V</div><div><strong>For</strong>, 3rd letter <br></div><div>H + 5 = M, M + 5 = R, R + 5 = W</div><div>So, the missing term is <strong>NVW</strong>.</div><div>Thus, correct option is (a).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: BDH, EJM, IPR, ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/acaa2d05-8f5a-4669-9ab9-fd0d0634b8b9.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"252px,78px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"27511\" data-origin=\",\" style=\"width: 252px; height: 78px;\"></figure></div><div><strong>तर्क</strong>: पहला अक्षर 3 से बढ़ रहा है, दूसरा अक्षर + 6 और तीसरा अक्षर + 5 स्थान।</div><div><strong>के लिए</strong>, पहला अक्षर </div><div>B + 3 = E, E + 4 = I, I + 5 = N</div><div><strong>के लिए</strong>, दूसरा अक्षर <br></div><div>D + 6 = J, J + 6 = P, P + 6 = V</div><div><strong>के लिए</strong>, तीसरा अक्षर <br></div><div>H + 5 = M, M + 5 = R, R + 5 = W</div><div>तो, लुप्त पद <strong>NVW</strong> है।</div><div>अतः, सही विकल्प (a) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>In a row of 60 students, P is 18th from the left and Q is 25th from the right. How many students are between P and Q?  <br></p></span><span class=\"hqt\"><p>60 छात्रों की एक पंक्ति में, P बाईं ओर से 18वें और Q दाईं ओर से 25वें स्थान पर है। P और Q के बीच कितने छात्र हैं?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>15</p></span><span class=\"hqt\"><p>15</p></span>",
+      "<span class=\"eqt\"><p>16</p></span><span class=\"hqt\"><p>16</p></span>",
+      "<span class=\"eqt\"><p>17</p></span><span class=\"hqt\"><p>17</p></span>",
+      "<span class=\"eqt\"><p>18  <br></p></span><span class=\"hqt\"><p>18  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: </div><div>In a row of 60 students, P is 18th from the left and Q is 25th from the right. </div><div><strong>Solution</strong>:</div><div>Total students = 60</div><div>P is 18th from the left.<br>Q is 25th from the right, so Q’s position from the left:</div><div> = 60 - 25 + 1 </div><div>= 36</div><div>Now positions from the left:</div><div>P = 18 and Q = 36</div><div>Students between P and Q:</div><div>= 36 - 18 - 1 </div><div>= 17</div><div>So, <strong>17 </strong>students are between P and Q.</div><div>Thus, correct option is (c).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: </div><div>60 छात्रों की एक पंक्ति में, P बाईं ओर से 18वें और Q दाईं ओर से 25वें स्थान पर है। </div><div><strong>हल</strong>:</div><div>कुल छात्र = 60</div><div>P बाईं ओर से 18वें स्थान पर है।<br>Q दाईं ओर से 25वें स्थान पर है, इसलिए Q का बाईं ओर से स्थान:</div><div> = 60 - 25 + 1 </div><div>= 36</div><div>अब बाईं ओर से स्थान:</div><div>P = 18 और Q = 36</div><div>P और Q के बीच छात्र:</div><div>= 36 - 18 - 1 </div><div>= 17</div><div>इसलिए, P और Q के बीच <strong>17 </strong>छात्र हैं।</div><div>अतः, सही विकल्प (c) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>Find the odd one out.</div><div>729, 1331, 2197, 3125</div></span><span class=\"hqt\"><div>भिन्न ज्ञात कीजिए।</div><div>729, 1331, 2197, 3125</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>729</p></span><span class=\"hqt\"><p>729</p></span>",
+      "<span class=\"eqt\"><p>1331</p></span><span class=\"hqt\"><p>1331</p></span>",
+      "<span class=\"eqt\"><p>2197</p></span><span class=\"hqt\"><p>2197</p></span>",
+      "<span class=\"eqt\"><p>3125  <br></p></span><span class=\"hqt\"><p>3125  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: 729, 1331, 2197, 3125</div><div>729 = 9<sup>3</sup>​</div><div>1331 = 11<sup>3</sup></div><div>2197 = 13<sup>3</sup>​</div><div>3125 = 5<sup>5</sup>​<br></div><div><strong>729</strong>, <strong>1331 </strong>and <strong>2197 </strong>are cubes of consecutive odd numbers.<br>So, <strong>3125 </strong>does not follow the pattern.</div><div>Thus, correct option is (d).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: 729, 1331, 2197, 3125</div><div>729 = 9<sup>3</sup>​</div><div>1331 = 11<sup>3</sup></div><div>2197 = 13<sup>3</sup>​</div><div>3125 = 5<sup>5</sup>​<br></div><div><strong>729</strong>, <strong>1331 </strong>और <strong>2197 </strong>लगातार विषम संख्याओं के घन हैं।<br>तो, <strong>3125 </strong>पैटर्न का अनुसरण नहीं करता है।</div><div>अतः, सही विकल्प (d) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>If X is the daughter of Y and Y is the brother of Z, how is X related to Z?<br></p></span><span class=\"hqt\"><p>यदि X, Y की बेटी है और Y, Z का भाई है, तो X, Z से किस प्रकार संबंधित है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Niece</p></span><span class=\"hqt\"><p>भतीजी/भांजी</p></span>",
+      "<span class=\"eqt\"><p>Daughter</p></span><span class=\"hqt\"><p>बेटी</p></span>",
+      "<span class=\"eqt\"><p>Sister</p></span><span class=\"hqt\"><p>बहन</p></span>",
+      "<span class=\"eqt\"><p>Cousin  <br></p></span><span class=\"hqt\"><p>कजिन</p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: </div><div>If X is the daughter of Y and Y is the brother of Z.</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/3d3fc22e-3481-470d-bb48-98c54c3d04ed.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"148px,127px\" data-align=\"none\" data-file-name=\"{471FC6F5-7E82-4A4C-9C59-EB377A7F1D40}.png\" data-file-size=\"13023\" data-origin=\",\" origin-size=\"292,250\" style=\"width: 148px; height: 127px;\"></figure></div><div><strong>From the given information blood relation diagram will be.</strong></div><div class=\"se-component se-image-container __se__float-none\"><figure><p><img src=\"https://cdn010.adda247.com/080bb0fd-8d58-419b-a9dd-1df672713dd5.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"125px,130px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"3438\" data-origin=\",\" origin-size=\"162,168\" style=\"width: 125px; height: 130px;\"></p></figure></div><div>So, X is the <strong>niece </strong>of Z.</div><div>Thus, correct option is (a).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: </div><div>यदि X, Y की बेटी है और Y, Z का भाई है।</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/3d3fc22e-3481-470d-bb48-98c54c3d04ed.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"148px,127px\" data-align=\"none\" data-file-name=\"{471FC6F5-7E82-4A4C-9C59-EB377A7F1D40}.png\" data-file-size=\"13023\" data-origin=\",\" origin-size=\"292,250\" style=\"width: 148px; height: 127px;\"></figure></div><div><strong>दी गई जानकारी से रक्त संबंध आरेख इस प्रकार होगा।</strong></div><div class=\"se-component se-image-container __se__float-none\"><figure><p><img src=\"https://cdn010.adda247.com/080bb0fd-8d58-419b-a9dd-1df672713dd5.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"125px,130px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"3438\" data-origin=\",\" origin-size=\"162,168\" style=\"width: 125px; height: 130px;\"></p></figure></div><div>इसलिए, X, Z की भतीजी/भांजी है।</div><div>अतः, सही विकल्प (a) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>Apply the same pattern used in the following group and find the correct option.</div><div> </div><div>KLM : NOP :: STU : ?</div></span><span class=\"hqt\"><div>निम्नलिखित समूह में प्रयुक्त समान पैटर्न को लागू करें और सही विकल्प ज्ञात करें।</div><div> </div><div>KLM : NOP :: STU : ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>XYZ</p></span><span class=\"hqt\"><p>XYZ</p></span>",
+      "<span class=\"eqt\"><p>VYZ</p></span><span class=\"hqt\"><p>VYZ</p></span>",
+      "<span class=\"eqt\"><p>WXY</p></span><span class=\"hqt\"><p>WXY</p></span>",
+      "<span class=\"eqt\"><p>VWX  <br></p></span><span class=\"hqt\"><p>VWX  <br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: KLM : NOP :: STU : ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/0aa98ad4-2da4-4cab-8f1f-32d25ca0f6f3.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\",\" data-align=\"none\" data-percentage=\"auto,auto\" data-file-name=\"image.png\" data-file-size=\"26826\" origin-size=\"409,142\" data-origin=\",\" style=\"\"></figure></div><div><strong>Logic</strong>: Letters are increasing + 3 place.</div><div><strong>For</strong>, KLM : NOP</div><div>K + 3 = N, L + 3 = O, M + 3 = P</div><div>Similarly,</div><div>STU : ?</div><div>S + 3 = V, T + 3 = W, U + 3 = X</div><div>So, STU : <strong>VWX</strong></div><div>Thus, correct option is (d).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: KLM : NOP :: STU : ?</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/0246ed5b-ff57-4bd9-9788-c90f0a385e89.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"249px,77px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"27511\" data-origin=\",\" style=\"width: 249px; height: 77px;\"></figure></div><div><strong>तर्क</strong>: अक्षर + 3 स्थान बढ़ रहे हैं।</div><div><strong>के लिए</strong>, KLM : NOP</div><div>K + 3 = N, L + 3 = O, M + 3 = P</div><div>इसी तरह,</div><div>STU : ?</div><div>S + 3 = V, T + 3 = W, U + 3 = X</div><div>तो, STU : <strong>VWX</strong></div><div>अतः, सही विकल्प (d) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>If 8 + 4 = 96 and 7 + 3 = 70, then 6 + 5 = ?  <br></p></span><span class=\"hqt\"><p>यदि 8 + 4 = 96 और 7 + 3 = 70 है, तो 6 + 5 = ?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>60</p></span><span class=\"hqt\"><p>60</p></span>",
+      "<span class=\"eqt\"><p>66</p></span><span class=\"hqt\"><p>66</p></span>",
+      "<span class=\"eqt\"><p>72</p></span><span class=\"hqt\"><p>72</p></span>",
+      "<span class=\"eqt\"><p>78  <br></p></span><span class=\"hqt\"><p>78  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: If 8 + 4 = 96 and 7 + 3 = 70</div><div><strong>Logic</strong>: (1st number × 2nd number) + (1st number)<sup>2</sup>= 3rd number</div><div><strong>For</strong>, 8 + 4 = 96</div><div>(8 ×  4) + (8)<sup>2</sup>= 32 + 64 = 96<br></div><div><strong>For</strong>, 7 + 3 = 70</div><div>(7 × 3) + (7)<sup>2</sup>= 21 + 49 = 70​<br></div><div>Similarly,</div><div>6 + 5 = ?</div><div>(6 × 5) + (6)<sup>2</sup>= 30 + 36 = <strong>66</strong>​</div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: यदि 8 + 4 = 96 और 7 + 3 = 70</div><div><strong>तर्क</strong>: (पहली संख्या × दूसरी संख्या) + (पहली संख्या)<sup>2</sup>= तीसरी संख्या</div><div> 8 + 4 = 96 के लिए</div><div>(8 ×  4) + (8)<sup>2</sup>= 32 + 64 = 96<br></div><div>7 + 3 = 70 के लिए</div><div>(7 × 3) + (7)<sup>2</sup>= 21 + 49 = 70​<br></div><div>इसी तरह,</div><div>6 + 5 = ?</div><div>(6 × 5) + (6)<sup>2</sup>= 30 + 36 = <strong>66</strong>​</div><div>अतः, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>How many letters are between the 1st from left and 2nd from right in the word COMPETITION, when arranged alphabetically?  <br></p></span><span class=\"hqt\"><p>वर्णमाला क्रम में व्यवस्थित करने पर, COMPETITION शब्द में बाईं ओर से पहले और दाईं ओर से दूसरे अक्षर के बीच कितने अक्षर हैं?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>9</p></span><span class=\"hqt\"><p>9</p></span>",
+      "<span class=\"eqt\"><p>8</p></span><span class=\"hqt\"><p>8</p></span>",
+      "<span class=\"eqt\"><p>10</p></span><span class=\"hqt\"><p>10</p></span>",
+      "<span class=\"eqt\"><p>6  <br></p></span><span class=\"hqt\"><p>6  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: COMPETITION</div><table class=\"se-table-size-auto\"><tbody><tr><td><div>Given Letters</div></td><td><div>C</div></td><td><div>O</div></td><td><div>M</div></td><td><div>P</div></td><td><div>E</div></td><td><div>T</div></td><td><div>I</div></td><td><div>T</div></td><td><div>I</div></td><td><div>O</div></td><td><div>N</div></td></tr><tr><td><div>Alphabetical Order</div></td><td><div>C</div></td><td><div>E</div></td><td><div>I</div></td><td><div>I</div></td><td><div>M</div></td><td><div>N</div></td><td><div>O</div></td><td><div>O</div></td><td><div>P</div></td><td><div>T</div></td><td><div>T</div></td></tr></tbody></table><div>Alphabetical order: <strong>C</strong> E I I M N O O P <strong>T </strong>T</div><div>1st letter from left: C</div><div>2nd letter from right: T</div><div>Letter are between 1st from left and 2nd from right: E, I, I, M, N, O, O, P</div><div>So, <strong>8</strong> letters are between the 1st from left and 2nd from right in the word.</div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: COMPETITION</div><table class=\"se-table-size-auto\"><tbody><tr><td><div>दिए गए अक्षर</div></td><td><div>C</div></td><td><div>O</div></td><td><div>M</div></td><td><div>P</div></td><td><div>E</div></td><td><div>T</div></td><td><div>I</div></td><td><div>T</div></td><td><div>I</div></td><td><div>O</div></td><td><div>N</div></td></tr><tr><td><div>वर्णमाला क्रम</div></td><td><div>C</div></td><td><div>E</div></td><td><div>I</div></td><td><div>I</div></td><td><div>M</div></td><td><div>N</div></td><td><div>O</div></td><td><div>O</div></td><td><div>P</div></td><td><div>T</div></td><td><div>T</div></td></tr></tbody></table><div>वर्णमाला क्रम: <strong>C</strong> E I I M N O O P <strong>T </strong>T</div><div>बाईं ओर से पहला अक्षर: C</div><div>दाईं ओर से दूसरा अक्षर: T</div><div>बाईं ओर से पहले और दाईं ओर से दूसरे अक्षर के बीच के अक्षर: E, I, I, M, N, O, O, P</div><div>तो, शब्द में बाईं ओर से पहले और दाईं ओर से दूसरे अक्षर के बीच <strong>8</strong> अक्षर हैं।</div><div>अतः, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>Find the odd one out.</div><div>Sodium, Calcium, Iron, Oxygen</div></span><span class=\"hqt\"><div>भिन्न ज्ञात कीजिए।</div><div>सोडियम, कैल्शियम, लोहा, ऑक्सीजन</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Sodium</p></span><span class=\"hqt\"><p>सोडियम </p></span>",
+      "<span class=\"eqt\"><p>Oxygen</p></span><span class=\"hqt\"><p>ऑक्सीजन </p></span>",
+      "<span class=\"eqt\"><p>Iron</p></span><span class=\"hqt\"><p>लोहा </p></span>",
+      "<span class=\"eqt\"><p>Calcium<br></p></span><span class=\"hqt\"><p>कैल्शियम<br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Sodium</strong>, Calcium and Iron are metals. <strong>Oxygen </strong>is non-metal.</div><div>So, <strong>oxygen </strong>is odd one out.</div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>सोडियम</strong>, कैल्शियम और लोहा धातुएं हैं। <strong>ऑक्सीजन </strong>अधातु है।</div><div>तो, <strong>ऑक्सीजन </strong>बेमेल है।</div><div>अतः, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>If the sum of 36 and 24 is multiplied by 7, what is the result?  <br></p></span><span class=\"hqt\"><p>यदि 36 और 24 के योग को 7 से गुणा किया जाए, तो परिणाम क्या होगा?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>420</p></span><span class=\"hqt\"><p>420</p></span>",
+      "<span class=\"eqt\"><p>392</p></span><span class=\"hqt\"><p>392</p></span>",
+      "<span class=\"eqt\"><p>448</p></span><span class=\"hqt\"><p>448</p></span>",
+      "<span class=\"eqt\"><p>460  <br></p></span><span class=\"hqt\"><p>460  <br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>:</div><div> If the sum of 36 and 24 is multiplied by 7</div><div><strong>Solution</strong>:</div><div>36 + 24 = 60</div><div>Now multiply by 7:</div><div>60 × 7 = <strong>420</strong></div><div>So, the result is <strong>420</strong>.</div><div>Thus, correct option is (a).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>:</div><div> यदि 36 और 24 के योग को 7 से गुणा किया जाए</div><div><strong>हल</strong>:</div><div>36 + 24 = 60</div><div>अब 7 से गुणा करें:</div><div>60 × 7 = <strong>420</strong></div><div>तो, परिणाम <strong>420</strong> है।</div><div>अतः, सही विकल्प (a) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>Find the missing term in the series.</div><div>?, 132, 165, 204, 249</div></span><span class=\"hqt\"><div>श्रृंखला में लुप्त पद ज्ञात कीजिए।</div><div>?, 132, 165, 204, 249</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>96</p></span><span class=\"hqt\"><p>96</p></span>",
+      "<span class=\"eqt\"><p>105</p></span><span class=\"hqt\"><p>105</p></span>",
+      "<span class=\"eqt\"><p>108</p></span><span class=\"hqt\"><p>108</p></span>",
+      "<span class=\"eqt\"><p>120  <br></p></span><span class=\"hqt\"><p>120  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: ?, 132, 165, 204, 249</div><div><strong>Logic</strong>: Double difference increasing + 6 place.</div><div>165 - 132 = 33</div><div>204 - 165 = 39</div><div>249 - 204 = 45</div><div>Differences are increasing by + 6.</div><div>33, 39, 45</div><div>The previous difference should be:</div><div>33 - 6 = 27</div><div>132 - 27 = <strong>105</strong></div><div>So, the missing term is <strong>105</strong>.</div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: ?, 132, 165, 204, 249</div><div><strong>तर्क</strong>: दोहरा अंतर + 6 स्थान पर बढ़ रहा है।</div><div>165 - 132 = 33</div><div>204 - 165 = 39</div><div>249 - 204 = 45</div><div>अंतर + 6 से बढ़ रहे हैं।</div><div>33, 39, 45</div><div>पिछला अंतर होना चाहिए:</div><div>33 - 6 = 27</div><div>132 - 27 = <strong>105</strong></div><div>तो, लुप्त पद <strong>105</strong> है।</div><div>अतः, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Which of the following addresses are exactly identical?  <br> Amit Verma, 12A, Green Park, Delhi, 110016  <br> Amit Verma, 12A Green Park, Delhi, 110016  <br> Amit Verma, 12A, Green Park, Delhi, 110018  <br> Amit Verma, 12A, Green Park, Delhi, 110016  ​<br></p></span><span class=\"hqt\"><p>निम्नलिखित में से कौन सा पता बिल्कुल समान है?  <br>​<span style=\"color: rgb(90, 97, 105);font-size: 15px\">Amit Verma, 12A, Green Park, Delhi, 110016</span><br>​<span style=\"color: rgb(90, 97, 105);font-size: 15px\">Amit Verma, 12A Green Park, Delhi, 110016</span><br>​<span style=\"color: rgb(90, 97, 105);font-size: 15px\">Amit Verma, 12A, Green Park, Delhi, 110018</span><br>​<span style=\"color: rgb(90, 97, 105);font-size: 15px\">Amit Verma, 12A, Green Park, Delhi, 110016 ​</span>​<br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>1 and 2</p></span><span class=\"hqt\"><p>1 और 2</p></span>",
+      "<span class=\"eqt\"><p>1 and 4</p></span><span class=\"hqt\"><p>1 और 4</p></span>",
+      "<span class=\"eqt\"><p>2 and 3</p></span><span class=\"hqt\"><p>2 और 3</p></span>",
+      "<span class=\"eqt\"><p>3 and 4  <br></p></span><span class=\"hqt\"><p>3 और 4  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: </div><div>Amit Verma, 12A, Green Park, Delhi, 110016<br>Amit Verma, 12A Green Park, Delhi, 110016<br>Amit Verma, 12A, Green Park, Delhi, 110018<br>Amit Verma, 12A, Green Park, Delhi, 110016 ​</div><div><strong>Compare the addresses carefully:</strong></div><div>1. Amit Verma, 12A, Green Park, Delhi, 110016<br>2. Amit Verma, 12A Green Park, Delhi, 110016<br>Same details; comma difference doesn’t matter</div><div>3. Amit Verma, 12A, Green Park, Delhi, 110018<br>PIN code is different</div><div>4. Amit Verma, 12A, Green Park, Delhi, 110016<br>Exactly same as Address 1</div><div>So, the exactly identical addresses are <strong>1 and 4</strong>.</div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: </div><div>Amit Verma, 12A, Green Park, Delhi, 110016<br>Amit Verma, 12A Green Park, Delhi, 110016<br>Amit Verma, 12A, Green Park, Delhi, 110018<br>Amit Verma, 12A, Green Park, Delhi, 110016</div><div><strong>पतों की सावधानीपूर्वक तुलना करें:</strong></div><div>1. Amit Verma, 12A, Green Park, Delhi, 110016<br>2. Amit Verma, 12A Green Park, Delhi, 110016<br>समान विवरण; अल्पविराम (comma) के अंतर से कोई फर्क नहीं पड़ता</div><div>3. Amit Verma, 12A, Green Park, Delhi, 110018<br>पिन कोड अलग है</div><div>4. Amit Verma, 12A, Green Park, Delhi, 110016<br>बिल्कुल पता 1 जैसा ही है</div><div>अतः, बिल्कुल समान पते <strong>1 और 4</strong> हैं।</div><div>इस प्रकार, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>Find the missing term in the series.</div><div>2, 6, 18, 54, ?</div></span><span class=\"hqt\"><div>श्रृंखला में लुप्त पद ज्ञात कीजिए।</div><div>2, 6, 18, 54, ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>96</p></span><span class=\"hqt\"><p>96</p></span>",
+      "<span class=\"eqt\"><p>108</p></span><span class=\"hqt\"><p>108</p></span>",
+      "<span class=\"eqt\"><p>162</p></span><span class=\"hqt\"><p>162</p></span>",
+      "<span class=\"eqt\"><p>216  <br></p></span><span class=\"hqt\"><p>216  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: 2, 6, 18, 54, ?</div><div><strong>Logic</strong>: Numbers are multiply by 3.</div><div>2 × 3 = 6</div><div>6 × 3 = 18</div><div>18 × 3 = 54</div><div>54 × 3 = 162</div><div>So, the missing term is <strong>162</strong>.</div><div>Thus, correct option is (c).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: 2, 6, 18, 54, ?</div><div><strong>तर्क</strong>: संख्याएं 3 से गुणा हो रही हैं।</div><div>2 × 3 = 6</div><div>6 × 3 = 18</div><div>18 × 3 = 54</div><div>54 × 3 = 162</div><div>तो, लुप्त पद <strong>162</strong> है।</div><div>अतः, सही विकल्प (c) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>If BALL = 211212 and CALL = 311212, then DOLL = ?</div></span><span class=\"hqt\"><div>यदि BALL = 211212 और CALL = 311212 है, तो DOLL = ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>4141212<br></p></span><span class=\"hqt\"><p>4141212<br></p></span>",
+      "<span class=\"eqt\"><p>4511212</p></span><span class=\"hqt\"><p>4511212</p></span>",
+      "<span class=\"eqt\"><p>4151221</p></span><span class=\"hqt\"><p>4151221</p></span>",
+      "<span class=\"eqt\"><p>4151212<br></p></span><span class=\"hqt\"><p>4151212<br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: If BALL = 211212 and CALL = 311212</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=https://cdn010.adda247.com/f6f4ef10-f694-4d75-923f-7fed4f7925a1.png alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\",\" data-align=\"none\" data-percentage=\"auto,auto\" data-file-name=\"image.png\" data-file-size=\"26826\" origin-size=\"409,142\" data-origin=\",\" style=\"\"></figure></div><div><strong>Logic</strong>: Place value of letters are given.</div><div><strong>For</strong>, BALL = 211212</div><div>B = 2, A = 1, L = 12, L = 12</div><div><strong>For</strong>, CALL = 311212</div><div>C = 3, A = 1, L = 12, L = 12</div><div>Similarly,</div><div>DOLL = ?</div><div>D = 4, O = 15, L = 12, L = 12</div><div>So, DOLL = <strong>4151212</strong></div><div>Thus, correct option is (d).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: यदि BALL = 211212 और CALL = 311212</div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/6c5cd066-0e81-4422-9e44-1365cd11b67f.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"249px,78px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"27511\" data-origin=\",\" style=\"width: 249px; height: 78px;\"></figure></div><div><strong>तर्क</strong>: अक्षरों का स्थानीय मान दिया गया है।</div><div><strong>के लिए</strong>, BALL = 211212</div><div>B = 2, A = 1, L = 12, L = 12</div><div><strong>के लिए</strong>, CALL = 311212</div><div>C = 3, A = 1, L = 12, L = 12</div><div>इसी तरह,</div><div>DOLL = ?</div><div>D = 4, O = 15, L = 12, L = 12</div><div>तो, DOLL = <strong>4151212</strong></div><div>अतः, सही विकल्प (d) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Pointing to a boy, a woman said, “He is the son of my mother’s only son.” How is the boy related to the woman?  <br></p></span><span class=\"hqt\"><p>एक लड़के की ओर इशारा करते हुए, एक महिला ने कहा, \"वह मेरी माँ के इकलौते बेटे का बेटा है।\" लड़का महिला से किस प्रकार संबंधित है?  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Son</p></span><span class=\"hqt\"><p>बेटा</p></span>",
+      "<span class=\"eqt\"><p>Cousin</p></span><span class=\"hqt\"><p>कजिन</p></span>",
+      "<span class=\"eqt\"><p>Brother</p></span><span class=\"hqt\"><p>भाई</p></span>",
+      "<span class=\"eqt\"><p>Nephew<br></p></span><span class=\"hqt\"><p>भतीजा/भांजी<br></p></span>"
+    ],
+    "correct_option_id": 3,
+    "solution": "<span class=\"eqt\"><div><strong>Given: </strong></div><div>Pointing to a boy, a woman said, “He is the son of my mother’s only son.” </div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/5bac8e9d-28a7-42c6-96db-36b110d83fa3.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"152px,126px\" data-align=\"none\" data-file-name=\"{7740C3A0-E981-484F-AACD-4FB2ED8F4944}.png\" data-file-size=\"12992\" data-origin=\",\" origin-size=\"293,243\" style=\"width: 152px; height: 126px;\"></figure></div><div><strong>From the given information blood relation diagram will be.</strong></div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/83dd4f8d-ad6c-4579-9352-e210de24e736.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"150px,127px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"17034\" data-origin=\",\" origin-size=\"321,271\" style=\"width: 150px; height: 127px;\"></figure></div><div>So, the boy is <strong>nephew </strong>of the woman.</div><div>Thus, correct option is (d).</div></span><span class=\"hqt\"><div><strong>दिया गया है: </strong></div><div>एक लड़के की ओर इशारा करते हुए, एक महिला ने कहा, \"वह मेरी माँ के इकलौते बेटे का बेटा है।\" </div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/5bac8e9d-28a7-42c6-96db-36b110d83fa3.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"152px,126px\" data-align=\"none\" data-file-name=\"{7740C3A0-E981-484F-AACD-4FB2ED8F4944}.png\" data-file-size=\"12992\" data-origin=\",\" origin-size=\"293,243\" style=\"width: 152px; height: 126px;\"></figure></div><div><strong>दी गई जानकारी से रक्त संबंध आरेख इस प्रकार होगा।</strong></div><div class=\"se-component se-image-container __se__float-none\"><figure><img src=\"https://cdn010.adda247.com/83dd4f8d-ad6c-4579-9352-e210de24e736.png\" alt=\"\" data-rotate=\"\" data-proportion=\"true\" data-size=\"150px,127px\" data-align=\"none\" data-file-name=\"image.png\" data-file-size=\"17034\" data-origin=\",\" origin-size=\"321,271\" style=\"width: 150px; height: 127px;\"></figure></div><div>इसलिए, लड़का महिला का <strong>भतीजा/भांजी</strong> है। </div><div>अतः, सही विकल्प (d) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>How many meaningful 4-letter English words can be formed using 2nd, 3rd, 4th and 5th letters of the word TEACHER, without repetition?  <br></p></span><span class=\"hqt\"><p>शब्द 'TEACHER' ​​के दूसरे, तीसरे, चौथे और पाँचवें अक्षरों का उपयोग करके, बिना किसी अक्षर को दोहराए, कितने अर्थपूर्ण 4-अक्षरों वाले अंग्रेज़ी शब्द बनाए जा सकते हैं?</p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Two</p></span><span class=\"hqt\"><p>दो</p></span>",
+      "<span class=\"eqt\"><p>Four<br></p></span><span class=\"hqt\"><p>चार<br></p></span>",
+      "<span class=\"eqt\"><p>One</p></span><span class=\"hqt\"><p>एक</p></span>",
+      "<span class=\"eqt\"><p>Three<br></p></span><span class=\"hqt\"><p>तीन<br></p></span>"
+    ],
+    "correct_option_id": 0,
+    "solution": "<span class=\"eqt\"><div><strong>Given Word</strong>: TEACHER</div><div>Letters by position:<br>1-T, 2-E, 3-A, 4-C, 5-H, 6-E, 7-R</div><div>Required letters → 2nd, 3rd, 4th, 5th<br>The letters are: E, A, C, H</div><div>Now form meaningful 4-letter English words using these letters without repetition.</div><div>Possible meaningful words:</div><div>ACHE</div><div>EACH</div><div>Total meaningful words = 2</div><div>So, <strong>two </strong>meaningful 4-letter English words can be formed using 2nd, 3rd, 4th and 5th letters of the word TEACHER, without repetition.</div><div>Thus, correct option is (a).</div><div> </div></span><span class=\"hqt\"><div> </div><div>दिया गया शब्द: TEACHER<br>अक्षरों की स्थिति:<br>1-T, 2-E, 3-A, 4-C, 5-H, 6-E, 7-R<br>आवश्यक अक्षर → 2रा, 3रा, 4था, 5वां<br>अक्षर हैं: E, A, C, H<br>अब इन अक्षरों का उपयोग करके, बिना दोहराव के, 4 अक्षरों वाले सार्थक अंग्रेज़ी शब्द बनाइए।<br>संभावित सार्थक शब्द:<br>ACHE<br>EACH<br>कुल सार्थक शब्द = 2<br>अतः, शब्द TEACHER के 2रे, 3रे, 4थे और 5वें अक्षरों का उपयोग करके, बिना दोहराव के, 4 अक्षरों वाले दो सार्थक अंग्रेज़ी शब्द बनाए जा सकते हैं।<br>इस प्रकार, सही विकल्प (a) है।<br></div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>In the following question, select the related word from the given alternatives.</div><div> </div><div>Freedom : Independence :: Poverty : ?</div></span><span class=\"hqt\"><div>निम्नलिखित प्रश्न में, दिए गए विकल्पों में से संबंधित शब्द का चयन कीजिए।</div><div> </div><div>स्वतंत्रता : स्वाधीनता :: निर्धनता : ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Hunger</p></span><span class=\"hqt\"><p>भूख</p></span>",
+      "<span class=\"eqt\"><p>Wealth</p></span><span class=\"hqt\"><p>धन</p></span>",
+      "<span class=\"eqt\"><p>Hardship</p></span><span class=\"hqt\"><p>कठिनाई</p></span>",
+      "<span class=\"eqt\"><p>Illness  <br></p></span><span class=\"hqt\"><p>बीमारी  <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: Freedom : Independence :: Poverty : ?</div><div><strong>Freedom </strong>leads to <strong>independence</strong>.</div><div>Similarly,</div><div>Poverty : ?<br><strong>Poverty </strong>leads to <strong>hardship</strong>.</div><div>Thus, correct option is (c).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: स्वतंत्रता : स्वाधीनता :: निर्धनता : ?</div><div><strong>स्वतंत्रता </strong>से <strong>स्वाधीनता </strong>प्राप्त होती है।</div><div>इसी प्रकार,</div><div>निर्धनता : ?<br><strong>निर्धनता </strong>से <strong>कठिनाई </strong>उत्पन्न होती है।</div><div>अतः, सही विकल्प (c) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><p>Two numbers are in the ratio 5 : 7 and their sum is 144. Find the numbers.  <br></p></span><span class=\"hqt\"><p>दो संख्याएँ 5 : 7 के अनुपात में हैं और उनका योग 144 है। संख्याएँ ज्ञात कीजिए।  <br></p></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>50, 94</p></span><span class=\"hqt\"><p>50, 94</p></span>",
+      "<span class=\"eqt\"><p>60, 84</p></span><span class=\"hqt\"><p>60, 84</p></span>",
+      "<span class=\"eqt\"><p>55, 89</p></span><span class=\"hqt\"><p>55, 89</p></span>",
+      "<span class=\"eqt\"><p>65, 79  <br></p></span><span class=\"hqt\"><p>65, 79  <br></p></span>"
+    ],
+    "correct_option_id": 1,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: </div><div>Two numbers are in the ratio 5 : 7 and their sum is 144. </div><div><strong>Solution</strong>:</div><div>Let the numbers be 5x and 7x.</div><div>5x + 7x = 144<br>12x = 144<br>x = 12</div><div>The numbers are:<br>5x = 5 × 12 = 60<br>7x = 7 × 12 = 84</div><div>So, the numbers are <strong>60, 84</strong>.</div><div>Thus, correct option is (b).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: </div><div>दो संख्याएँ 5 : 7 के अनुपात में हैं और उनका योग 144 है। </div><div><strong>हल</strong>:</div><div>माना संख्याएँ 5x और 7x हैं।</div><div>5x + 7x = 144<br>12x = 144<br>x = 12</div><div>संख्याएँ हैं:<br>5x = 5 × 12 = 60<br>7x = 7 × 12 = 84</div><div>तो, संख्याएँ <strong>60, 84</strong> हैं।</div><div>अतः, सही विकल्प (b) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  },
+  {
+    "question": "<span class=\"eqt\"><div>In the following question, select the related word from the given alternatives.</div><div> </div><div>Cell : Tissue :: Tissue : ?</div></span><span class=\"hqt\"><div>निम्नलिखित प्रश्न में, दिए गए विकल्पों में से संबंधित शब्द का चयन करें।</div><div> </div><div>कोशिका : ऊतक :: ऊतक : ?</div></span>",
+    "comp": "",
+    "options": [
+      "<span class=\"eqt\"><p>Nucleus<br></p></span><span class=\"hqt\"><p>नाभिक<br></p></span>",
+      "<span class=\"eqt\"><p>Molecule</p></span><span class=\"hqt\"><p>अणु </p></span>",
+      "<span class=\"eqt\"><p>Organ</p></span><span class=\"hqt\"><p>अंग </p></span>",
+      "<span class=\"eqt\"><p>Gene  <br></p></span><span class=\"hqt\"><p>जीन <br></p></span>"
+    ],
+    "correct_option_id": 2,
+    "solution": "<span class=\"eqt\"><div><strong>Given</strong>: Cell : Tissue :: Tissue : ?</div><div><strong>Cells </strong>combine to form <strong>tissue</strong>.</div><div>Similarly,</div><div>Tissue : ?<br><strong>Tissues </strong>combine to form an <strong>organ</strong>.</div><div>Thus, correct option is (c).</div></span><span class=\"hqt\"><div><strong>दिया गया है</strong>: कोशिका : ऊतक :: ऊतक : ?</div><div><strong>कोशिकाएं </strong>मिलकर <strong>ऊतक</strong> बनाती हैं।</div><div>इसी तरह,</div><div>ऊतक : ?<br><strong>ऊतक </strong>मिलकर एक <strong>अंग</strong> बनाते हैं।</div><div>अतः, सही विकल्प (c) है।</div></span>",
+    "marks": 2.0,
+    "section": "Reasoning ",
+    "series_name": ""
+  }
+];
+        const sectionsData = null;
+        const marksPerQ = 2.0;
+        const negMarks = 0.5;
+        const totalDuration = 15;
+        
+        class CBTExam {
+            constructor() {
+                this.questions = questions;
+                this.sections = sectionsData;
+                this.currentQuestion = 0;
+                this.answers = new Array(this.questions.length).fill(null);
+                this.markedForReview = new Array(this.questions.length).fill(false);
+                this.timeSpent = new Array(this.questions.length).fill(0);
+                this.isEnglish = true;
+                this.isSubmitted = false;
+                this.startTime = null;
+                this.lastQuestionTime = null;
+                this.mainTimer = null;
+                this.sectionTimer = null;
+                this.currentSection = this.sections ? 0 : null;
+                this.totalTimeLeft = totalDuration * 60;
+                
+                this.initElements();
+                this.setupWelcomeScreen();
+                this.setupBeforeUnload();
+            }
+            
+            initElements() {
+                this.els = {
+                    fullscreenBtn: document.getElementById('fullscreenBtn'),
+                    welcomeScreen: document.getElementById('welcomeScreen'),
+                    examContainer: document.getElementById('examContainer'),
+                    mainTimer: document.getElementById('mainTimer'),
+                    sectionBadge: document.getElementById('sectionBadge'),
+                    sectionName: document.getElementById('sectionName'),
+                    sectionTimer: document.getElementById('sectionTimer'),
+                    questionNum: document.getElementById('questionNum'),
+                    questionMarks: document.getElementById('questionMarks'),
+                    questionText: document.getElementById('questionText'),
+                    comprehension: document.getElementById('comprehension'),
+                    comprehensionText: document.getElementById('comprehensionText'),
+                    optionsList: document.getElementById('optionsList'),
+                    solutionBox: document.getElementById('solutionBox'),
+                    solutionStats: document.getElementById('solutionStats'),
+                    solutionText: document.getElementById('solutionText'),
+                    progressText: document.getElementById('progressText'),
+                    answeredCount: document.getElementById('answeredCount'),
+                    desktopNav: document.getElementById('desktopNav'),
+                    mobileNav: document.getElementById('mobileNav'),
+                    mobileNavGrid: document.getElementById('mobileNavGrid'),
+                    resultModal: document.getElementById('resultModal'),
+                    resultScore: document.getElementById('resultScore'),
+                    correctCount: document.getElementById('correctCount'),
+                    incorrectCount: document.getElementById('incorrectCount'),
+                    unattemptedCount: document.getElementById('unattemptedCount'),
+                    timeTaken: document.getElementById('timeTaken'),
+                    sectionResults: document.getElementById('sectionResults'),
+                    sectionResultsBody: document.getElementById('sectionResultsBody')
+                };
+            }
+            
+            setupWelcomeScreen() {
+                if (this.els.fullscreenBtn) {
+                    this.els.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+                }
+                document.addEventListener('fullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('webkitfullscreenchange', () => this.updateFullscreenIcon());
+                document.addEventListener('msfullscreenchange', () => this.updateFullscreenIcon());
+
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.els.welcomeScreen.classList.add('hidden');
+                    this.els.examContainer.classList.add('active');
+                    setTimeout(() => this.startExam(), 100);
+                });
+            }
+            
+            setupBeforeUnload() {
+                window.addEventListener('beforeunload', (e) => {
+                    if (!this.isSubmitted) {
+                        e.preventDefault();
+                        e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
+                        return e.returnValue;
+                    }
+                });
+            }
+            
+            startExam() {
+                this.startTime = Date.now();
+                this.lastQuestionTime = this.startTime;
+                this.createNavigator();
+                this.startMainTimer();
+                if (this.sections) {
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                }
+                this.loadQuestion(0);
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('engBtn').onclick = () => this.setLanguage(true);
+                document.getElementById('hinBtn').onclick = () => this.setLanguage(false);
+                document.getElementById('prevBtn').onclick = () => this.navigate(-1);
+                document.getElementById('nextBtn').onclick = () => this.navigate(1);
+                document.getElementById('reviewBtn').onclick = () => this.toggleReview();
+                document.getElementById('submitBtn').onclick = () => this.confirmSubmit();
+                document.getElementById('submitBtnDesktop').onclick = () => this.confirmSubmit();
+                document.getElementById('navigatorBtn').onclick = () => this.openMobileNav();
+                document.getElementById('closeNav').onclick = () => this.closeMobileNav();
+                document.getElementById('closeResult').onclick = () => this.closeResultModal();
+                document.getElementById('reviewAnswers').onclick = () => this.reviewAnswers();
+            }
+            
+            createNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    container.innerHTML = '';
+                    this.questions.forEach((_, i) => {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-question';
+                        btn.textContent = i + 1;
+                        btn.onclick = () => this.goToQuestion(i);
+                        container.appendChild(btn);
+                    });
+                });
+            }
+            
+            extractText(html, isEng) {
+                if (!html) return '';
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                
+                const langSpans = temp.querySelectorAll('span.eqt, span.hqt');
+                langSpans.forEach(span => {
+                    if ((isEng && span.classList.contains('hqt')) || 
+                        (!isEng && span.classList.contains('eqt'))) {
+                        span.style.display = 'none';
+                    } else {
+                        span.style.display = '';
+                    }
+                });
+                
+                return temp.innerHTML;
+            }
+            
+            getQuestionMarks(qIdx) {
+                if (!this.sections) return marksPerQ;
+                
+                for (const section of this.sections) {
+                    if (qIdx >= section.start && qIdx <= section.end) {
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                if (qIdx >= subsec.start && qIdx <= subsec.end) {
+                                    return subsec.marks_per_q;
+                                }
+                            }
+                        }
+                        return marksPerQ;
+                    }
+                }
+                return marksPerQ;
+            }
+            
+            loadQuestion(idx) {
+                if (this.currentQuestion !== idx) {
+                    const now = Date.now();
+                    this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                    this.lastQuestionTime = now;
+                }
+                
+                this.currentQuestion = idx;
+                const q = this.questions[idx];
+                const qMarks = this.getQuestionMarks(idx);
+                
+                this.els.questionNum.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.els.questionMarks.textContent = `Marks: ${qMarks}`;
+                this.els.progressText.textContent = `Question ${idx + 1} of ${this.questions.length}`;
+                this.updateAnsweredCount();
+                this.updateNavigator();
+                this.updateNavigationButtons();
+                this.updateReviewButton();
+                
+                if (q.comp) {
+                    this.els.comprehension.style.display = 'block';
+                    this.els.comprehensionText.innerHTML = this.extractText(q.comp, this.isEnglish);
+                } else {
+                    this.els.comprehension.style.display = 'none';
+                }
+                
+                this.els.questionText.innerHTML = this.extractText(q.question, this.isEnglish);
+                this.loadOptions(q, idx);
+                
+                if (this.isSubmitted && q.solution) {
+                    const timeSpent = Math.round(this.timeSpent[idx]);
+                    const mins = Math.floor(timeSpent / 60);
+                    const secs = timeSpent % 60;
+                    const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+                    
+                    this.els.solutionStats.innerHTML = `
+                        <span><i class="fas fa-clock"></i> Time: ${timeStr}</span>
+                        <span><i class="fas fa-check-circle"></i> Correct: ${String.fromCharCode(65 + q.correct_option_id)}</span>
+                    `;
+                    this.els.solutionText.innerHTML = this.extractText(q.solution, this.isEnglish);
+                    this.els.solutionBox.classList.add('show');
+                } else {
+                    this.els.solutionBox.classList.remove('show');
+                }
+                
+                // Render LaTeX in all updated elements
+                renderMath(this.els.questionText);
+                renderMath(this.els.comprehensionText);
+                renderMath(this.els.solutionText);
+            }
+            
+            loadOptions(q, qIdx) {
+                this.els.optionsList.innerHTML = '';
+                const userAnswer = this.answers[qIdx];
+                const correctAnswer = q.correct_option_id;
+                
+                if (!q.options || !Array.isArray(q.options)) return;
+                
+                q.options.forEach((opt, i) => {
+                    const div = document.createElement('div');
+                    let className = 'option';
+                    
+                    if (this.isSubmitted) className += ' submitted';
+                    if (userAnswer === i) className += ' selected';
+                    
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            className += ' correct';
+                        } else if (userAnswer === i && userAnswer !== correctAnswer) {
+                            className += ' wrong';
+                        }
+                    }
+                    
+                    div.className = className;
+                    
+                    let indicator = '';
+                    if (this.isSubmitted && correctAnswer !== undefined) {
+                        if (i === correctAnswer) {
+                            indicator = '✓';
+                        } else if (userAnswer === i) {
+                            indicator = '✗';
+                        }
+                    } else if (userAnswer === i) {
+                        indicator = '✓';
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="option-indicator">${indicator}</div>
+                        <div class="option-text">${this.extractText(opt, this.isEnglish)}</div>
+                    `;
+                    
+                    if (!this.isSubmitted) {
+                        div.onclick = () => this.selectOption(i, qIdx);
+                    }
+                    
+                    this.els.optionsList.appendChild(div);
+                });
+                // Render LaTeX in options
+                renderMath(this.els.optionsList);
+            }
+            
+            selectOption(optIdx, qIdx) {
+                if (this.isSubmitted) return;
+                this.answers[qIdx] = this.answers[qIdx] === optIdx ? null : optIdx;
+                this.loadOptions(this.questions[qIdx], qIdx);
+                this.updateAnsweredCount();
+                this.updateNavigator();
+            }
+            
+            toggleReview() {
+                if (this.isSubmitted) return;
+                this.markedForReview[this.currentQuestion] = !this.markedForReview[this.currentQuestion];
+                this.updateNavigator();
+                this.updateReviewButton();
+            }
+            
+            updateReviewButton() {
+                const btn = document.getElementById('reviewBtn');
+                if (this.markedForReview[this.currentQuestion]) {
+                    btn.classList.add('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Marked';
+                } else {
+                    btn.classList.remove('marked');
+                    btn.innerHTML = '<i class="fas fa-flag"></i> Mark for Review';
+                }
+            }
+            
+            navigate(dir) {
+                const newIdx = this.currentQuestion + dir;
+                
+                if (this.isSubmitted) {
+                    if (newIdx >= 0 && newIdx < this.questions.length) {
+                        this.loadQuestion(newIdx);
+                    }
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (newIdx < currentSection.start || newIdx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                if (newIdx >= 0 && newIdx < this.questions.length) {
+                    this.loadQuestion(newIdx);
+                }
+            }
+            
+            goToQuestion(idx) {
+                if (this.isSubmitted) {
+                    this.loadQuestion(idx);
+                    this.closeMobileNav();
+                    return;
+                }
+                
+                if (this.sections) {
+                    const currentSection = this.sections[this.currentSection];
+                    if (idx < currentSection.start || idx > currentSection.end) {
+                        return;
+                    }
+                }
+                
+                this.loadQuestion(idx);
+                this.closeMobileNav();
+            }
+            
+            updateNavigator() {
+                [this.els.desktopNav, this.els.mobileNavGrid].forEach(container => {
+                    const btns = container.querySelectorAll('.nav-question');
+                    btns.forEach((btn, i) => {
+                        btn.className = 'nav-question';
+                        
+                        if (i === this.currentQuestion) {
+                            btn.classList.add('current');
+                        } else if (this.isSubmitted) {
+                            if (this.answers[i] !== null && this.questions[i].correct_option_id !== undefined) {
+                                if (this.answers[i] === this.questions[i].correct_option_id) {
+                                    btn.classList.add('answered');
+                                } else {
+                                    btn.classList.add('wrong');
+                                }
+                            }
+                        } else {
+                            if (this.markedForReview[i]) {
+                                btn.classList.add('review');
+                            } else if (this.answers[i] !== null) {
+                                btn.classList.add('answered');
+                            }
+                            
+                            if (this.sections) {
+                                const currentSection = this.sections[this.currentSection];
+                                if (i < currentSection.start || i > currentSection.end) {
+                                    btn.classList.add('disabled');
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+            
+            updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const reviewBtn = document.getElementById('reviewBtn');
+                
+                prevBtn.disabled = this.currentQuestion === 0;
+                nextBtn.disabled = this.currentQuestion === this.questions.length - 1;
+                
+                if (this.isSubmitted) {
+                    reviewBtn.style.display = 'none';
+                } else {
+                    reviewBtn.style.display = 'inline-flex';
+                }
+                
+                if (this.sections && !this.isSubmitted) {
+                    const currentSection = this.sections[this.currentSection];
+                    prevBtn.disabled = prevBtn.disabled || (this.currentQuestion === currentSection.start);
+                    nextBtn.disabled = nextBtn.disabled || (this.currentQuestion === currentSection.end);
+                }
+            }
+            
+            updateAnsweredCount() {
+                const count = this.answers.filter(a => a !== null).length;
+                this.els.answeredCount.textContent = count;
+            }
+            
+            setLanguage(isEng) {
+                this.isEnglish = isEng;
+                document.getElementById('engBtn').classList.toggle('active', isEng);
+                document.getElementById('hinBtn').classList.toggle('active', !isEng);
+                this.loadQuestion(this.currentQuestion);
+            }
+            
+            startMainTimer() {
+                this.mainTimer = setInterval(() => {
+                    this.totalTimeLeft--;
+                    if (this.totalTimeLeft <= 0) {
+                        clearInterval(this.mainTimer);
+                        this.submitTest();
+                        return;
+                    }
+                    const mins = Math.floor(this.totalTimeLeft / 60);
+                    const secs = this.totalTimeLeft % 60;
+                    this.els.mainTimer.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+            
+            startSectionTimer() {
+                if (!this.sections) return;
+                
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                const section = this.sections[this.currentSection];
+                section.time_left = section.timer;
+                
+                this.sectionTimer = setInterval(() => {
+                    section.time_left--;
+                    const mins = Math.floor(section.time_left / 60);
+                    const secs = section.time_left % 60;
+                    this.els.sectionTimer.textContent = ` | ${mins}:${secs.toString().padStart(2, '0')}`;
+                    
+                    if (section.time_left <= 0) {
+                        clearInterval(this.sectionTimer);
+                        this.submitSection();
+                    }
+                }, 1000);
+            }
+            
+            updateSectionInfo() {
+                if (!this.sections) return;
+                const section = this.sections[this.currentSection];
+                this.els.sectionName.textContent = section.name;
+                this.els.sectionBadge.style.display = 'block';
+            }
+            
+            submitSection() {
+                if (!this.sections) return;
+                
+                const section = this.sections[this.currentSection];
+                section.submitted = true;
+                clearInterval(this.sectionTimer);
+                
+                const nextSectionIdx = this.currentSection + 1;
+                if (nextSectionIdx < this.sections.length) {
+                    this.currentSection = nextSectionIdx;
+                    this.startSectionTimer();
+                    this.updateSectionInfo();
+                    this.loadQuestion(this.sections[nextSectionIdx].start);
+                } else {
+                    this.submitTest();
+                }
+                
+                this.updateNavigator();
+            }
+            
+            confirmSubmit() {
+                if (this.sections) {
+                    const section = this.sections[this.currentSection];
+                    const unanswered = this.answers.slice(section.start, section.end + 1)
+                        .filter(a => a === null).length;
+                    
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions in this section. Submit anyway?`
+                        : 'Submit this section?';
+                    
+                    if (confirm(msg)) this.submitSection();
+                } else {
+                    const unanswered = this.answers.filter(a => a === null).length;
+                    let msg = unanswered > 0 
+                        ? `You have ${unanswered} unanswered questions. Submit test?`
+                        : 'Submit test?';
+                    
+                    if (confirm(msg)) this.submitTest();
+                }
+            }
+            
+            submitTest() {
+                if (this.isSubmitted) return;
+                
+                const now = Date.now();
+                this.timeSpent[this.currentQuestion] += (now - this.lastQuestionTime) / 1000;
+                
+                this.isSubmitted = true;
+                clearInterval(this.mainTimer);
+                if (this.sectionTimer) clearInterval(this.sectionTimer);
+                
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('submitBtnDesktop').style.display = 'none';
+                document.getElementById('reviewBtn').style.display = 'none';
+                
+                if (this.sections) {
+                    this.els.sectionBadge.style.display = 'none';
+                }
+                
+                const results = this.calculateResults();
+                this.showResults(results);
+                this.loadQuestion(this.currentQuestion);
+                this.updateNavigator();
+            }
+            
+            calculateResults() {
+                const timeTaken = Math.round((Date.now() - this.startTime) / 60000);
+                let correct = 0, incorrect = 0, unattempted = 0, score = 0;
+                
+                const sectionResults = [];
+                
+                if (this.sections) {
+                    for (const section of this.sections) {
+                        let secCorrect = 0, secIncorrect = 0, secUnattempted = 0, secScore = 0;
+                        const subsecResults = [];
+                        
+                        if (section.subsections) {
+                            for (const subsec of section.subsections) {
+                                let subCorrect = 0, subIncorrect = 0, subUnattempted = 0, subScore = 0;
+                                
+                                for (let i = subsec.start; i <= subsec.end; i++) {
+                                    const userAns = this.answers[i];
+                                    const correctAns = this.questions[i].correct_option_id;
+                                    
+                                    if (userAns === null) {
+                                        subUnattempted++;
+                                    } else if (correctAns !== undefined && userAns === correctAns) {
+                                        subCorrect++;
+                                        subScore += subsec.marks_per_q;
+                                    } else {
+                                        subIncorrect++;
+                                        subScore -= negMarks;
+                                    }
+                                }
+                                
+                                subsecResults.push({
+                                    name: subsec.name,
+                                    attempted: subCorrect + subIncorrect,
+                                    correct: subCorrect,
+                                    incorrect: subIncorrect,
+                                    unattempted: subUnattempted,
+                                    score: Math.max(0, subScore)
+                                });
+                                
+                                secCorrect += subCorrect;
+                                secIncorrect += subIncorrect;
+                                secUnattempted += subUnattempted;
+                                secScore += subScore;
+                            }
+                        } else {
+                            for (let i = section.start; i <= section.end; i++) {
+                                const userAns = this.answers[i];
+                                const correctAns = this.questions[i].correct_option_id;
+                                
+                                if (userAns === null) {
+                                    secUnattempted++;
+                                } else if (correctAns !== undefined && userAns === correctAns) {
+                                    secCorrect++;
+                                    secScore += marksPerQ;
+                                } else {
+                                    secIncorrect++;
+                                    secScore -= negMarks;
+                                }
+                            }
+                        }
+                        
+                        sectionResults.push({
+                            name: section.name,
+                            attempted: secCorrect + secIncorrect,
+                            correct: secCorrect,
+                            incorrect: secIncorrect,
+                            unattempted: secUnattempted,
+                            score: Math.max(0, secScore),
+                            subsections: subsecResults.length > 0 ? subsecResults : null
+                        });
+                        
+                        correct += secCorrect;
+                        incorrect += secIncorrect;
+                        unattempted += secUnattempted;
+                        score += secScore;
+                    }
+                } else {
+                    this.questions.forEach((q, i) => {
+                        const userAns = this.answers[i];
+                        const correctAns = q.correct_option_id;
+                        
+                        if (userAns === null) {
+                            unattempted++;
+                        } else if (correctAns !== undefined && userAns === correctAns) {
+                            correct++;
+                            score += marksPerQ;
+                        } else {
+                            incorrect++;
+                            score -= negMarks;
+                        }
+                    });
+                }
+                
+                return {
+                    score: Math.max(0, score),
+                    correct,
+                    incorrect,
+                    unattempted,
+                    timeTaken,
+                    sectionResults: sectionResults.length > 0 ? sectionResults : null
+                };
+            }
+            
+            showResults(results) {
+                this.els.resultScore.textContent = `${results.score.toFixed(2)}/${this.questions.length * marksPerQ}`;
+                this.els.correctCount.textContent = results.correct;
+                this.els.incorrectCount.textContent = results.incorrect;
+                this.els.unattemptedCount.textContent = results.unattempted;
+                this.els.timeTaken.textContent = results.timeTaken;
+                
+                if (results.sectionResults) {
+                    this.els.sectionResults.style.display = 'block';
+                    this.els.sectionResultsBody.innerHTML = '';
+                    
+                    results.sectionResults.forEach(section => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${section.name}</strong></td>
+                            <td>${section.attempted}</td>
+                            <td>${section.correct}</td>
+                            <td>${section.incorrect}</td>
+                            <td><strong>${section.score.toFixed(2)}</strong></td>
+                        `;
+                        this.els.sectionResultsBody.appendChild(row);
+                        
+                        if (section.subsections) {
+                            section.subsections.forEach(subsec => {
+                                const subRow = document.createElement('tr');
+                                subRow.className = 'subsection-row';
+                                subRow.innerHTML = `
+                                    <td>${subsec.name}</td>
+                                    <td>${subsec.attempted}</td>
+                                    <td>${subsec.correct}</td>
+                                    <td>${subsec.incorrect}</td>
+                                    <td>${subsec.score.toFixed(2)}</td>
+                                `;
+                                this.els.sectionResultsBody.appendChild(subRow);
+                            });
+                        }
+                    });
+                } else {
+                    this.els.sectionResults.style.display = 'none';
+                }
+                
+                this.els.resultModal.classList.add('show');
+            }
+            
+            closeResultModal() {
+                this.els.resultModal.classList.remove('show');
+            }
+            
+            reviewAnswers() {
+                this.closeResultModal();
+                this.loadQuestion(0);
+            }
+            
+            openMobileNav() {
+                this.els.mobileNav.classList.add('open');
+            }
+            
+            closeMobileNav() {
+                this.els.mobileNav.classList.remove('open');
+            }
+        
+            toggleFullscreen() {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) docEl.requestFullscreen();
+                    else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                    else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    else if (document.msExitFullscreen) document.msExitFullscreen();
+                }
+            }
+            
+            updateFullscreenIcon() {
+                const icon = document.querySelector('#fullscreenBtn i');
+                if (icon) {
+                    const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                    if (isFS) {
+                        icon.className = 'fas fa-compress';
+                    } else {
+                        icon.className = 'fas fa-expand';
+                    }
+                }
+            }
+}
+        
+        // ── KaTeX auto-render helper ──────────────────────────────────────
+        // Renders any LaTeX found in an element after innerHTML is set.
+        // Handles: \(...\)  \[...\]  $...$  $$...$$
+        function renderMath(el) {
+            if (!el || typeof renderMathInElement === 'undefined') return;
+            try {
+                renderMathInElement(el, {
+                    delimiters: [
+                        {left: '$$',  right: '$$',  display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$',   right: '$',   display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                    ],
+                    throwOnError: false,
+                    strict: false,
+                });
+            } catch(e) {}
+        }
+
+        // Initialize the exam
+        document.addEventListener('DOMContentLoaded', () => {
+            new CBTExam();
+        });
+    </script>
+</body>
+</html>
